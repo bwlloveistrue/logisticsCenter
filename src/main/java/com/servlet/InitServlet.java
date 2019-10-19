@@ -88,7 +88,7 @@ public class InitServlet extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		ApplicationContextProvider applicationContextProvider = new ApplicationContextProvider();
-		truckSetService = (TruckSetService) applicationContextProvider.getBean("truckSetService");
+//		truckSetService = (TruckSetService) applicationContextProvider.getBean("truckSetService");
 		BaseBean bs = new BaseBean();
       //首先执行升级操作,防止修改了spring映射关系但是数据库中没有对应字段
 		/*  ---升级操作start---  */

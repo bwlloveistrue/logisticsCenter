@@ -26,31 +26,31 @@ public class LogisticsCenterApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(LogisticsCenterApplication.class, args);
     }
-    @Bean
-    public FilterRegistrationBean authFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean(new SessionFilter());
-        registration.addUrlPatterns("/api/*");
-        registration.addInitParameter("paramName", "paramValue");
-        registration.setName("sessionFilter");
-        registration.setOrder(1);
-        return registration;
-    }
-
-    @Bean
-    public ServletRegistrationBean authServletRegistration() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new InitServlet());
-        registration.addInitParameter("paramName", "paramValue");
-        registration.setName("initServlet");
-        return registration;
-    }
-
-    @Bean
-    public ServletRegistrationBean importServletRegistration() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new ImportExcelServlet());
-        registration.addInitParameter("paramName", "paramValue");
-        registration.setName("importExcelServlet");
-        return registration;
-    }
+//    @Bean
+//    public FilterRegistrationBean authFilterRegistration() {
+//        FilterRegistrationBean registration = new FilterRegistrationBean(new SessionFilter());
+//        registration.addUrlPatterns("/api/*");
+//        registration.addInitParameter("paramName", "paramValue");
+//        registration.setName("sessionFilter");
+//        registration.setOrder(1);
+//        return registration;
+//    }
+//
+//    @Bean
+//    public ServletRegistrationBean authServletRegistration() {
+//        ServletRegistrationBean registration = new ServletRegistrationBean(new InitServlet());
+//        registration.addInitParameter("paramName", "paramValue");
+//        registration.setName("initServlet");
+//        return registration;
+//    }
+//
+//    @Bean
+//    public ServletRegistrationBean importServletRegistration() {
+//        ServletRegistrationBean registration = new ServletRegistrationBean(new ImportExcelServlet());
+//        registration.addInitParameter("paramName", "paramValue");
+//        registration.setName("importExcelServlet");
+//        return registration;
+//    }
 
     @Override
     public void run(String... var1) throws Exception {
