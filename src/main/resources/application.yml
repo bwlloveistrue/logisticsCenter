@@ -38,7 +38,7 @@ spring:
 
     mvc:
       view:
-        prefix: /web/
+#        prefix: /
         suffix: .html
       static-path-pattern: /**
 
