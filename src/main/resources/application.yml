@@ -1,6 +1,10 @@
 server:
   port: 8080
-
+wx:
+  appid: wxf34ef3ce0e0a9ee8
+  secret: f2903896e95d40b0b2d45e3dd6eaee3a
+  token: 33333
+  aeskey: 44444
 
 spring:
     datasource:
@@ -12,9 +16,9 @@ spring:
           filters: stat
           driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
           #基本属性
-          url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=truckManager
+          url: jdbc:sqlserver://120.55.166.247:1433;DatabaseName=truckManager
           username: sa
-          password: 123456
+          password: Bwl317225
           #配置初始化大小/最小/最大
           initial-size: 1
           min-idle: 1
