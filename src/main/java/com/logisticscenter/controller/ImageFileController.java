@@ -42,7 +42,6 @@ import java.util.*;
  * @卜伟领 2017
  *
  */
-@Controller
 @RestController
 @RequestMapping(value = "/api/imageFile")
 public class ImageFileController implements Serializable{

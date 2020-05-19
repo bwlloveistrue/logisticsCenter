@@ -20,7 +20,6 @@ import java.util.Map;
  * @卜伟领 2017
  *
  */
-@Controller
 @RestController
 @RequestMapping(value = "/api/charts")
 public class ChartsController implements Serializable{

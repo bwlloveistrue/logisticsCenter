@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Controller
 @RestController
 @RequestMapping(value = "/api/labelSet")
 public class labelSetController implements Serializable{

@@ -28,7 +28,6 @@ import java.util.Map;
  * @卜伟领 2017
  *车辆强制险ACTION
  */
-@Controller
 @RestController
 @RequestMapping(value = "/api/compulsory")
 public class CompulsoryController implements Serializable{

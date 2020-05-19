@@ -15,8 +15,10 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
+@EnableWebMvc
 @EnableAutoConfiguration(exclude={
         JpaRepositoriesAutoConfiguration.class//禁止springboot自动加载持久化bean
 })

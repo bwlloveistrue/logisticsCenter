@@ -23,7 +23,6 @@ import java.util.Map;
  * @卜伟领 2017
  *
  */
-@Controller
 @RestController
 @RequestMapping(value = "/api/client")
 public class ClientController implements Serializable{

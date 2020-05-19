@@ -16,7 +16,6 @@ import java.io.*;
 import java.util.List;
 import java.util.Map;
 
-@Controller
 @RestController
 @RequestMapping(value = "/api/test")
 public class TestController {

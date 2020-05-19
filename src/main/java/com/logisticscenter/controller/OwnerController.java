@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
 @RestController
 @RequestMapping(value = "/api/owner")
 public class OwnerController implements Serializable{

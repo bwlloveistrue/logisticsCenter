@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
 @RestController
 @RequestMapping(value = "/api/login")
 public class LoginController implements Serializable{

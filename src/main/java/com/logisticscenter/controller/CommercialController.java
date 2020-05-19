@@ -28,7 +28,6 @@ import java.util.Map;
  * @卜伟领 2017
  *商业险ACTION
  */
-@Controller
 @RestController
 @RequestMapping(value = "/api/commercial")
 public class CommercialController implements Serializable{

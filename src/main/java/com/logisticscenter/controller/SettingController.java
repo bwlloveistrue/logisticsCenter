@@ -25,7 +25,6 @@ import java.util.Map;
  * @卜伟领 2017
  *
  */
-@Controller
 @RestController
 @RequestMapping(value = "/api/setting")
 public class SettingController implements Serializable{
