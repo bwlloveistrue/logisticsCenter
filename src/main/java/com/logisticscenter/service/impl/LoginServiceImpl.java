@@ -42,11 +42,11 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Map getSystemInfo(Map<String, Object> params) {
 		Map retResult = new HashMap();
-		String loginid = (String)params.get("loginId");
+		String loginid = (String)params.get("userName");
 		String password = (String)params.get("password");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		try {
-			LoginInfoEntity loginInfoEntity = loginInfoDao.getSystemInfo((String)params.get("loginId"));
+			LoginInfoEntity loginInfoEntity = loginInfoDao.getSystemInfo((String)params.get("userName"));
 			Map result = new HashMap();
 			int status = 0;
 			if(loginInfoEntity.getPassword().equals(password)){

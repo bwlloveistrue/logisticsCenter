@@ -100,6 +100,25 @@ public class LoginController implements Serializable{
 		return apidatas;
 	}
 
+	/**
+	 * 登出请求
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/account")
+	public Map account(HttpServletRequest request , HttpServletResponse response){
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+		try {
+			apidatas.putAll(loginService.getSystemInfo(ParamUtil.request2Map(request)));
+			apidatas.put("api_status", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			apidatas.put("api_status", true);
+			apidatas.put("api_errormsg", "catch exception : " + e.getMessage());
+		}
+		return apidatas;
+	}
+
 
 
 }
