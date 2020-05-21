@@ -23,7 +23,7 @@ import java.util.Map;
  *
  */
 @RestController
-@RequestMapping(value = "/api/driver")
+@RequestMapping(value = "/api/driverInfo")
 public class DriverController implements Serializable{
 	
 	/**

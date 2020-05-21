@@ -24,7 +24,7 @@ import java.util.Map;
  *
  */
 @RestController
-@RequestMapping(value = "/api/client")
+@RequestMapping(value = "/api/clientInfo")
 public class ClientController implements Serializable{
 	
 	/**

@@ -1,10 +1,10 @@
 server:
   port: 8080
 wx:
-  appid: wxf34ef3ce0e0a9ee8
+  appId: wxf34ef3ce0e0a9ee8
   secret: f2903896e95d40b0b2d45e3dd6eaee3a
-  token: 33333
-  aeskey: 44444
+  token: cdtyuchengwuliu
+  aeskey: lAAmbNb9bGcR6DtwQCXT1cVzeP6rfDFjK26GZCMVFUz
 
 spring:
     datasource:

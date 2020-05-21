@@ -1,5 +1,6 @@
 package com.logisticscenter.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cache.CacheManager;
 import com.common.CommonTransMethod;
 import com.common.ConvertService;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/truck")
+@RequestMapping(value = "/api/truckInfo")
 public class TruckController implements Serializable{
 	
 	/**
@@ -36,6 +37,18 @@ public class TruckController implements Serializable{
 
 	public TruckController(){
 		
+	}
+
+	/**
+	 * 登陆请求
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/getCondition")
+	public String addTruck(HttpServletRequest request , HttpServletResponse response){
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+
+		return JSONObject.toJSONString(apidatas);
 	}
 	
 	public Map addTruck(){
