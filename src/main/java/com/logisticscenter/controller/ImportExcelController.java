@@ -8,6 +8,7 @@ import com.javabean.TruckGoodsReportBean;
 import com.javabean.TruckGoodsReportDetailBean;
 import com.logisticscenter.service.FeeTypeService;
 import com.logisticscenter.service.TruckGoodsReportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,11 +40,16 @@ public class ImportExcelController implements Serializable{
 	public ImportExcelController(){
 		
 	}
-	
+
+	@Autowired
 	private TruckGoodsReportService truckGoodsReportService;
-	
+
 	//获得费用类型字段用
+	@Autowired
 	private FeeTypeService feeTypeService;
+
+	@Autowired
+	private CommonTransMethod commonTransMethod;
 
 	@SuppressWarnings("unchecked")
 	public Map importExcel(HttpServletRequest request){
@@ -88,7 +94,7 @@ public class ImportExcelController implements Serializable{
 			for(int i = 0 ; i<beanLst.size(); i++){
 				innerTable +="<tr>"+
 				"<td>"+beanLst.get(i).getBeginDate()+"</td>"+
-				"<td>"+CommonTransMethod.getGoodsTypeName(beanLst.get(i).getGoodsType()+"")+"</td>"+
+				"<td>"+commonTransMethod.getGoodsTypeName(beanLst.get(i).getGoodsType()+"")+"</td>"+
 				"<td>"+beanLst.get(i).getStartPlace()+"</td>"+
 				"<td>"+beanLst.get(i).getEndDate()+"</td>"+
 				"<td>"+beanLst.get(i).getBeginDate()+"</td>"+
@@ -96,7 +102,7 @@ public class ImportExcelController implements Serializable{
 				"<td>"+beanLst.get(i).getRealCarry()+"</td>"+
 				"<td>"+beanLst.get(i).getPrice()+"</td>"+
 				"<td>"+getCount(beanLst.get(i).getRealCarry(),beanLst.get(i).getPrice())+"</td>"+
-				"<td>"+CommonTransMethod.getClientName(beanLst.get(i).getClient()+"")+"</td>"+
+				"<td>"+commonTransMethod.getClientName(beanLst.get(i).getClient()+"")+"</td>"+
 				"<td>"+beanLst.get(i).getTruckNumber()+"</td>";
 				for(int j = 0 ; i<feeTypeBean.size(); j++){
 					innerTable +="<td>"+getColumn(feeTypeBean.get(i).getId()+"",feeTypeBean.get(i).getFeeTypeColumn())+"</td>";

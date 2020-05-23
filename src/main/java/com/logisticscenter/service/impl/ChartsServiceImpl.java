@@ -19,6 +19,9 @@ public class ChartsServiceImpl implements ChartsService {
 	@Autowired
 	ChartsDao chartsDao;
 
+	@Autowired
+	private CommonTransMethod commonTransMethod;
+
 	public Map<String, Object> getClientChartsByMonth(Map<String, Object> params){
 		String selectYear = (String)params.get("selectYear");
 		List<ChartsEntity> ChartsEntityList = new ArrayList<ChartsEntity>();
@@ -32,8 +35,8 @@ public class ChartsServiceImpl implements ChartsService {
 				if(!yDetail.equals("")){
 					yDetail = "";
 				}
-				clientNameList.add(CommonTransMethod.getClientName(ChartsEntityList.get(i).getClient()));
-				yDetail += CommonTransMethod.getClientName(ChartsEntityList.get(i).getClient()) + ",";
+				clientNameList.add(commonTransMethod.getClientName(ChartsEntityList.get(i).getClient()));
+				yDetail += commonTransMethod.getClientName(ChartsEntityList.get(i).getClient()) + ",";
 				yDetail += ChartsEntityList.get(i).getJan()
 						+","+ChartsEntityList.get(i).getFeb()
 						+","+ChartsEntityList.get(i).getMar()
@@ -70,8 +73,8 @@ public class ChartsServiceImpl implements ChartsService {
 				if(!yDetail.equals("")){
 					yDetail = "";
 				}
-				clientNameList.add(CommonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()));
-				yDetail += CommonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()) + ",";
+				clientNameList.add(commonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()));
+				yDetail += commonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()) + ",";
 				yDetail += ChartsEntityList.get(i).getJan()
 						+","+ChartsEntityList.get(i).getFeb()
 						+","+ChartsEntityList.get(i).getMar()
@@ -96,7 +99,7 @@ public class ChartsServiceImpl implements ChartsService {
 	
 	public Map<String, Object> getClientFeeChartsByMonth(Map<String, Object> params){
 		String selectYear = (String)params.get("selectYear");
-		String columnNames = CommonTransMethod.getAllFeeTypeColumn();
+		String columnNames = commonTransMethod.getAllFeeTypeColumn();
 		List<ChartsEntity> ChartsEntityList = new ArrayList<ChartsEntity>();
 		List clientNameList = new ArrayList();
 		List yDetailList = new ArrayList();
@@ -108,8 +111,8 @@ public class ChartsServiceImpl implements ChartsService {
 				if(!yDetail.equals("")){
 					yDetail = "";
 				}
-				clientNameList.add(CommonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()));
-				yDetail += CommonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()) + ",";
+				clientNameList.add(commonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()));
+				yDetail += commonTransMethod.getDriverName(ChartsEntityList.get(i).getDriver()) + ",";
 				yDetail += ChartsEntityList.get(i).getJan()
 						+","+ChartsEntityList.get(i).getFeb()
 						+","+ChartsEntityList.get(i).getMar()
@@ -136,7 +139,7 @@ public class ChartsServiceImpl implements ChartsService {
 		String selectYear = (String)params.get("selectYear");
 		List<ChartsEntity> ChartsEntityList = new ArrayList<ChartsEntity>();
 		//获得费用字段
-		String columnNames = CommonTransMethod.getAllFeeTypeColumn();
+		String columnNames = commonTransMethod.getAllFeeTypeColumn();
 		List clientNameList = new ArrayList();
 		List yDetailList = new ArrayList();
 		String yDetail = "";
@@ -147,8 +150,8 @@ public class ChartsServiceImpl implements ChartsService {
 				if(!yDetail.equals("")){
 					yDetail = "";
 				}
-				clientNameList.add(CommonTransMethod.getClientName(ChartsEntityList.get(i).getClient()));
-				yDetail += CommonTransMethod.getClientName(ChartsEntityList.get(i).getClient()) + ",";
+				clientNameList.add(commonTransMethod.getClientName(ChartsEntityList.get(i).getClient()));
+				yDetail += commonTransMethod.getClientName(ChartsEntityList.get(i).getClient()) + ",";
 				yDetail += ChartsEntityList.get(i).getJan()
 						+","+ChartsEntityList.get(i).getFeb()
 						+","+ChartsEntityList.get(i).getMar()

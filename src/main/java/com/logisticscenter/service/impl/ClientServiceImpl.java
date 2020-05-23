@@ -18,29 +18,10 @@ public class ClientServiceImpl implements ClientService {
 	ClientDao clientDao;
 
 	public Map getClient(Map<String, Object> params){
-		List<ClientEntity> entityList = new ArrayList<ClientEntity>();
-		List<Cache> cacheList = CacheManager.getCacheListInfo("clientBean_CACHE");
+		List<ClientEntity> entityList = clientDao.getAllClient();
+
 		Map result = new HashMap();
 		Map retResult = new HashMap();
-		if(cacheList!=null && cacheList.size()>0){
-			for(int i =0;i<cacheList.size();i++){
-				entityList.add((ClientEntity)cacheList.get(i).getValue());
-			}
-		}else{
-			entityList = clientDao.getAllClient();
-			Cache cache = null;
-			Date date = new Date();
-			List <Cache> beanCacheLst = new ArrayList<Cache>();
-			//货物类型设置缓存
-			for(int i = 0;i<entityList.size();i++){
-				cache = new Cache();
-				cache.setKey(entityList.get(i).getId()+"");
-				cache.setTimeOut(date.getTime());
-				cache.setValue(entityList.get(i));
-				beanCacheLst.add(cache);
-			}
-			CacheManager.putCacheList("clientBean_CACHE", beanCacheLst);
-		}
 		try {
 			Map beanMap = null;
 			for(int i = 0 ; i<entityList.size(); i++){
@@ -103,57 +84,6 @@ public class ClientServiceImpl implements ClientService {
 		count = clientDao.updateClient(clientE);
 		CacheManager.clearOnly("clientBean_CACHE");
 		retResult.put("count",count);
-		return retResult;
-	}
-
-	public Map getClientById(Map<String, Object> params){
-		List<ClientEntity> entityList = new ArrayList<ClientEntity>();
-		ClientEntity clientE = new ClientEntity();
-		String id = (String)params.get("id");
-		List<Cache> cacheList = CacheManager.getCacheListInfo("clientBean_CACHE");
-		Map result = new HashMap();
-		Map retResult = new HashMap();
-		if(cacheList!=null && cacheList.size()>0){
-//			for(int i =0;i<cacheList.size();i++){
-//				ClientEntity tmpE= (ClientEntity)cacheList.get(i).getValue();
-//				if (tmpE.getId()== Integer.parseInt((String)params.get("id"))){
-//					clientE = tmpE;
-//					break;
-//				}
-//			}
-		}else{
-			clientE = clientDao.getClientById(id);
-//			Cache cache = null;
-//			Date date = new Date();
-//			List <Cache> beanCacheLst = new ArrayList<Cache>();
-//			//货物类型设置缓存
-//			for(int i = 0;i<entityList.size();i++){
-//				cache = new Cache();
-//				cache.setKey(entityList.get(i).getId()+"");
-//				cache.setTimeOut(date.getTime());
-//				cache.setValue(entityList.get(i));
-//				beanCacheLst.add(cache);
-//			}
-//			CacheManager.putCacheList("clientBean_CACHE", beanCacheLst);
-		}
-		try {
-			Map beanMap = new HashMap();
-			beanMap.put("id",clientE.getId());
-			beanMap.put("clientName",clientE.getClientName());
-			beanMap.put("contant",clientE.getContant());
-			beanMap.put("mobile",clientE.getMobile());
-			beanMap.put("fax",clientE.getFax());
-			beanMap.put("address",clientE.getAddress());
-			beanMap.put("products",clientE.getProducts());
-			beanMap.put("createDate",clientE.getCreateDate());
-			beanMap.put("createTime",clientE.getCreateTime());
-			result.put(clientE.getId(), beanMap);
-			retResult.put("client",result);
-			return retResult;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}//返回json对象
 		return retResult;
 	}
 

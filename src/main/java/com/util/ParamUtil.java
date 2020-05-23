@@ -65,7 +65,9 @@ public class ParamUtil {
             e.printStackTrace();
         }
 
-
+        if(returnMap == null){
+            returnMap = new HashMap<String, Object>();
+        }
         //放入ip
         returnMap.put(ParamConstant.PARAM_IP, Utils.getIpAddr(request));
         returnMap.put(ParamConstant.REQUEST_HEADER_USER_AGENT,request.getHeader("user-agent"));

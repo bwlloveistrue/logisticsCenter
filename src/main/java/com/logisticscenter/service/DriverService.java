@@ -5,25 +5,26 @@ import java.util.Map;
 
 //import com.entity.DriverInfoEntity;
 import com.javabean.DriverInfoBean;
+import com.logisticscenter.model.DriverInfoEntity;
 
 public interface DriverService {
 	
-	public abstract int insertDriverInfo(DriverInfoBean insertInfo);
+	public abstract Map insertDriverInfo(DriverInfoEntity insertInfo);
 	
-	public abstract DriverInfoBean getDriverInfo(String id);
+	public abstract Map getDriverInfo(String id);
 
 	public abstract Map getDriverInfo(Map params);
 	
-	public abstract List<DriverInfoBean> getDriverInfo(DriverInfoBean selectInfo, String selectStatus);
+	public abstract Map getDriverInfo(DriverInfoEntity selectInfo, String selectStatus);
 	
-	public abstract String getDriverInfoCount(DriverInfoBean selectInfo, String selectStatus);
+	public abstract Map getDriverInfoCount(DriverInfoEntity selectInfo, String selectStatus);
 	
-	public abstract List<DriverInfoBean> getAllDriverInfo();
+	public abstract Map getAllDriverInfo();
 	
-	public abstract int deleteDriverInfo(String id);
+	public abstract Map deleteDriverInfo(String id);
 	
-	public abstract int updateDriverInfo(DriverInfoBean updateInfo);
+	public abstract Map updateDriverInfo(DriverInfoEntity updateInfo);
 	
-	public abstract void updateAllDriverInfo(DriverInfoBean updateInfo);
+	public abstract Map updateAllDriverInfo(DriverInfoEntity updateInfo);
 
 }

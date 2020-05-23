@@ -27,15 +27,21 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
-	public int deleteDriverInfo(String id) {
+	public Map deleteDriverInfo(String id) {
+		Map retMap = new HashMap();
 		int count = driverInfoDao.deleteDriverInfo(id);
-		return count;
+		retMap.put("count",count);
+		retMap.put("status",true);
+		return retMap;
 		
 	}
 
 	@Override
-	public DriverInfoBean getDriverInfo(String id) {
-		return (DriverInfoBean) ConvertService.convertEntityToBean(driverInfoDao.getDriverInfo(id), new DriverInfoBean());
+	public Map getDriverInfo(String id) {
+		Map retMap = new HashMap();
+		DriverInfoEntity driverInfoEntity = driverInfoDao.getDriverInfo(id);
+		retMap.putAll(driverInfoEntity.toMap());
+		return retMap;
 	}
 
 	@Override
@@ -98,35 +104,11 @@ public class DriverServiceImpl implements DriverService {
 		return statusFlg;
 	}
 	
-	public List<DriverInfoBean> getAllDriverInfo(){
-		List<DriverInfoBean> beanList = new ArrayList<DriverInfoBean>();
-		List<Cache> cacheList = CacheManager.getCacheListInfo("driverBean_CACHE");
-		if(cacheList!=null && cacheList.size()>0){
-			for(int i =0;i<cacheList.size();i++){
-				beanList.add((DriverInfoBean)cacheList.get(i).getValue());
-			}
-		}else{
-			Cache cache = null;
-			Date date = new Date();
-			List <Cache> beanCacheLst = new ArrayList<Cache>();
-			List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
-			beanList = new ArrayList<DriverInfoBean>();
-			entityList = driverInfoDao.getAllDriverInfo();
-			for(int i=0;i<entityList.size(); i++){
-				DriverInfoBean dirverBean = (DriverInfoBean) ConvertService.convertEntityToBean(entityList.get(i), new DriverInfoBean());
-				beanList.add(dirverBean);
-			}
-			//司机设置缓存
-			for(int i = 0;i<beanList.size();i++){
-				cache = new Cache();
-				cache.setKey(beanList.get(i).getId()+"");
-				cache.setTimeOut(date.getTime());
-				cache.setValue(beanList.get(i));
-				beanCacheLst.add(cache);
-			}
-			CacheManager.putCacheList("driverBean_CACHE", beanCacheLst);
-		}
-		return beanList;
+	public List<DriverInfoEntity> getAllDriverInfo(){
+		List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
+
+		entityList = driverInfoDao.getAllDriverInfo();
+		return entityList;
 	}
 
 }

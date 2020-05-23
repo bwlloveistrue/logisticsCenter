@@ -64,6 +64,8 @@ public class ImageFileController implements Serializable{
 	@Autowired
 	private FeeTypeService feeTypeService;
 
+	@Autowired
+	private CommonTransMethod commonTransMethod;
 
 	@ResponseBody
 	@PostMapping("/getFiles")
@@ -113,7 +115,7 @@ public class ImageFileController implements Serializable{
 	public String downloads(HttpServletRequest request, HttpServletResponse response){
 
 		String pathId = request.getParameter("id");
-		String pathUrl = CommonTransMethod.getFullPathName(pathId);
+		String pathUrl = commonTransMethod.getFullPathName(pathId);
 		try {
 				File file = new File(pathUrl); 
 				String filename = file.getName();
@@ -234,12 +236,12 @@ public class ImageFileController implements Serializable{
 				int packageFlgExchange = Integer.parseInt(beanLst.get(i).getPackageFlg());
 				int truckPartExchange = beanLst.get(i).getTruckPart();
 				beanMap.put("id",beanLst.get(i).getId());
-				beanMap.put("truckNumber",CommonTransMethod.getTruckNumber(beanLst.get(i).getTruckNumber()));
+				beanMap.put("truckNumber",commonTransMethod.getTruckNumber(beanLst.get(i).getTruckNumber()));
 				beanMap.put("packageFlg",packageFlgExchange);
-				beanMap.put("packageFlgShow",CommonTransMethod.convertPackage(packageFlgExchange));
+				beanMap.put("packageFlgShow",commonTransMethod.convertPackage(packageFlgExchange));
 				beanMap.put("packagePrice",ConvertService.getPointValue(beanLst.get(i).getPackagePrice()+"",2));
 				beanMap.put("reportNumber",ConvertService.null2String(beanLst.get(i).getReportNumber()));
-				beanMap.put("truckPart",CommonTransMethod.convertTruckPart(beanLst.get(i).getTruckPart()));
+				beanMap.put("truckPart",commonTransMethod.convertTruckPart(beanLst.get(i).getTruckPart()));
 				beanMap.put("partner",beanLst.get(i).getPartner());
 				beanMap.put("partnerPrice",ConvertService.getPointValue(beanLst.get(i).getPartnerPrice(),2));
 				beanMap.put("partnerCarry",ConvertService.getPointValue(beanLst.get(i).getPartnerCarry(),2));
@@ -248,9 +250,9 @@ public class ImageFileController implements Serializable{
 				beanMap.put("beginDate",beanLst.get(i).getBeginDate());
 				beanMap.put("expectedDate",beanLst.get(i).getExpectedDate());
 				beanMap.put("endDate",beanLst.get(i).getEndDate());
-				beanMap.put("driver",CommonTransMethod.getDriverName(beanLst.get(i).getDriver()+""));
-				beanMap.put("client",CommonTransMethod.getClientName(beanLst.get(i).getClient()+""));
-//				beanMap.put("goodsType",CommonTransMethod.getGoodsTypeName(beanLst.get(i).getGoodsType()+""));
+				beanMap.put("driver",commonTransMethod.getDriverName(beanLst.get(i).getDriver()+""));
+				beanMap.put("client",commonTransMethod.getClientName(beanLst.get(i).getClient()+""));
+//				beanMap.put("goodsType",commonTransMethod.getGoodsTypeName(beanLst.get(i).getGoodsType()+""));
 				beanMap.put("prepaidFlg",beanLst.get(i).getPrepaidFlg());
 				beanMap.put("prepaidExpress",beanLst.get(i).getPrepaidExpress());
 				beanMap.put("prepaidDesc",beanLst.get(i).getPrepaidDesc());
@@ -297,7 +299,7 @@ public class ImageFileController implements Serializable{
 						endPlaceShow +=endPlaceShow.equals("")?detailLst.get(j).getEndPlace()+"":detailLst.get(j).getEndPlace()+"";
 						liftingCostShow +=liftingCostShow.equals("")?detailLst.get(j).getLiftingCost()+"":","+detailLst.get(j).getLiftingCost();
 					}
-					beanMap.put("goodsType", CommonTransMethod.getGoodsTypeName(goodsTypeShow));
+					beanMap.put("goodsType", commonTransMethod.getGoodsTypeName(goodsTypeShow));
 					beanMap.put("price", priceShow);
 					beanMap.put("realCarry", realCarryShow);
 					beanMap.put("startPlace", startPlaceShow);

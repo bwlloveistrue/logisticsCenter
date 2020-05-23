@@ -1,20 +1,17 @@
 package com.logisticscenter.controller;
 
-import com.cache.CacheManager;
-import com.javabean.ClientBean;
-import com.logisticscenter.service.ClientService;
+import com.logisticscenter.service.NoticesInfoService;
 import com.logisticscenter.service.UserInfoService;
 import com.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,28 +19,28 @@ import java.util.Map;
  *
  */
 @RestController
-@RequestMapping(value = "/api/user")
-public class UserInfoController implements Serializable{
-	
+@RequestMapping(value = "/api/notices")
+public class NoticesInfoController implements Serializable{
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UserInfoController(){
+	public NoticesInfoController(){
 		
 	}
 
 	@Autowired
-	private UserInfoService userInfoService;
+	private NoticesInfoService noticesInfoService;
 
 
 	@ResponseBody
-	@PostMapping("/getUsers")
+	@PostMapping("/getNotices")
 	public Map selectAllClient(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(userInfoService.getUsers(ParamUtil.request2Map(request)));
+			apidatas.putAll(noticesInfoService.getNotices(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,11 +51,11 @@ public class UserInfoController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/getCurrentUser")
-	public Map addClient(HttpServletRequest request){
+	@PostMapping("/clearNotices")
+	public Map clearNotices(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(userInfoService.getCurrentUser(ParamUtil.request2Map(request)));
+			apidatas.putAll(noticesInfoService.clearNotices(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();

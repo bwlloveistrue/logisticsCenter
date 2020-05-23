@@ -30,6 +30,9 @@ public class TruckGoodsReportServiceImpl implements TruckGoodsReportService {
 	@Autowired
 	TruckGoodsReportDao truckGoodsReportDao;
 
+	@Autowired
+	private CommonTransMethod commonTransMethod;
+
 	@Override
 	public int deleteTruckGoodsReport(String id) {
 		int count = 0;
@@ -150,7 +153,7 @@ public class TruckGoodsReportServiceImpl implements TruckGoodsReportService {
 				}else{
 					turnDate = ConvertService.getDate(ConstantUtils.dateFormat1);
 				}
-				reportNumber += ConvertService.add0(CommonTransMethod.getReportNumber(turnDate,lastRule),lastRule);
+				reportNumber += ConvertService.add0(commonTransMethod.getReportNumber(turnDate,lastRule),lastRule);
 				continue;
 			}
 			

@@ -8,7 +8,6 @@ import com.javabean.FeeTypeBean;
 
 public interface ClientService {
 
-	public abstract Map getClientById(Map<String, Object> params);
 	
 	public abstract Map insertClient(Map<String, Object> params);
 	

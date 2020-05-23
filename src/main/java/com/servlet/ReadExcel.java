@@ -19,6 +19,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -29,8 +30,11 @@ import com.javabean.TruckGoodsReportDetailBean;
 import com.util.ConstantUtils;
 
 public class ReadExcel {
+	@Autowired
 	private TruckGoodsReportService truckGoodsReportService;
 
+	private CommonTransMethod commonTransMethod;
+	
 	public void init(){
 		ApplicationContext context1 = new ClassPathXmlApplicationContext(
 				new String[] { "applicationContext_iBatis.xml" });
@@ -181,16 +185,16 @@ public class ReadExcel {
 		reprotBean.setBeginDate(ConvertService.null2String(map1.get("beginDate")+""));
 		//判断是否存在该客户类型,没有则新建一个
 		String clientName = ConvertService.null2String((String)map1.get("client"));
-		int clinetId = CommonTransMethod.getClientId(clientName);
+		int clinetId = commonTransMethod.getClientId(clientName);
 		if(clinetId <= 0){
-			clinetId = CommonTransMethod.createClient(clientName);
+			clinetId = commonTransMethod.createClient(clientName);
 		}
 		reprotBean.setClient(clinetId);
 		//判断是否存在该司机,没有则新建一个
 		String driverName = ConvertService.null2String((String)map1.get("driver"));
-		int driverId = CommonTransMethod.getDriverId(driverName);
+		int driverId = commonTransMethod.getDriverId(driverName);
 		if(driverId <= 0){
-			driverId = CommonTransMethod.createDriver(driverName);
+			driverId = commonTransMethod.createDriver(driverName);
 		}
 		reprotBean.setDriver(driverId);
 		//
@@ -199,9 +203,9 @@ public class ReadExcel {
 		String goodsTypes = ConvertService.null2String((String)map1.get("goodsType"));
 		String arr1[] = goodsTypes.split(",");
 		for(int i=0;i<arr1.length;i++){
-			tempGoodsType = CommonTransMethod.getGoodsTypeIds(arr1[i]);
+			tempGoodsType = commonTransMethod.getGoodsTypeIds(arr1[i]);
 			if(tempGoodsType.equals("")){
-				goodsTypeIds +=","+CommonTransMethod.createGoodsType(arr1[i]);
+				goodsTypeIds +=","+commonTransMethod.createGoodsType(arr1[i]);
 			}else{
 				goodsTypeIds +=","+tempGoodsType;
 			}
@@ -213,16 +217,16 @@ public class ReadExcel {
 		reprotBean.setTruckPart(reprotBean.getDriver()>0?0:1);
 		//
 		String truckNumber = ConvertService.null2String((String)map1.get("truckNumber"));
-		int truckId = CommonTransMethod.getTruckId(truckNumber);
+		int truckId = commonTransMethod.getTruckId(truckNumber);
 		if(truckId <= 0){
-			truckId = CommonTransMethod.createTruck(truckNumber);
+			truckId = commonTransMethod.createTruck(truckNumber);
 		}
 		reprotBean.setTruckNumber(truckId+"");
 		reprotBean.setReportStatus(2);
 		reprotBean.setRealCarry(ConvertService.getDecimalValue(map1.get("realCarry")+"",ConstantUtils.defaultDecimal));
 		reprotBean.setPrice(ConvertService.getDecimalValue(map1.get("price")+"",ConstantUtils.defaultDecimal));
 		reprotBean.setRemark(ConvertService.null2String(map1.get("remark")+""));
-		reprotBean.setInvoiceFlg(CommonTransMethod.convertFlg(ConvertService.null2String(map1.get("invoiceFlg")+""))+"");
+		reprotBean.setInvoiceFlg(commonTransMethod.convertFlg(ConvertService.null2String(map1.get("invoiceFlg")+""))+"");
 		reprotBean.setPackagePrice(ConvertService.getDecimalValue(map1.get("packagePrice")+"",ConstantUtils.defaultDecimal));
 		reprotBean.setPackageFlg(reprotBean.getPackagePrice().compareTo(ConstantUtils.defaultDecimal)==0?"0":"1");
 		reprotBean.setPartner("");
@@ -254,13 +258,13 @@ public class ReadExcel {
 	 * @param map2 费用键值对集合
 	 */
 	public void setReportDetailValue(TruckGoodsReportDetailBean reprotDetailBean,Map<String, Object> map1,Map<String,String> map2) {
-		reprotDetailBean.setGoodsType(CommonTransMethod.getGoodsTypeIds(ConvertService.null2String(map1.get("goodsType")+""))+"");
+		reprotDetailBean.setGoodsType(commonTransMethod.getGoodsTypeIds(ConvertService.null2String(map1.get("goodsType")+""))+"");
 		reprotDetailBean.setRealCarry(ConvertService.getDecimalValue(map1.get("realCarry")+"",ConstantUtils.defaultDecimal));
 		reprotDetailBean.setPrice(ConvertService.getDecimalValue(map1.get("price")+"",ConstantUtils.defaultDecimal));
 		reprotDetailBean.setLiftingCost(ConvertService.getDecimalValue(map1.get("liftingCost")+"",ConstantUtils.defaultDecimal));
 		reprotDetailBean.setStartPlace(ConvertService.null2String(map1.get("startPlace")+""));
 		reprotDetailBean.setEndPlace(ConvertService.null2String(map1.get("endPlace")+""));
-		reprotDetailBean.setInvoiceFlg(CommonTransMethod.convertFlg(ConvertService.null2String(map1.get("invoiceFlg")+"")));
+		reprotDetailBean.setInvoiceFlg(commonTransMethod.convertFlg(ConvertService.null2String(map1.get("invoiceFlg")+"")));
 	}
 
 }

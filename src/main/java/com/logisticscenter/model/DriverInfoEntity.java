@@ -1,5 +1,8 @@
 package com.logisticscenter.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DriverInfoEntity {
 	//标识ID
 	private int id;
@@ -199,6 +202,31 @@ public class DriverInfoEntity {
 		this.editTime = editTime;
 	}
 	
-	
+	public Map<String,String> toMap(){
+		Map driverInfoMap = new HashMap();
+		driverInfoMap.put("id",this.getId());
+		driverInfoMap.put("name",this.getName());
+		driverInfoMap.put("sex",this.getSex());
+		driverInfoMap.put("nativePlace",this.getNativePlace());
+		driverInfoMap.put("education",this.getEducation());
+		driverInfoMap.put("birthday",this.getBirthday());
+		driverInfoMap.put("age",this.getAge());
+		driverInfoMap.put("address",this.getAddress());
+		driverInfoMap.put("contactNmuber",this.getContactNmuber());
+		driverInfoMap.put("mobile",this.getMobile());
+		driverInfoMap.put("idNumber",this.getIdNumber());
+		driverInfoMap.put("startWorkDate",this.getStartWorkDate());
+		driverInfoMap.put("driverLicense",this.getDriverLicense());
+		driverInfoMap.put("truckNumber",this.getTruckNumber());
+		driverInfoMap.put("appraise",this.getAppraise());
+		driverInfoMap.put("salary",this.getSalary());
+		driverInfoMap.put("remark",this.getRemark());
+		driverInfoMap.put("job",this.getJob());
+		driverInfoMap.put("createDate",this.getCreateDate());
+		driverInfoMap.put("createTime",this.getCreateTime());
+		driverInfoMap.put("editDate",this.getEditDate());
+		driverInfoMap.put("editTime",this.getEditTime());
+		return driverInfoMap;
+	}
 	
 }
