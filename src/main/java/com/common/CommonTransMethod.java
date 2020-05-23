@@ -73,7 +73,7 @@ public class CommonTransMethod {
 		if("".equals(id) || id == null){
 			return "";
 		}
-		
+
 		String retStr = "";
 		List<DriverInfoBean> beanLst = null;
 		try{
@@ -88,7 +88,7 @@ public class CommonTransMethod {
 			e.printStackTrace();
 		}
 		return retStr;
-		
+
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class CommonTransMethod {
 		return retStr;
 
 	}
-	
+
 	/**
 	 * @param driverName 司机姓名
 	 * @return 司机ID
@@ -116,7 +116,7 @@ public class CommonTransMethod {
 		if("".equals(driverName) || driverName == null){
 			return 0;
 		}
-		
+
 		int retStr = 0;
 		List<DriverInfoBean> beanLst = null;
 		try{
@@ -132,9 +132,9 @@ public class CommonTransMethod {
 			e.printStackTrace();
 		}
 		return retStr;
-		
+
 	}
-	
+
 	public  int createDriver(String driverName){
 		int maxId = 0;
 		DriverInfoBean bean = new DriverInfoBean(0,driverName, "1", "", "", "", 0, "", "", "", "", "", "", "", "", "", "", "");
@@ -142,7 +142,7 @@ public class CommonTransMethod {
 		CacheManager.clearOnly("driverBean_CACHE");
 		return maxId;
 	}
-	
+
 	/**
 	 * @param id 客户ID
 	 * @return 客户名称
@@ -180,7 +180,7 @@ public class CommonTransMethod {
 		}
 		return beanMap;
 	}
-	
+
 	public  int createClient(String clientName){
 		int maxId = 0;
 		ClientBean bean = new ClientBean(0,clientName,"","","","","");
@@ -188,7 +188,7 @@ public class CommonTransMethod {
 		CacheManager.clearOnly("clientBean_CACHE");
 		return maxId;
 	}
-	
+
 	/**
 	 * @param clientName 客户名称
 	 * @return 客户ID
@@ -213,8 +213,8 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
-	
+
+
 	/**
 	 * @param id 货物类型ID
 	 * @return 货物名称
@@ -236,13 +236,13 @@ public class CommonTransMethod {
 					}
 				}
 			}
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return retStr;
 	}
-	
+
 	/**
 	 * @param goodsTypeName 货物名称
 	 * @return 货物类型ID
@@ -260,13 +260,13 @@ public class CommonTransMethod {
 					break;
 				}
 			}
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return retStr;
 	}
-	
+
 	/**
 	 * @param goodsTypeName 货物名称
 	 * @return 货物类型ID
@@ -288,7 +288,7 @@ public class CommonTransMethod {
 					}
 				}
 			}
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -297,7 +297,7 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
+
 	public  int createGoodsType(String goodsName){
 		int maxId = 0;
 		GoodsTypeBean bean = new GoodsTypeBean( 0,goodsName, 1, 0,"","");
@@ -305,7 +305,7 @@ public class CommonTransMethod {
 		CacheManager.clearOnly("goodsTypeBean_CACHE");
 		return maxId;
 	}
-	
+
 	/**
 	 * @param id 车牌号
 	 * @return 车辆名称
@@ -330,7 +330,7 @@ public class CommonTransMethod {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * @param truckNmuber 车辆名称
 	 * @return 车牌号
@@ -355,7 +355,7 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
+
 	public  int createTruck(String truckNumber){
 		int maxId = 0;
 		TruckBean truckBean = new TruckBean(0,truckNumber,"1","","","",0,0,"","", "", "",
@@ -366,7 +366,7 @@ public class CommonTransMethod {
 		CacheManager.clearOnly("truckBean_CACHE");
 		return maxId;
 	}
-	
+
 	/**
 	 * 是否包车
 	 * @param flg
@@ -381,7 +381,7 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
+
 	/**
 	 * 是否
 	 * @param str flg
@@ -396,7 +396,7 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
+
 	/**
 	 * 是否伙伴
 	 * @param flg
@@ -411,7 +411,7 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
+
 	/**
 	 * 是否包车
 	 * @param flg
@@ -428,7 +428,7 @@ public class CommonTransMethod {
 		}
 		return retStr;
 	}
-	
+
 	/**
 	 * 获得文件名称
 	 * @param ids
@@ -450,9 +450,9 @@ public class CommonTransMethod {
 			fileNames += fileNames.equals("")?bean.getImageFileName():","+bean.getImageFileName();
 		}
 		return fileNames;
-		
+
 	}
-	
+
 	/**
 	 * 获得文件路径
 	 * @param ids
@@ -474,9 +474,9 @@ public class CommonTransMethod {
 			fileNames += fileNames.equals("")?bean.getFilerealpath()+"\\"+bean.getImageFileName():","+bean.getFilerealpath()+"\\"+bean.getImageFileName();
 		}
 		return fileNames;
-		
+
 	}
-	
+
 	/**
 	 * 获得文件Bean
 	 * @param ids
@@ -501,8 +501,8 @@ public class CommonTransMethod {
 		}
 		return imageList;
 	}
-	
-	
+
+
 	/**
 	 * @return
 	 */
@@ -514,9 +514,9 @@ public class CommonTransMethod {
 			FeeTypeNameHTML +="<th>"+feeTypeBeanLst.get(i).getFeeName()+"</th>";
 		}
 		return FeeTypeNameHTML;
-		 
+
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -531,9 +531,9 @@ public class CommonTransMethod {
 			feeTypeNameColumn = feeTypeNameColumn.substring(1);
 		}
 		return feeTypeNameColumn;
-		 
+
 	}
-	
+
 	public  int createFeeType(String feeTypeName){
 		int maxId = 0;
 		FeeTypeBean bean = new FeeTypeBean( 0,feeTypeName,0,1,0,"","");
@@ -541,7 +541,7 @@ public class CommonTransMethod {
 		CacheManager.clearOnly("feeTypeBean_CACHE");
 		return maxId;
 	}
-	
+
 	/**
 	 * 获得出车订单编号
 	 * @param date 要查询的日期
@@ -558,5 +558,5 @@ public class CommonTransMethod {
 		int b = ConvertService.getIntValue(a.substring(a.length()-2), 1);
 		System.out.println(b);
 	}
-	
+
 }
