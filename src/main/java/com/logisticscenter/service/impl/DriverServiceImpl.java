@@ -27,6 +27,21 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
+	public Map getDriverInfo(DriverInfoEntity selectInfo, String selectStatus) {
+		return null;
+	}
+
+	@Override
+	public Map getDriverInfoCount(DriverInfoEntity selectInfo, String selectStatus) {
+		return null;
+	}
+
+	@Override
+	public Map getAllDriverInfo() {
+		return null;
+	}
+
+	@Override
 	public Map deleteDriverInfo(String id) {
 		Map retMap = new HashMap();
 		int count = driverInfoDao.deleteDriverInfo(id);
@@ -37,6 +52,21 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
+	public Map updateDriverInfo(DriverInfoEntity updateInfo) {
+		return null;
+	}
+
+	@Override
+	public Map updateAllDriverInfo(DriverInfoEntity updateInfo) {
+		return null;
+	}
+
+	@Override
+	public Map insertDriverInfo(DriverInfoEntity insertInfo) {
+		return null;
+	}
+
+	@Override
 	public Map getDriverInfo(String id) {
 		Map retMap = new HashMap();
 		DriverInfoEntity driverInfoEntity = driverInfoDao.getDriverInfo(id);
@@ -44,71 +74,71 @@ public class DriverServiceImpl implements DriverService {
 		return retMap;
 	}
 
-	@Override
-	public List<DriverInfoBean> getDriverInfo(DriverInfoBean selectInfo,String selectStatus) {
-		List<DriverInfoBean> beanList = new ArrayList<DriverInfoBean>();
-		try{
-			DriverInfoEntity driverInfoE = (DriverInfoEntity)ConvertService.convertBeanToEntity(selectInfo,new DriverInfoEntity());
-			List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
-			int pageSize =Integer.parseInt(driverInfoE.getPageSize());
-			int currentPage =Integer.parseInt(driverInfoE.getCurrentPage());
-			currentPage = (currentPage -1)*pageSize;
-			driverInfoE.setCurrentPage(currentPage+"");
-			entityList = driverInfoDao.getDriverInfo(driverInfoE,selectStatus);
-			for(int i=0;i<entityList.size(); i++){
-				DriverInfoBean dirverBean = (DriverInfoBean) ConvertService.convertEntityToBean(entityList.get(i), new DriverInfoBean());
-				beanList.add(dirverBean);
-			}
-		}catch(Exception e){e.printStackTrace();}
-		return beanList;
-		
-	}
-	
-	@Override
-	public String getDriverInfoCount(DriverInfoBean selectInfo,String selectStatus) {
-		String count = "";
-		try{
-			DriverInfoEntity driverInfoE = (DriverInfoEntity)ConvertService.convertBeanToEntity(selectInfo,new DriverInfoEntity());
-			
-			count = driverInfoDao.getDriverInfoCount(driverInfoE,selectStatus);
-		}catch(Exception e){e.printStackTrace();}
-		return count;
-		
-	}
-
-	@Override
-	public int updateDriverInfo(DriverInfoBean updateInfo) {
-		int count = 0;
-		DriverInfoEntity DriverInfoE = (DriverInfoEntity)ConvertService.convertBeanToEntity(updateInfo,new DriverInfoEntity());
-		DriverInfoE.setEditDate(ConvertService.getDate());
-		DriverInfoE.setEditTime(ConvertService.getTime());
-		count =  driverInfoDao.updateDriverInfo(DriverInfoE);
-		return count;
-	}
-	
-	@Override
-	public void updateAllDriverInfo(DriverInfoBean updateInfo) {
-		DriverInfoEntity DriverInfoE = new DriverInfoEntity();
-		driverInfoDao.updateAllDriverInfo(DriverInfoE);
-		
-	}
-
-	@Override
-	public int insertDriverInfo(DriverInfoBean insertInfo) {
-		
-		DriverInfoEntity DriverInfoE = (DriverInfoEntity) ConvertService.convertBeanToEntity(insertInfo, new DriverInfoEntity());
-		DriverInfoE.setCreateDate(ConvertService.getDate());
-		DriverInfoE.setCreateTime(ConvertService.getTime());
-		int statusFlg = driverInfoDao.insertDriverInfo(DriverInfoE);
-		// TODO Auto-generated method stub
-		return statusFlg;
-	}
-	
-	public List<DriverInfoEntity> getAllDriverInfo(){
-		List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
-
-		entityList = driverInfoDao.getAllDriverInfo();
-		return entityList;
-	}
+//	@Override
+//	public List<DriverInfoBean> getDriverInfo(DriverInfoBean selectInfo,String selectStatus) {
+//		List<DriverInfoBean> beanList = new ArrayList<DriverInfoBean>();
+//		try{
+//			DriverInfoEntity driverInfoE = (DriverInfoEntity)ConvertService.convertBeanToEntity(selectInfo,new DriverInfoEntity());
+//			List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
+//			int pageSize =Integer.parseInt(driverInfoE.getPageSize());
+//			int currentPage =Integer.parseInt(driverInfoE.getCurrentPage());
+//			currentPage = (currentPage -1)*pageSize;
+//			driverInfoE.setCurrentPage(currentPage+"");
+//			entityList = driverInfoDao.getDriverInfo(driverInfoE,selectStatus);
+//			for(int i=0;i<entityList.size(); i++){
+//				DriverInfoBean dirverBean = (DriverInfoBean) ConvertService.convertEntityToBean(entityList.get(i), new DriverInfoBean());
+//				beanList.add(dirverBean);
+//			}
+//		}catch(Exception e){e.printStackTrace();}
+//		return beanList;
+//
+//	}
+//
+//	@Override
+//	public String getDriverInfoCount(DriverInfoBean selectInfo,String selectStatus) {
+//		String count = "";
+//		try{
+//			DriverInfoEntity driverInfoE = (DriverInfoEntity)ConvertService.convertBeanToEntity(selectInfo,new DriverInfoEntity());
+//
+//			count = driverInfoDao.getDriverInfoCount(driverInfoE,selectStatus);
+//		}catch(Exception e){e.printStackTrace();}
+//		return count;
+//
+//	}
+//
+//	@Override
+//	public int updateDriverInfo(DriverInfoBean updateInfo) {
+//		int count = 0;
+//		DriverInfoEntity DriverInfoE = (DriverInfoEntity)ConvertService.convertBeanToEntity(updateInfo,new DriverInfoEntity());
+//		DriverInfoE.setEditDate(ConvertService.getDate());
+//		DriverInfoE.setEditTime(ConvertService.getTime());
+//		count =  driverInfoDao.updateDriverInfo(DriverInfoE);
+//		return count;
+//	}
+//
+//	@Override
+//	public void updateAllDriverInfo(DriverInfoBean updateInfo) {
+//		DriverInfoEntity DriverInfoE = new DriverInfoEntity();
+//		driverInfoDao.updateAllDriverInfo(DriverInfoE);
+//
+//	}
+//
+//	@Override
+//	public int insertDriverInfo(DriverInfoBean insertInfo) {
+//
+//		DriverInfoEntity DriverInfoE = (DriverInfoEntity) ConvertService.convertBeanToEntity(insertInfo, new DriverInfoEntity());
+//		DriverInfoE.setCreateDate(ConvertService.getDate());
+//		DriverInfoE.setCreateTime(ConvertService.getTime());
+//		int statusFlg = driverInfoDao.insertDriverInfo(DriverInfoE);
+//		// TODO Auto-generated method stub
+//		return statusFlg;
+//	}
+//
+//	public List<DriverInfoEntity> getAllDriverInfo(){
+//		List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
+//
+//		entityList = driverInfoDao.getAllDriverInfo();
+//		return entityList;
+//	}
 
 }

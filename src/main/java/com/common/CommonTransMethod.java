@@ -77,7 +77,7 @@ public class CommonTransMethod {
 		String retStr = "";
 		List<DriverInfoBean> beanLst = null;
 		try{
-			beanLst= driverService.getAllDriverInfo();
+//			beanLst= driverService.getAllDriverInfo();
 			for(int i = 0;i<beanLst.size();i++){
 				if(beanLst.get(i).getId() == Integer.parseInt(id)){
 					retStr = beanLst.get(i).getName();
@@ -92,14 +92,13 @@ public class CommonTransMethod {
 	}
 
 	/**
-	 * @param id 司机ID
 	 * @return 司机姓名
 	 */
 	public  String getAllDriver(){
 		String retStr = "";
 		List<DriverInfoBean> beanLst = null;
 		try{
-			beanLst= driverService.getAllDriverInfo();
+//			beanLst= driverService.getAllDriverInfo();
 
 			return retStr;
 		}catch(Exception e){
@@ -121,7 +120,7 @@ public class CommonTransMethod {
 		int retStr = 0;
 		List<DriverInfoBean> beanLst = null;
 		try{
-			beanLst= driverService.getAllDriverInfo();
+//			beanLst= driverService.getAllDriverInfo();
 			for(int i = 0;i<beanLst.size();i++){
 				if(beanLst.get(i).getName().equals(driverName)){
 					retStr = beanLst.get(i).getId();
@@ -139,7 +138,7 @@ public class CommonTransMethod {
 	public  int createDriver(String driverName){
 		int maxId = 0;
 		DriverInfoBean bean = new DriverInfoBean(0,driverName, "1", "", "", "", 0, "", "", "", "", "", "", "", "", "", "", "");
-		maxId = driverService.insertDriverInfo(bean);
+//		maxId = driverService.insertDriverInfo(bean);
 		CacheManager.clearOnly("driverBean_CACHE");
 		return maxId;
 	}
