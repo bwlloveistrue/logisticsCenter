@@ -18,31 +18,57 @@ public class ClientServiceImpl implements ClientService {
 	ClientDao clientDao;
 
 	public Map getClient(Map<String, Object> params){
-		List<ClientEntity> entityList = clientDao.getAllClient();
-
-		Map result = new HashMap();
+		List<ClientEntity> entityList = new ArrayList<ClientEntity>();
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
 		Map retResult = new HashMap();
-		try {
-			Map beanMap = null;
-			for(int i = 0 ; i<entityList.size(); i++){
-				beanMap = new HashMap();
-				beanMap.put("id",entityList.get(i).getId());
-				beanMap.put("clientName",entityList.get(i).getClientName());
-				beanMap.put("contant",entityList.get(i).getContant());
-				beanMap.put("mobile",entityList.get(i).getMobile());
-				beanMap.put("fax",entityList.get(i).getFax());
-				beanMap.put("address",entityList.get(i).getAddress());
-				beanMap.put("products",entityList.get(i).getProducts());
-				beanMap.put("createDate",entityList.get(i).getCreateDate());
-				beanMap.put("createTime",entityList.get(i).getCreateTime());
-				result.put(entityList.get(i).getId(), beanMap);
+		if(cacheList!=null && cacheList.size()>0){
+			for(int i =0;i<cacheList.size();i++){
+				entityList.add((ClientEntity)cacheList.get(i).getValue());
 			}
-			retResult.put("client",result);
-			return retResult;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}//返回json对象
+		}else{
+			entityList = clientDao.getAllClient();
+			Cache cache = null;
+			Date date = new Date();
+			List <Cache> beanCacheLst = new ArrayList<Cache>();
+			for(int i = 0;i<entityList.size();i++){
+				cache = new Cache();
+				cache.setKey(entityList.get(i).getId()+"");
+				cache.setTimeOut(date.getTime());
+				cache.setValue(entityList.get(i));
+				beanCacheLst.add(cache);
+			}
+			CacheManager.putCacheList("clientEntity_CACHE", beanCacheLst);
+		}
+
+		retResult.put("clientInfo",entityList);
+		return retResult;
+	}
+
+	@Override
+	public Map getAllClient() {
+		List<ClientEntity> entityList = new ArrayList<ClientEntity>();
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
+		Map retResult = new HashMap();
+		if(cacheList!=null && cacheList.size()>0){
+			for(int i =0;i<cacheList.size();i++){
+				entityList.add((ClientEntity)cacheList.get(i).getValue());
+			}
+		}else{
+			entityList = clientDao.getAllClient();
+			Cache cache = null;
+			Date date = new Date();
+			List <Cache> beanCacheLst = new ArrayList<Cache>();
+			for(int i = 0;i<entityList.size();i++){
+				cache = new Cache();
+				cache.setKey(entityList.get(i).getId()+"");
+				cache.setTimeOut(date.getTime());
+				cache.setValue(entityList.get(i));
+				beanCacheLst.add(cache);
+			}
+			CacheManager.putCacheList("clientEntity_CACHE", beanCacheLst);
+		}
+
+		retResult.put("clientInfo",entityList);
 		return retResult;
 	}
 
@@ -92,6 +118,7 @@ public class ClientServiceImpl implements ClientService {
 		Map retResult = new HashMap();
 //		int count = clientDao.deleteClient(Arrays.asList((String[])params.get("id")));
 //		retResult.put("count",count);
+		CacheManager.clearOnly("clientBean_CACHE");
 		return retResult;
 
 	}

@@ -1,6 +1,7 @@
 package com.logisticscenter.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.javabean.GoodsTypeBean;
 
@@ -14,7 +15,7 @@ public interface GoodsTypeService {
 	
 	public abstract String getGoodsTypeCount(GoodsTypeBean selectInfo);
 	
-	public abstract List<GoodsTypeBean> getAllGoodsType();
+	public abstract Map getAllGoodsType();
 	
 	public abstract int deleteGoodsType(String id);
 	

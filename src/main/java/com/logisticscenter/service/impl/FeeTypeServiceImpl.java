@@ -1,8 +1,6 @@
 package com.logisticscenter.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.cache.Cache;
 import com.cache.CacheManager;
@@ -21,18 +19,6 @@ public class FeeTypeServiceImpl implements FeeTypeService {
 
 	@Autowired
 	FeeTypeDao feeTypeDao;
-
-	@Override
-	public int deleteFeeType(String id) {
-		int count = feeTypeDao.deleteFeeType(id);
-		return count;
-		
-	}
-
-	@Override
-	public FeeTypeBean getFeeType(String id) {
-		return (FeeTypeBean) ConvertService.convertEntityToBean(feeTypeDao.getFeeType(id), new FeeTypeBean());
-	}
 
 	/* (non-Javadoc)
 	 * @see com.service.FeeTypeService#getFeeType(com.javabean.FeeTypeBean)
@@ -58,7 +44,8 @@ public class FeeTypeServiceImpl implements FeeTypeService {
 	 * @see com.service.FeeTypeService#getFeeType(com.javabean.FeeTypeBean)
 	 */
 	@Override
-	public String getFeeTypeCount(FeeTypeBean selectInfo) {
+	public Map getFeeTypeCount(FeeTypeBean selectInfo) {
+		Map retMap = new HashMap();
 		String count = "";
 		try{
 			List<FeeTypeEntity> entityList = new ArrayList<FeeTypeEntity>();
@@ -68,76 +55,101 @@ public class FeeTypeServiceImpl implements FeeTypeService {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		return count;
+		retMap.put("count",count);
+		return retMap;
 	}
 
 	@Override
-	public void updateFeeType(FeeTypeBean updateInfo) {
+	public Map updateFeeType(FeeTypeBean updateInfo) {
+		Map retMap = new HashMap();
 		FeeTypeEntity FeeTypeE = (FeeTypeEntity) ConvertService.convertBeanToEntity(updateInfo, new FeeTypeEntity());
 		FeeTypeE.setEditDate(ConvertService.getDate());
 		FeeTypeE.setEditTime(ConvertService.getTime());
 		feeTypeDao.updateFeeType(FeeTypeE);
-		
+		retMap.put("status",true);
+		return retMap;
 	}
-	
+
 	@Override
-	public void updateAllFeeType(FeeTypeBean updateInfo) {
-		FeeTypeEntity FeeTypeE = new FeeTypeEntity();
-		feeTypeDao.updateAllFeeType(FeeTypeE);
-		
+	public Map getAllFeeType(Map params) {
+		Map retMap = new HashMap();
+		List<FeeTypeEntity> entityList= new ArrayList<FeeTypeEntity>();
+		List<Cache> cacheList = CacheManager.getCacheListInfo("feeTypeEntity_CACHE");
+		if(cacheList!=null && cacheList.size()>0){
+			for(int i =0;i<cacheList.size();i++){
+				entityList.add((FeeTypeEntity)cacheList.get(i).getValue());
+			}
+		}else{
+			Cache cache = null;
+			Date date = new Date();
+			List <Cache> beanCacheLst = new ArrayList<Cache>();
+			entityList = feeTypeDao.getAllFeeType();
+			for(int i=0;i<entityList.size(); i++){
+				FeeTypeEntity feeTypeEntity = entityList.get(i);
+				//设置缓存
+				cache = new Cache();
+				cache.setKey(feeTypeEntity.getId()+"");
+				cache.setTimeOut(date.getTime());
+				cache.setValue(feeTypeEntity);
+				beanCacheLst.add(cache);
+				if(feeTypeEntity.getIsUse() == 0 || feeTypeEntity.getShowType() == 3) continue;
+			}
+			CacheManager.putCacheList("feeTypeEntity_CACHE", beanCacheLst);
+		}
+		retMap.put("feeTypeInfo",entityList);
+		return retMap;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.service.FeeTypeService#insertFeeType(com.javabean.FeeTypeBean)
 	 */
 	@Override
-	public int insertFeeType(FeeTypeBean insertInfo) {
+	public Map insertFeeType(Map map) {
+		Map retMap = new HashMap();
+		FeeTypeBean insertInfo = new FeeTypeBean();
 		//插入费用类型
 		FeeTypeEntity FeeTypeE = (FeeTypeEntity) ConvertService.convertBeanToEntity(insertInfo, new FeeTypeEntity());
 		FeeTypeE.setCreateDate(ConvertService.getDate());
 		FeeTypeE.setCreateTime(ConvertService.getTime());
 		int statusFlg = feeTypeDao.insertFeeType(FeeTypeE);
-		// TODO Auto-generated method stub
-		return statusFlg;
+		retMap.put("statusFlg",statusFlg);
+		retMap.put("status",true);
+		return retMap;
 	}
-	
-	public List<FeeTypeBean> getAllFeeType(){
-		List<FeeTypeBean> beanList= new ArrayList<FeeTypeBean>();
-		List<Cache> cacheList = CacheManager.getCacheListInfo("feeTypeBean_CACHE");
+
+	@Override
+	public Map getFeeType(Map params) {
+		Map retMap = new HashMap();
+		List<FeeTypeEntity> entityList= new ArrayList<FeeTypeEntity>();
+		List<Cache> cacheList = CacheManager.getCacheListInfo("feeTypeEntity_CACHE");
 		if(cacheList!=null && cacheList.size()>0){
 			for(int i =0;i<cacheList.size();i++){
-				beanList.add((FeeTypeBean)cacheList.get(i).getValue());
+				entityList.add((FeeTypeEntity)cacheList.get(i).getValue());
 			}
 		}else{
 			Cache cache = null;
 			Date date = new Date();
 			List <Cache> beanCacheLst = new ArrayList<Cache>();
-			List<FeeTypeEntity> entityList = new ArrayList<FeeTypeEntity>();
-			String feeTypeColumns = "";
-			String feeTypeNames = "";
-			beanList = new ArrayList<FeeTypeBean>();
 			entityList = feeTypeDao.getAllFeeType();
 			for(int i=0;i<entityList.size(); i++){
-				FeeTypeBean feeTypeBean = (FeeTypeBean) ConvertService.convertEntityToBean(entityList.get(i), new FeeTypeBean());
-				beanList.add(feeTypeBean);
+				FeeTypeEntity feeTypeEntity = entityList.get(i);
 				//设置缓存
 				cache = new Cache();
-				cache.setKey(feeTypeBean.getId()+"");
+				cache.setKey(feeTypeEntity.getId()+"");
 				cache.setTimeOut(date.getTime());
-				cache.setValue(feeTypeBean);
+				cache.setValue(feeTypeEntity);
 				beanCacheLst.add(cache);
-				if(beanList.get(i).getIsUse() == 0 || beanList.get(i).getShowType() == 3) continue;
-				feeTypeColumns+=","+beanList.get(i).getFeeTypeColumn();
-				feeTypeNames +=","+beanList.get(i).getFeeName();
+				if(feeTypeEntity.getIsUse() == 0 || feeTypeEntity.getShowType() == 3) continue;
 			}
-			if(feeTypeColumns.length()>0){
-				ConstantUtils.setFeeTypeColumns(feeTypeColumns.substring(1));
-				ConstantUtils.setFeeTypeNames(feeTypeNames.substring(1));
-			}
-			CacheManager.putCacheList("feeTypeBean_CACHE", beanCacheLst);
+			CacheManager.putCacheList("feeTypeEntity_CACHE", beanCacheLst);
 		}
-		return beanList;
+		retMap.put("feeTypeInfo",entityList);
+		return retMap;
+	}
+
+	@Override
+	public Map deleteFeeType(Map params) {
+		return null;
 	}
 
 }

@@ -99,7 +99,8 @@ public class ChartsServiceImpl implements ChartsService {
 	
 	public Map<String, Object> getClientFeeChartsByMonth(Map<String, Object> params){
 		String selectYear = (String)params.get("selectYear");
-		String columnNames = commonTransMethod.getAllFeeTypeColumn();
+//		String columnNames = commonTransMethod.getAllFeeTypeColumn();
+		String columnNames = "";
 		List<ChartsEntity> ChartsEntityList = new ArrayList<ChartsEntity>();
 		List clientNameList = new ArrayList();
 		List yDetailList = new ArrayList();
@@ -139,7 +140,8 @@ public class ChartsServiceImpl implements ChartsService {
 		String selectYear = (String)params.get("selectYear");
 		List<ChartsEntity> ChartsEntityList = new ArrayList<ChartsEntity>();
 		//获得费用字段
-		String columnNames = commonTransMethod.getAllFeeTypeColumn();
+//		String columnNames = commonTransMethod.getAllFeeTypeColumn();
+		String columnNames = "";
 		List clientNameList = new ArrayList();
 		List yDetailList = new ArrayList();
 		String yDetail = "";

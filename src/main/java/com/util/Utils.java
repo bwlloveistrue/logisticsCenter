@@ -1248,9 +1248,13 @@ public class Utils {
 		return getIntValue(s, -1);
 	}
 
-	public static int getIntValue(String s, int i)
+	public static int getIntValue(String v, int def)
 	{
-		return Integer.parseInt(s);
+		try {
+			return Integer.parseInt(v);
+		} catch (Exception ex) {
+			return def;
+		}
 	}
 
 	public static float getFloatValue(String s)

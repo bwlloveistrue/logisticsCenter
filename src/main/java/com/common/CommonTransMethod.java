@@ -13,7 +13,7 @@ import com.javabean.GoodsTypeBean;
 import com.javabean.ImageFileBean;
 import com.javabean.TruckBean;
 import com.javabean.TruckGoodsOrderDetailBean;
-import com.logisticscenter.model.TruckEntity;
+import com.logisticscenter.model.*;
 import com.logisticscenter.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -64,6 +64,73 @@ public class CommonTransMethod {
 	@Autowired
 	public  TruckSetService truckSetService;
 
+	/**
+	 * @return 客户名称
+	 */
+	public  List<ClientEntity> getAllClient(){
+		List<ClientEntity> allClient = new ArrayList<ClientEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= clientService.getClient(new HashMap());
+			allClient = (List<ClientEntity>)beanMap.get("clientInfo");
+			return allClient;
+		}catch(Exception e){
+			allClient = new ArrayList<ClientEntity>();
+			e.printStackTrace();
+		}
+		return allClient;
+	}
+
+	/**
+	 * @return 司机姓名
+	 */
+	public  List<DriverInfoEntity> getAllDriver(){
+		List<DriverInfoEntity> allDriver = new ArrayList<DriverInfoEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= driverService.getAllDriverInfo();
+			allDriver = (List<DriverInfoEntity>)beanMap.get("driverInfo");
+			return allDriver;
+		}catch(Exception e){
+			allDriver = new ArrayList<DriverInfoEntity>();
+			e.printStackTrace();
+		}
+		return allDriver;
+	}
+
+	/**
+	 * @return 费用
+	 */
+	public  List<FeeTypeEntity> getAllFeeType(){
+		List<FeeTypeEntity> allFeeType = new ArrayList<FeeTypeEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= feeTypeService.getAllFeeType(new HashMap());
+			allFeeType = (List<FeeTypeEntity>)beanMap.get("feeTypeInfo");
+			return allFeeType;
+		}catch(Exception e){
+			allFeeType = new ArrayList<FeeTypeEntity>();
+			e.printStackTrace();
+		}
+		return allFeeType;
+	}
+
+	/**
+	 * @return 货物类型ID
+	 */
+	public  List<GoodsTypeEntity> getAllGoodsType(){
+		List<GoodsTypeEntity> allGoodsType = new ArrayList<GoodsTypeEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= goodsTypeService.getAllGoodsType();
+			allGoodsType = (List<GoodsTypeEntity>)beanMap.get("goodsTypeInfo");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return allGoodsType;
+	}
+
 
 	/**
 	 * @param id 司机ID
@@ -83,23 +150,6 @@ public class CommonTransMethod {
 					retStr = beanLst.get(i).getName();
 				}
 			}
-			return retStr;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return retStr;
-
-	}
-
-	/**
-	 * @return 司机姓名
-	 */
-	public  String getAllDriver(){
-		String retStr = "";
-		List<DriverInfoBean> beanLst = null;
-		try{
-//			beanLst= driverService.getAllDriverInfo();
-
 			return retStr;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -165,21 +215,7 @@ public class CommonTransMethod {
 		return retStr;
 	}
 
-	/**
-	 * @return 客户名称
-	 */
-	public  Map getAllClient(){
-		String retStr = "";
-		Map beanMap = new HashMap();
-		try{
-			beanMap= clientService.getClient(new HashMap());
-			Map clientInfo = (Map)beanMap.get("client");
-			return beanMap;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return beanMap;
-	}
+
 
 	public  int createClient(String clientName){
 		int maxId = 0;
@@ -225,17 +261,17 @@ public class CommonTransMethod {
 		}
 		String retStr = "";
 		try{
-			List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
-			String idArr[] = id.split(",");
-			for(int i=0;i<idArr.length;i++){
-				if(!idArr[i].equals("")){
-					for(int k = 0;k<beanLst.size();k++){
-						if(beanLst.get(k).getId() == Integer.parseInt(idArr[i])){
-							retStr += retStr.equals("")?beanLst.get(k).getGoodsName():","+beanLst.get(k).getGoodsName();
-						}
-					}
-				}
-			}
+//			List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
+//			String idArr[] = id.split(",");
+//			for(int i=0;i<idArr.length;i++){
+//				if(!idArr[i].equals("")){
+//					for(int k = 0;k<beanLst.size();k++){
+//						if(beanLst.get(k).getId() == Integer.parseInt(idArr[i])){
+//							retStr += retStr.equals("")?beanLst.get(k).getGoodsName():","+beanLst.get(k).getGoodsName();
+//						}
+//					}
+//				}
+//			}
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -253,13 +289,13 @@ public class CommonTransMethod {
 		}
 		int retStr = 0;
 		try{
-			List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
-			for(int k = 0;k<beanLst.size();k++){
-				if(beanLst.get(k).getGoodsName().equals(goodsTypeName)){
-					retStr = beanLst.get(k).getId();
-					break;
-				}
-			}
+//			List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
+//			for(int k = 0;k<beanLst.size();k++){
+//				if(beanLst.get(k).getGoodsName().equals(goodsTypeName)){
+//					retStr = beanLst.get(k).getId();
+//					break;
+//				}
+//			}
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -278,16 +314,16 @@ public class CommonTransMethod {
 		String retStr = "";
 		try{
 			String goodsTypeArr[] = goodsTypeName.split(",");
-			for(int i=0;i<goodsTypeArr.length;i++){
-				if(!goodsTypeArr[i].equals("")){
-					List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
-					for(int k = 0;k<beanLst.size();k++){
-						if(beanLst.get(k).getGoodsName().equals(goodsTypeArr[i])){
-							retStr += ","+beanLst.get(k).getId();
-						}
-					}
-				}
-			}
+//			for(int i=0;i<goodsTypeArr.length;i++){
+//				if(!goodsTypeArr[i].equals("")){
+//					List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
+//					for(int k = 0;k<beanLst.size();k++){
+//						if(beanLst.get(k).getGoodsName().equals(goodsTypeArr[i])){
+//							retStr += ","+beanLst.get(k).getId();
+//						}
+//					}
+//				}
+//			}
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -500,46 +536,6 @@ public class CommonTransMethod {
 			e.printStackTrace();
 		}
 		return imageList;
-	}
-
-
-	/**
-	 * @return
-	 */
-	public  String getAllFeeTypeName(){
-		String FeeTypeNameHTML="";
-		List<FeeTypeBean> feeTypeBeanLst= feeTypeService.getAllFeeType();
-		for(int i = 0 ; i<feeTypeBeanLst.size(); i++){
-			if(feeTypeBeanLst.get(i).getIsUse() == 0) continue;
-			FeeTypeNameHTML +="<th>"+feeTypeBeanLst.get(i).getFeeName()+"</th>";
-		}
-		return FeeTypeNameHTML;
-
-	}
-
-	/**
-	 * @return
-	 */
-	public  String getAllFeeTypeColumn(){
-		String feeTypeNameColumn="";
-		List<FeeTypeBean> feeTypeBeanLst= feeTypeService.getAllFeeType();
-		for(int i = 0 ; i<feeTypeBeanLst.size(); i++){
-			if(feeTypeBeanLst.get(i).getIsUse() == 0) continue;
-			feeTypeNameColumn+="+cast("+feeTypeBeanLst.get(i).getFeeTypeColumn()+" as int)";
-		}
-		if(!feeTypeNameColumn.equals("")){
-			feeTypeNameColumn = feeTypeNameColumn.substring(1);
-		}
-		return feeTypeNameColumn;
-
-	}
-
-	public  int createFeeType(String feeTypeName){
-		int maxId = 0;
-		FeeTypeBean bean = new FeeTypeBean( 0,feeTypeName,0,1,0,"","");
-		maxId = feeTypeService.insertFeeType(bean);
-		CacheManager.clearOnly("feeTypeBean_CACHE");
-		return maxId;
 	}
 
 	/**

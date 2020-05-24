@@ -8,6 +8,7 @@ import com.common.CommonTransMethod;
 import com.common.ConvertService;
 import com.general.BaseBean;
 import com.javabean.*;
+import com.logisticscenter.model.FeeTypeEntity;
 import com.logisticscenter.service.FeeTypeService;
 import com.logisticscenter.service.ImageFileService;
 import com.logisticscenter.service.TruckGoodsReportService;
@@ -686,7 +687,8 @@ public class ImageFileController implements Serializable{
 	
 	public void getFeeTypeColumnMap(String id,Map beanMap){
 		//获得费用的title
-		List<FeeTypeBean> beanLst= feeTypeService.getAllFeeType();
+		Map beanMap1= feeTypeService.getAllFeeType(new HashMap());
+		List<FeeTypeEntity> beanLst = (List<FeeTypeEntity>)beanMap1.get("feeTypeInfo");
 		String feeTypeTitle = "";
 		String feeName = "";
 		String columnName="";
@@ -718,7 +720,8 @@ public class ImageFileController implements Serializable{
 	@PostMapping("/getAllFee")
 	public String getAllFee(String id){
 		//获得费用的title
-		List<FeeTypeBean> beanLst= feeTypeService.getAllFeeType();
+		Map beanMap1= feeTypeService.getAllFeeType(new HashMap());
+		List<FeeTypeEntity> beanLst = (List<FeeTypeEntity>)beanMap1.get("feeTypeInfo");
 		float allFee = 0F;
 		if(beanLst!=null){
 			String feeTypeColumns = "";

@@ -3,6 +3,7 @@ package com;
 import com.filter.SessionFilter;
 import com.servlet.ImportExcelServlet;
 import com.servlet.InitServlet;
+import com.util.SpringUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -25,7 +27,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class LogisticsCenterApplication implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(LogisticsCenterApplication.class);
     public static void main(String[] args) {
-        SpringApplication.run(LogisticsCenterApplication.class, args);
+        ApplicationContext applicationContext = SpringApplication.run(LogisticsCenterApplication.class, args);
+        SpringUtil.setApplicationContext(applicationContext);
+        InitServlet startUpServlet = new InitServlet();
+        startUpServlet.init();
     }
 //    @Bean
 //    public FilterRegistrationBean authFilterRegistration() {
@@ -55,7 +60,6 @@ public class LogisticsCenterApplication implements CommandLineRunner {
 
     @Override
     public void run(String... var1) throws Exception {
-        InitServlet startUpServlet = new InitServlet();
-        startUpServlet.init(startUpServlet.getServletConfig());
+
     }
 }

@@ -80,30 +80,7 @@
 	
 	<!-- 根据条件查询出车预录信息 -->
 	<select id="getTruckGoodsOrderTaker" resultType="truckGoodsOrderTakerEntity" parameterType="truckGoodsOrderTakerEntity">
-		select top $pageSize$ * from ( select row_number() over(order by id desc) as rownumber,* from truckGoodsOrderTaker 
-		<!--<dynamic prepend="WHERE ">-->
-			<!--<isEqual prepend="AND" property="orderStatus" compareValue="0">-->
-				<!--(orderStatus = 0 or orderStatus is null)-->
-			<!--</isEqual>-->
-			<!--<isGreaterThan prepend="AND" property="orderStatus" compareValue="0">-->
-				<!--orderStatus = #orderStatus#-->
-			<!--</isGreaterThan>-->
-			<!--<isNotEmpty prepend="AND" property="beginDate">-->
-				<!--beginDate &gt; #beginDate#-->
-			<!--</isNotEmpty>-->
-			<!--<isGreaterThan prepend="AND" property="client" compareValue="0">-->
-				<!--client=#client#-->
-			<!--</isGreaterThan>-->
-			<!--<isGreaterThan prepend="AND" property="goodsType" compareValue="0">-->
-				<!--goodsType=#goodsType#-->
-			<!--</isGreaterThan>-->
-		<!--</dynamic>-->
-		<!--) A-->
-		<!--<dynamic prepend="WHERE ">-->
-			<!--<isNotEmpty prepend="AND" property="currentPage">-->
-				<!--rownumber > $currentPage$-->
-			<!--</isNotEmpty>-->
-		<!--</dynamic>-->
+		select * from truckGoodsOrderTaker
 	</select>
 	
 	<!-- 根据条件查询出车预录详细信息 -->

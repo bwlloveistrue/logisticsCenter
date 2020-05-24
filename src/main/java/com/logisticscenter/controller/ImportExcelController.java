@@ -6,6 +6,8 @@ import com.javabean.FeeTypeBean;
 import com.javabean.FeeTypeValueBean;
 import com.javabean.TruckGoodsReportBean;
 import com.javabean.TruckGoodsReportDetailBean;
+import com.logisticscenter.model.FeeTypeEntity;
+import com.logisticscenter.model.GoodsTypeEntity;
 import com.logisticscenter.service.FeeTypeService;
 import com.logisticscenter.service.TruckGoodsReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +55,8 @@ public class ImportExcelController implements Serializable{
 
 	@SuppressWarnings("unchecked")
 	public Map importExcel(HttpServletRequest request){
-		List<FeeTypeBean> feeTypeBean= feeTypeService.getAllFeeType();
-
+		Map beanMap= feeTypeService.getAllFeeType(new HashMap());
+		List<FeeTypeEntity> feeTypeBean = (List<FeeTypeEntity>)beanMap.get("feeTypeInfo");
 		String truckNumber = ConvertService.null2String(request.getParameter("truckNumber"));
 		int reportStatus = ConvertService.getIntValue(request.getParameter("reportStatus"),-1);
 		String startPlace = ConvertService.null2String(request.getParameter("startPlace"));
@@ -152,7 +154,8 @@ public class ImportExcelController implements Serializable{
 	
 	public String getFeeTypeTitle(String id){
 		//获得费用的title
-		List<FeeTypeBean> beanLst= feeTypeService.getAllFeeType();
+		Map beanMap= feeTypeService.getAllFeeType(new HashMap());
+		List<FeeTypeEntity> beanLst = (List<FeeTypeEntity>)beanMap.get("feeTypeInfo");
 		String feeTypeTitle = "";
 		String feeName = "";
 		String columnName="";
@@ -182,7 +185,8 @@ public class ImportExcelController implements Serializable{
 	
 	public String getAllFee(String id){
 		//获得费用的title
-		List<FeeTypeBean> beanLst= feeTypeService.getAllFeeType();
+		Map beanMap= feeTypeService.getAllFeeType(new HashMap());
+		List<FeeTypeEntity> beanLst = (List<FeeTypeEntity>)beanMap.get("feeTypeInfo");
 		float allFee = 0F;
 		if(beanLst!=null){
 			String feeTypeColumns = "";

@@ -24,7 +24,5 @@ public interface DriverService {
 	public abstract Map deleteDriverInfo(String id);
 	
 	public abstract Map updateDriverInfo(DriverInfoEntity updateInfo);
-	
-	public abstract Map updateAllDriverInfo(DriverInfoEntity updateInfo);
 
 }

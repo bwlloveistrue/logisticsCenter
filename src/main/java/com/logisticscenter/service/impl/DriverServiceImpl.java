@@ -7,6 +7,7 @@ import com.cache.CacheManager;
 import com.common.ConvertService;
 import com.javabean.DriverInfoBean;
 import com.logisticscenter.mapper.DriverInfoDao;
+import com.logisticscenter.model.ClientEntity;
 import com.logisticscenter.model.DriverInfoEntity;
 import com.logisticscenter.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,63 +17,80 @@ import org.springframework.stereotype.Service;
 @Service
 public class DriverServiceImpl implements DriverService {
 
-	@Autowired
-	DriverInfoDao driverInfoDao;
+    @Autowired
+    DriverInfoDao driverInfoDao;
 
-	@Override
-	public Map getDriverInfo(Map params) {
-		Map retMap = new HashMap();
-		retMap.put("driver",driverInfoDao.getDriverInfo((String)params.get("id")));
-		return retMap;
-	}
+    @Override
+    public Map getDriverInfo(Map params) {
+        Map retMap = new HashMap();
+        retMap.put("driver", driverInfoDao.getDriverInfo((String) params.get("id")));
+        return retMap;
+    }
 
-	@Override
-	public Map getDriverInfo(DriverInfoEntity selectInfo, String selectStatus) {
-		return null;
-	}
+    @Override
+    public Map getDriverInfo(DriverInfoEntity selectInfo, String selectStatus) {
+        return null;
+    }
 
-	@Override
-	public Map getDriverInfoCount(DriverInfoEntity selectInfo, String selectStatus) {
-		return null;
-	}
+    @Override
+    public Map getDriverInfoCount(DriverInfoEntity selectInfo, String selectStatus) {
+        return null;
+    }
 
-	@Override
-	public Map getAllDriverInfo() {
-		return null;
-	}
+    @Override
+    public Map getAllDriverInfo() {
+        Map retResult = new HashMap();
+        List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
+        List<Cache> cacheList = CacheManager.getCacheListInfo("driverEntity_CACHE");
+        if(cacheList!=null && cacheList.size()>0){
+            for(int i =0;i<cacheList.size();i++){
+                entityList.add((DriverInfoEntity)cacheList.get(i).getValue());
+            }
+        }else{
+            entityList = driverInfoDao.getAllDriverInfo();
+            Cache cache = null;
+            Date date = new Date();
+            List <Cache> beanCacheLst = new ArrayList<Cache>();
+            for(int i = 0;i<entityList.size();i++){
+                cache = new Cache();
+                cache.setKey(entityList.get(i).getId()+"");
+                cache.setTimeOut(date.getTime());
+                cache.setValue(entityList.get(i));
+                beanCacheLst.add(cache);
+            }
+            CacheManager.putCacheList("driverEntity_CACHE", beanCacheLst);
+        }
+        retResult.put("driverInfo",entityList);
+        return retResult;
+    }
 
-	@Override
-	public Map deleteDriverInfo(String id) {
-		Map retMap = new HashMap();
-		int count = driverInfoDao.deleteDriverInfo(id);
-		retMap.put("count",count);
-		retMap.put("status",true);
-		return retMap;
-		
-	}
+    @Override
+    public Map deleteDriverInfo(String id) {
+        Map retMap = new HashMap();
+        int count = driverInfoDao.deleteDriverInfo(id);
+        retMap.put("count", count);
+        retMap.put("status", true);
+        return retMap;
 
-	@Override
-	public Map updateDriverInfo(DriverInfoEntity updateInfo) {
-		return null;
-	}
+    }
 
-	@Override
-	public Map updateAllDriverInfo(DriverInfoEntity updateInfo) {
-		return null;
-	}
+    @Override
+    public Map updateDriverInfo(DriverInfoEntity updateInfo) {
+        return null;
+    }
 
-	@Override
-	public Map insertDriverInfo(DriverInfoEntity insertInfo) {
-		return null;
-	}
+    @Override
+    public Map insertDriverInfo(DriverInfoEntity insertInfo) {
+        return null;
+    }
 
-	@Override
-	public Map getDriverInfo(String id) {
-		Map retMap = new HashMap();
-		DriverInfoEntity driverInfoEntity = driverInfoDao.getDriverInfo(id);
-		retMap.putAll(driverInfoEntity.toMap());
-		return retMap;
-	}
+    @Override
+    public Map getDriverInfo(String id) {
+        Map retMap = new HashMap();
+        DriverInfoEntity driverInfoEntity = driverInfoDao.getDriverInfo(id);
+        retMap.putAll(driverInfoEntity.toMap());
+        return retMap;
+    }
 
 //	@Override
 //	public List<DriverInfoBean> getDriverInfo(DriverInfoBean selectInfo,String selectStatus) {

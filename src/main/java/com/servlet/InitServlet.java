@@ -20,6 +20,7 @@ import com.cache.CacheManager;
 import com.logisticscenter.model.TruckEntity;
 import com.logisticscenter.service.*;
 import com.util.ApplicationContextProvider;
+import com.util.SpringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -37,7 +38,7 @@ import com.util.ConstantUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-public class InitServlet extends HttpServlet {
+public class InitServlet {
 
 	/**
 	 * 
@@ -46,7 +47,7 @@ public class InitServlet extends HttpServlet {
 	
 	private static ArrayList threadPool = new ArrayList();
 	
-	private String rootPath;
+	private String rootPath = System.getProperty("user.dir");
 	//应用设置服务类
 	@Autowired
 	private TruckSetService truckSetService;
@@ -74,22 +75,16 @@ public class InitServlet extends HttpServlet {
 		super();
 	}
 
-	/**
-	 * Destruction of the servlet. <br>
-	 */
-	public void destroy() {
-		super.destroy(); 
-	}
 
 	/**
 	 * Initialization of the servlet. <br>
 	 *
-	 * @throws ServletException if an error occurs
 	 */
-	public void init(ServletConfig config) throws ServletException {
+	public void init() {
 		ApplicationContextProvider applicationContextProvider = new ApplicationContextProvider();
 //		truckSetService = (TruckSetService) applicationContextProvider.getBean("truckSetService");
 		BaseBean bs = new BaseBean();
+		ConstantUtils.setRootPath(rootPath+"\\");
       //首先执行升级操作,防止修改了spring映射关系但是数据库中没有对应字段
 		/*  ---升级操作start---  */
 		SystemUpgrade systemupgrade = new SystemUpgrade();
@@ -102,137 +97,16 @@ public class InitServlet extends HttpServlet {
 		} catch (InterruptedException e) {
 			bs.writeLog(e);
 		}
+		ApplicationContext applicationContext = SpringUtil.getApplicationContext();
+		goodsTypeService = applicationContext.getBean(GoodsTypeService.class);
+		goodsTypeService.getAllGoodsType();
+
+		driverService = applicationContext.getBean(DriverService.class);
+		driverService.getAllDriverInfo();
+
+		clientService = applicationContext.getBean(ClientService.class);
+		clientService.getAllClient();
 		/*  ---升级操作end---  */
-//		//设置缓存<应用设置缓存>
-//		ApplicationContext context1 = new ClassPathXmlApplicationContext(
-//				new String[] { "applicationContext_iBatis.xml" });
-//		//设置缓存<应用设置缓存>
-//		truckSetService = (TruckSetService) context1.getBean("truckSetService");
-//		if(CacheManager.getCacheInfo("truckSettingBean_CACHE")!=null){
-//			;
-//		}else{
-////			TruckSetBean bean= truckSetService.getTruckSet(null);
-//			TruckSetBean bean= new TruckSetBean();
-//			Cache cache = new Cache();
-//			Date date = new Date();
-//			//设置应用设置缓存
-//			cache.setKey("truckSetting");
-//			cache.setTimeOut(date.getTime());
-//			cache.setValue(bean);
-//			CacheManager.putCache("truckSettingBean_CACHE", cache);
-//		}
-//
-//		//设置缓存<货物类型设置缓存>
-//		goodsTypeService = (GoodsTypeService) context1.getBean("goodsTypeService");
-//		if(CacheManager.getCacheInfo("goodsTypeBean_CACHE")!=null){
-//			;
-//		}else{
-//			List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
-//			Cache cache = null;
-//			Date date = new Date();
-//			List <Cache> beanCacheLst = new ArrayList<Cache>();
-//			//货物类型设置缓存
-//			for(int i = 0;i<beanLst.size();i++){
-//				cache = new Cache();
-//				cache.setKey(beanLst.get(i).getId()+"");
-//				cache.setTimeOut(date.getTime());
-//				cache.setValue(beanLst.get(i));
-//				beanCacheLst.add(cache);
-//			}
-//			CacheManager.putCacheList("goodsTypeBean_CACHE", beanCacheLst);
-//		}
-//
-//		//设置缓存<客户设置缓存>
-//		clientService = (ClientService) context1.getBean("clientService");
-//		if(CacheManager.getCacheInfo("clientBean_CACHE")!=null){
-//			;
-//		}else{
-////			List<ClientBean> beanLst= clientService.getAllClient();
-//			List<ClientBean> beanLst = new ArrayList<ClientBean>();
-//			Cache cache = null;
-//			Date date = new Date();
-//			List <Cache> beanCacheLst = new ArrayList<Cache>();
-//			//货物类型设置缓存
-//			for(int i = 0;i<beanLst.size();i++){
-//				cache = new Cache();
-//				cache.setKey(beanLst.get(i).getId()+"");
-//				cache.setTimeOut(date.getTime());
-//				cache.setValue(beanLst.get(i));
-//				beanCacheLst.add(cache);
-//			}
-//			CacheManager.putCacheList("clientBean_CACHE", beanCacheLst);
-//		}
-//
-//		//设置缓存<司机设置缓存>
-//		driverService = (DriverService) context1.getBean("driverService");
-//		if(CacheManager.getCacheInfo("driverBean_CACHE")!=null){
-//			;
-//		}else{
-//			List<DriverInfoBean> beanLst= driverService.getAllDriverInfo();
-//			Cache cache = null;
-//			Date date = new Date();
-//			List <Cache> beanCacheLst = new ArrayList<Cache>();
-//			//司机设置缓存
-//			for(int i = 0;i<beanLst.size();i++){
-//				cache = new Cache();
-//				cache.setKey(beanLst.get(i).getId()+"");
-//				cache.setTimeOut(date.getTime());
-//				cache.setValue(beanLst.get(i));
-//				beanCacheLst.add(cache);
-//			}
-//			CacheManager.putCacheList("driverBean_CACHE", beanCacheLst);
-//		}
-//
-//		//设置缓存<司机设置缓存>
-//		feeTypeService = (FeeTypeService) context1.getBean("feeTypeService");
-//		if(CacheManager.getCacheInfo("feeTypeBean_CACHE")!=null){
-//			;
-//		}else{
-//			List<FeeTypeBean> beanLst= feeTypeService.getAllFeeType();
-//			Cache cache = null;
-//			Date date = new Date();
-//			List <Cache> beanCacheLst = new ArrayList<Cache>();
-//			String feeTypeColumns = "";
-//			String feeTypeNames = "";
-//			//货物类型List设置缓存
-//			for(int i = 0;i<beanLst.size();i++){
-//				cache = new Cache();
-//				cache.setKey(beanLst.get(i).getId()+"");
-//				cache.setTimeOut(date.getTime());
-//				cache.setValue(beanLst.get(i));
-//				beanCacheLst.add(cache);
-//				if(beanLst.get(i).getIsUse() == 0 || beanLst.get(i).getShowType() == 3) continue;
-//				feeTypeColumns+=","+beanLst.get(i).getFeeTypeColumn();
-//				feeTypeNames +=","+beanLst.get(i).getFeeName();
-//			}
-//			if(feeTypeColumns.length()>0){
-//				ConstantUtils.setFeeTypeColumns(feeTypeColumns.substring(1));
-//				ConstantUtils.setFeeTypeNames(feeTypeNames.substring(1));
-//			}
-//			CacheManager.putCacheList("feeTypeBean_CACHE", beanCacheLst);
-//		}
-//
-//		//设置缓存<司机设置缓存>
-//		truckService = (TruckService) context1.getBean("truckService");
-//		if (CacheManager.getCacheInfo("truckEntity_CACHE")!=null){
-//			;
-//		}else{
-//			Map truckInfoMap= truckService.getTruck(new HashMap());
-//			List<TruckEntity> entityList = (List<TruckEntity>)truckInfoMap.get("data");
-//			Cache cache = null;
-//			Date date = new Date();
-//			List <Cache> beanCacheLst = new ArrayList<Cache>();
-//			//货物类型List设置缓存
-//			for(int i = 0;i<entityList.size();i++){
-//				cache = new Cache();
-//				cache.setKey(entityList.get(i).getId()+"");
-//				cache.setTimeOut(date.getTime());
-//				cache.setValue(entityList.get(i));
-//				beanCacheLst.add(cache);
-//			}
-//			CacheManager.putCacheList("truckBean_CACHE", beanCacheLst);
-//		}
-		
 		
 	}
 	
@@ -302,9 +176,5 @@ public class InitServlet extends HttpServlet {
         return threadPool;
     }
 
-    public ServletConfig getConfig(){
-		ServletConfig config = this.getServletConfig();
-		return config;
-	}
 
 }

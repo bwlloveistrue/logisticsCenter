@@ -17,6 +17,7 @@ package com.general;
 import com.common.ConvertService;
 import com.file.FileManage;
 import com.util.ConstantUtils;
+import com.util.SpringUtil;
 import com.util.TimeUtil;
 
 import java.io.*;
@@ -88,6 +89,7 @@ public class SystemUpgrade extends BaseBean implements Runnable{
 	}
 
 	public void procSql() {
+
 	   currentDate = TimeUtil.getCurrentDateString()  ;
 	   currentTime = TimeUtil.getCurrentTimeString().substring(11);
 		// 获得sql文件的根目录
@@ -109,10 +111,10 @@ public class SystemUpgrade extends BaseBean implements Runnable{
 		
 		procSqlEnd:
 		try {
-			String driverClasses = getPropValue("jdbc" , "jdbc.driver");
-			String url = getPropValue("jdbc" , "jdbc.url");							  //链接的url
-			String user = getPropValue("jdbc" , "jdbc.username");							   //链接的用户名
-			String password = getPropValue("jdbc" , "jdbc.password");					   //链接的密码
+			String driverClasses = SpringUtil.getApplicationContext().getEnvironment().getProperty("spring.datasource.druid.driver-class-name");
+			String url = SpringUtil.getApplicationContext().getEnvironment().getProperty("spring.datasource.druid.url");							  //链接的url
+			String user = SpringUtil.getApplicationContext().getEnvironment().getProperty("spring.datasource.druid.username");							   //链接的用户名
+			String password = SpringUtil.getApplicationContext().getEnvironment().getProperty("spring.datasource.druid.password");					   //链接的密码
 			Driver driver = (Driver)Class.forName(driverClasses).newInstance();
 			DriverManager.registerDriver(driver);
 			Properties props = new Properties();

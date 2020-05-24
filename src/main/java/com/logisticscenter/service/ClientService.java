@@ -12,6 +12,8 @@ public interface ClientService {
 	public abstract Map insertClient(Map<String, Object> params);
 	
 	public abstract Map getClient(Map<String, Object> params);
+
+	public abstract Map getAllClient();
 	
 	public abstract Map deleteClient(Map<String, Object> params);
 	

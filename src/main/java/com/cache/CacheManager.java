@@ -1,5 +1,7 @@
 package com.cache;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,8 +57,8 @@ public class CacheManager {
   //得到缓存。同步静态方法  
     private synchronized static List<Cache> getCacheList(String key) {  
         return (List<Cache>) cacheMap.get(key);
-    }  
-  
+    }
+
     //判断是否存在一个缓存  
     private synchronized static boolean hasCache(String key) {  
         return cacheMap.containsKey(key);  

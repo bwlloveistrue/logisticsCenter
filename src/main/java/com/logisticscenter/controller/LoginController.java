@@ -1,15 +1,9 @@
 package com.logisticscenter.controller;
 
-import com.cache.Cache;
-import com.cache.CacheManager;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.javabean.SystemInfoBean;
-import com.javabean.TruckSetBean;
 import com.logisticscenter.service.LoginService;
 import com.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

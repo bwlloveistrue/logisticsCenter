@@ -1,6 +1,10 @@
 package com.logisticscenter.model;
 
+import com.cache.Cache;
+import com.cache.CacheManager;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class TruckGoodsOrderTakerEntity {
 	
@@ -8,6 +12,10 @@ public class TruckGoodsOrderTakerEntity {
 	
 	//标识ID
 	private int id;
+
+	//标识ID
+	private int key;
+
 	//是否包车
 	private int packageFlg;
 	//包车价格
@@ -16,10 +24,15 @@ public class TruckGoodsOrderTakerEntity {
 	private String beginDate;
 	//客户
 	private int client;
+	//客户
+	private String clientName;
 	//是否删除
 	private int deleteFlg;
 	//客户货物类型
 	private String goodsType;
+
+	//客户货物类型
+	private String goodsTypeName;
 
 	//区域
 	private String workPlace;
@@ -50,9 +63,17 @@ public class TruckGoodsOrderTakerEntity {
 
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
 	}
 
-	
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+	}
+
 	public int getPackageFlg() {
 		return packageFlg;
 	}
@@ -83,8 +104,25 @@ public class TruckGoodsOrderTakerEntity {
 
 	public void setClient(int client) {
 		this.client = client;
+		this.setClientName(client+"");
 	}
 
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String client) {
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
+		String clientNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(key.equals(this.client+"")){
+				ClientEntity clientEntity = (ClientEntity) cacheList.get(i).getValue();
+				clientNameTemp = clientEntity.getClientName();
+			}
+		}
+		this.clientName = clientNameTemp;
+	}
 
 	public String getGoodsType() {
 		return goodsType;

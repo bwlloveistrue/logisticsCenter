@@ -1,8 +1,6 @@
 package com.logisticscenter.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.cache.Cache;
 import com.cache.CacheManager;
@@ -87,37 +85,31 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		return statusFlg;
 	}
 	
-	public List<GoodsTypeBean> getAllGoodsType(){
-		
-		List<GoodsTypeBean> beanList = new ArrayList<GoodsTypeBean>();
-		List<Cache> cacheList = CacheManager.getCacheListInfo("goodsTypeBean_CACHE");
+	public Map getAllGoodsType(){
+		Map retMap = new HashMap();
+		List<GoodsTypeEntity> entityList = new ArrayList<GoodsTypeEntity>();
+		List<Cache> cacheList = CacheManager.getCacheListInfo("goodsTypeEntity_CACHE");
 		if(cacheList!=null && cacheList.size()>0){
 			for(int i =0;i<cacheList.size();i++){
-				beanList.add((GoodsTypeBean)cacheList.get(i).getValue());
+				entityList.add((GoodsTypeEntity)cacheList.get(i).getValue());
 			}
 		}else{
-			List<GoodsTypeEntity> entityList = new ArrayList<GoodsTypeEntity>();
-			beanList = new ArrayList<GoodsTypeBean>();
 			entityList = goodsTypeDao.getAllGoodsType();
-			for(int i=0;i<entityList.size(); i++){
-				GoodsTypeBean dirverBean = (GoodsTypeBean) ConvertService.convertEntityToBean(entityList.get(i), new GoodsTypeBean());
-				beanList.add(dirverBean);
-			}
 			Cache cache = null;
 			Date date = new Date();
 			List <Cache> beanCacheLst = new ArrayList<Cache>();
 			//货物类型设置缓存
-			for(int i = 0;i<beanList.size();i++){
+			for(int i = 0;i<entityList.size();i++){
 				cache = new Cache();
-				cache.setKey(beanList.get(i).getId()+"");
+				cache.setKey(entityList.get(i).getId()+"");
 				cache.setTimeOut(date.getTime());
-				cache.setValue(beanList.get(i));
+				cache.setValue(entityList.get(i));
 				beanCacheLst.add(cache);
 			}
-			CacheManager.putCacheList("goodsTypeBean_CACHE", beanCacheLst);
+			CacheManager.putCacheList("goodsTypeEntity_CACHE", beanCacheLst);
 		}
-		
-		return beanList;
+		retMap.put("goodsTypeInfo",entityList);
+		return retMap;
 	}
 
 }
