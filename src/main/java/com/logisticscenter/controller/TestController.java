@@ -37,16 +37,21 @@ public class TestController {
 
 	@ResponseBody
 	@GetMapping("/pushMsg")
-	public Map selectAllClient(HttpServletRequest request){
+	public Map pushMsg(HttpServletRequest request){
 
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		wxMsgPush.SendWxMsg("oWYMNv6WJMfjWxqyV9NnAfdKHu4I");
 		return apidatas;
 	}
-	
-	public static void setMap( Map oldMap){
-		oldMap.put("e", "5");
-		oldMap.put("f", "6");
+
+	@ResponseBody
+	@GetMapping("/getOpenIDs")
+	public Map getOpenIDs(HttpServletRequest request){
+
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+		List openIds = wxMsgPush.getOpenId();
+		apidatas.put("openIds",openIds);
+		return apidatas;
 	}
 
 }

@@ -2,10 +2,14 @@ package com.util.wxPublic;
 
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2020/5/21.
@@ -58,5 +62,33 @@ public class WxMsgPush {
             e.printStackTrace();
         }
         return msgId != null;
+    }
+
+    public List<String> getOpenId(){
+        List<String> openIdList = new ArrayList<String>();
+        openIdList = recursionOpenId(openIdList,null);
+        return openIdList;
+    }
+
+    /**
+     * 获取人员IDs
+     *
+     * @return 获取人员openid
+     */
+    public List<String> recursionOpenId(List<String> openIdList,String nextOpenId) {
+        try {
+            WxMpUserList openList = wxMpService.getUserService().userList(null);
+            for(String strId :openList.getOpenids()){
+                openIdList.add(strId);
+            }
+            if(openList.getOpenids().size()>10000){
+                recursionOpenId(openIdList,openList.getNextOpenid());
+            }
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+
+        return openIdList;
+
     }
 }
