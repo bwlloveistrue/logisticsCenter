@@ -5,10 +5,7 @@ package com.util.FileldsUtil;
  */
 import com.util.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -94,7 +91,9 @@ public class FieldUtil {
     private static  Map getPubFormItem(String ConditionType,String fieldName, String fieldLabel, String value, int viewAttr){
         Map<String, Object> formItem = new HashMap<String, Object>();
         List<String> domKeyList = new ArrayList<String>();
-        domKeyList.add(fieldName);
+        Arrays.asList(fieldName.split(",")).stream().forEach(item->{
+            domKeyList.add(item);
+        });
         formItem.put("domkey", domKeyList);
         formItem.put("label", fieldLabel);
         formItem.put("colSpan", 1);
@@ -109,7 +108,8 @@ public class FieldUtil {
             Map requireMap = new HashMap();
             requireMap.put("required",true);
             requireMap.put("message","请填写"+fieldLabel);
-            formItem.put("rules", "required");
+            rulesList.add(requireMap);
+            formItem.put("rules", rulesList);
         }
         return formItem;
     }
