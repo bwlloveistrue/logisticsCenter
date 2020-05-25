@@ -45,15 +45,14 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		List<SearchConditionOption> clientOptions = selectOptionUtils.getClientOptions();
 		itemlist.add(FieldUtil.getFormItemForSelect("client", "客户", "", 2, 2, clientOptions));
 		List<SearchConditionOption> driverOptions = selectOptionUtils.getDriverOptions();
-		itemlist.add(FieldUtil.getFormItemForSelect("client", "司机", "", 2, 2, driverOptions));
+		itemlist.add(FieldUtil.getFormItemForSelect("driver", "司机", "", 2, 2, driverOptions));
 		List<SearchConditionOption> goodsTypeOptions = selectOptionUtils.getGoodsTypeOptions();
 		itemlist.add(FieldUtil.getFormItemForSelect("goodsType", "货物类型", "", 2, 2, goodsTypeOptions));
-		itemlist.add(FieldUtil.getFormItemForDate("beginDate", "出发时间", "", 2, false));
+		itemlist.add(FieldUtil.getFormItemForSelectDate("beginDate", "出发时间", "", 2));
 		groupitem.put("title", "基本信息");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 6);
 		groupitem.put("items", itemlist);
-		groupitem.put("key", "calendarSet");//日历设置
 		grouplist.add(groupitem);
 		retMap.put("data",grouplist);
 		return retMap;
@@ -72,6 +71,26 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		splitPageInterface.init(pageInfo);
 		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
 		retMap.put("data",splitPageInterface.splitPageBean.getData());
+		return retMap;
+	}
+
+	@Override
+	public Map getOrderTakersInfoFields(Map params) {
+		Map retMap = new HashMap();
+		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
+		Map<String,Object> groupitem = new HashMap<String,Object>();
+		List itemlist = new ArrayList();
+		List<SearchConditionOption> clientOptions = selectOptionUtils.getClientOptions();
+		itemlist.add(FieldUtil.getFormItemForSelect("client", "客户", "", 2, 2, clientOptions));
+		itemlist.add(FieldUtil.getFormItemForDate("beginDate", "出发时间", "", 3,false));
+		itemlist.add(FieldUtil.getFormItemForCheckbox("packageFlg", "出发时间", "", 3));
+		groupitem.put("title", "基本信息");
+		groupitem.put("defaultshow", true);
+		groupitem.put("col", 6);
+		groupitem.put("items", itemlist);
+		grouplist.add(groupitem);
+		retMap.put("data",grouplist);
+
 		return retMap;
 	}
 }

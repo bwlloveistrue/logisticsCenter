@@ -89,4 +89,19 @@ public class OrderTakerController implements Serializable{
 		}
 		return apidatas;
 	}
+
+	@ResponseBody
+	@PostMapping("/getOrderTakersInfoFields")
+	public Map getOrderTakersInfoFields(HttpServletRequest request){
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+		try {
+			apidatas.putAll(truckGoodsOrderService.getOrderTakersInfoFields(ParamUtil.request2Map(request)));
+			apidatas.put("api_status", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			apidatas.put("api_status", false);
+			apidatas.put("api_errormsg", "catch exception : " + e.getMessage());
+		}
+		return apidatas;
+	}
 }

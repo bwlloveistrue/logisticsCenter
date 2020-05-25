@@ -102,6 +102,12 @@
 			<version>12.0.10.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 
 		<!-- 分页插件 -->
 		<dependency>

@@ -21,6 +21,13 @@ public interface TruckGoodsOrderService {
 	 */
 	public abstract Map getTableInfoList(Map params);
 
+	/**
+	 * 预录车辆详细信息
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getOrderTakersInfoFields(Map params);
+
 
 	
 

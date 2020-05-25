@@ -105,6 +105,10 @@ public class FieldUtil {
         formItem.put("value", value == null ? "" : value);
         formItem.put("viewAttr", viewAttr);
         if(viewAttr==3){
+            List rulesList = new ArrayList();
+            Map requireMap = new HashMap();
+            requireMap.put("required",true);
+            requireMap.put("message","请填写"+fieldLabel);
             formItem.put("rules", "required");
         }
         return formItem;
@@ -250,8 +254,8 @@ public class FieldUtil {
      * @param viewAttr
      * @return
      */
-    public static Map<String, Object> getFormItemForDate(String fieldName, String fieldLabel, String value,int viewAttr) {
-        Map<String, Object> formItem = getFormItemForDate(fieldName, fieldLabel, value, viewAttr,false);
+    public static Map<String, Object> getFormItemForSelectDate(String fieldName, String fieldLabel, String value,int viewAttr) {
+        Map<String, Object> formItem = getPubFormItem(DATE,fieldName, fieldLabel, value, viewAttr);
         return formItem;
     }
 
