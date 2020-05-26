@@ -71,7 +71,7 @@ public class CommonTransMethod {
 		List<ClientEntity> allClient = new ArrayList<ClientEntity>();
 		Map beanMap = new HashMap();
 		try{
-			beanMap= clientService.getClient(new HashMap());
+			beanMap= clientService.getAllClient();
 			allClient = (List<ClientEntity>)beanMap.get("clientInfo");
 			return allClient;
 		}catch(Exception e){
@@ -204,7 +204,7 @@ public class CommonTransMethod {
 		String retStr = "";
 		Map beanLst = null;
 		try{
-			beanLst= clientService.getClient(new HashMap());
+			beanLst= clientService.getAllClient();
 			for(int i = 0;i<beanLst.size();i++){
 
 			}

@@ -145,7 +145,7 @@ public class TruckServiceImpl implements TruckService {
 				entityList.add((DriverInfoEntity)cacheList.get(i).getValue());
 			}
 		}else{
-			entityList = driverDao.getDriverInfo(new HashMap());
+			entityList = driverDao.getAllDriverInfo();
 			Cache cache = null;
 			Date date = new Date();
 			List <Cache> beanCacheLst = new ArrayList<Cache>();

@@ -8,14 +8,44 @@ import com.javabean.FeeTypeBean;
 
 public interface ClientService {
 
-	
-	public abstract Map insertClient(Map<String, Object> params);
-	
-	public abstract Map getClient(Map<String, Object> params);
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getCondition(Map<String, Object> params);
 
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map insertClient(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getTableInfoList(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getClientInfoFields(Map<String, Object> params);
+
+	/**
+	 * @return
+	 */
 	public abstract Map getAllClient();
-	
+
+	/**
+	 * @param params
+	 * @return
+	 */
 	public abstract Map deleteClient(Map<String, Object> params);
-	
+
+	/**
+	 * @param params
+	 * @return
+	 */
 	public abstract Map updateClient(Map<String, Object> params);
 }

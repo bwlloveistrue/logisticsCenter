@@ -104,4 +104,49 @@ public class OrderTakerController implements Serializable{
 		}
 		return apidatas;
 	}
+
+	@ResponseBody
+	@PostMapping("/addOrderTaker")
+	public Map addOrderTaker(HttpServletRequest request){
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+		try {
+			apidatas.putAll(truckGoodsOrderService.addOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.put("api_status", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			apidatas.put("api_status", false);
+			apidatas.put("api_errormsg", "catch exception : " + e.getMessage());
+		}
+		return apidatas;
+	}
+
+	@ResponseBody
+	@PostMapping("/updateOrderTaker")
+	public Map updateOrderTaker(HttpServletRequest request){
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+		try {
+			apidatas.putAll(truckGoodsOrderService.updateOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.put("api_status", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			apidatas.put("api_status", false);
+			apidatas.put("api_errormsg", "catch exception : " + e.getMessage());
+		}
+		return apidatas;
+	}
+
+	@ResponseBody
+	@PostMapping("/deleteOrderTaker")
+	public Map deleteOrderTaker(HttpServletRequest request){
+		Map<String, Object> apidatas = new HashMap<String, Object>();
+		try {
+			apidatas.putAll(truckGoodsOrderService.deleteOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.put("api_status", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			apidatas.put("api_status", false);
+			apidatas.put("api_errormsg", "catch exception : " + e.getMessage());
+		}
+		return apidatas;
+	}
 }

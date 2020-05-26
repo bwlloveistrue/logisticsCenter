@@ -8,65 +8,22 @@
   </select>
 
    <!-- 模糊查询客户信息 -->
-   <select id="getClientBy" resultType="clientEntity" parameterType="clientEntity">
-	select top ${pageSize}* from ( select row_number() over(order by id desc) as rownumber,* from clientInfo
+   <select id="getClient" resultType="clientEntity" parameterType="clientEntity">
+	select* from clientInfo
 	   <where>
+		   <if test="id != null and id != ''">
+			   id = #{id}
+		   </if>
 		   <if test="clientName != null and clientName != ''">
 			   clientName like '%' + #{clientName} +  '%'
 		   </if>
-	   </where>
-	) A
-	   <where>
-		   <if test="currentPage != null and currentPage != ''">
-			   rownumber > ${currentPage}
+		   <if test="address != null and address != ''">
+			   address like '%' + #{address} +  '%'
+		   </if>
+		   <if test="mobile != null and mobile != ''">
+			   mobile like '%' + #{mobile} +  '%'
 		   </if>
 	   </where>
-  </select>
-
-  <!-- 具体查询客户信息 -->
-   <select id="getClientBy2" resultType="clientEntity" parameterType="clientEntity">
-	select top ${pageSize} * from ( select row_number() over(order by id desc) as rownumber,* from clientInfo
-	   <where>
-		   <if test="clientName != null and currentPage != ''">
-			   clientName like '%' + #{clientName} +  '%'
-		   </if>
-	   </where>
-	) A
-	   <where>
-		   <if test="currentPage != null">
-			   rownumber > ${currentPage}
-		   </if>
-	   </where>
-  </select>
-
-  <!-- 模糊查询客户信息 -->
-   <select id="getClientByCount" resultType="String" parameterType="clientEntity">
-	select count(*) from ( select row_number() over(order by id desc) as rownumber,* from clientInfo ) A
-	   <where>
-		   <if test="clientName != null and currentPage != ''" >
-			   clientName like '%' + #{clientName} +  '%'
-		   </if>
-	   </where>
-
-  </select>
-
-  <!-- 具体查询客户信息 -->
-   <select id="getClientBy2Count" resultType="String" parameterType="clientEntity">
-	select count(*) from ( select row_number() over(order by id desc) as rownumber,* from clientInfo ) A
-	   <where>
-		   <if test="clientName != null and currentPage != ''" >
-			   clientName = #{clientName}
-		   </if>
-		   <if test="currentPage != null" >
-			   rownumber > ${currentPage}
-		   </if>
-	   </where>
-
-  </select>
-
-  <!-- 根据id获得用户对象 -->
-    <select id="getClientById" resultType="clientEntity">
-     select * from clientInfo where id= #{id}
   </select>
 
    <!-- 新增用户对象 -->
@@ -79,12 +36,8 @@
    </insert>
 
    <!-- 删除用户对象 -->
-   <delete id="deleteClient" parameterType="java.util.List">
-	delete from clientInfo WHERE ID in
-	   <foreach item="item" index="index" collection="list"
-				open="(" separator="," close=")">
-		   #{item}
-	   </foreach>
+   <delete id="deleteClient" parameterType="string">
+	delete from clientInfo WHERE ID =#{id}
    </delete>
 
    <!-- 更新用户对象 -->
@@ -100,17 +53,4 @@
       editTime= #{editTime}
       where id= #{id}
    </update>
-
-	<!-- 更新用户对象 -->
-	<update id="updateAllClient" parameterType="clientEntity">
-		update clientInfo set
-		clientName= #{clientName},
-		contant= #{contant},
-		mobile= #{mobile},
-		fax= #{fax},
-		address= #{address},
-		products= #{products},
-		editDate= #{editDate},
-		editTime= #{editTime}
-	</update>
 </mapper>

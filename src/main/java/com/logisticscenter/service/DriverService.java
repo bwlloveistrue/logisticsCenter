@@ -8,21 +8,46 @@ import com.javabean.DriverInfoBean;
 import com.logisticscenter.model.DriverInfoEntity;
 
 public interface DriverService {
-	
-	public abstract Map insertDriverInfo(DriverInfoEntity insertInfo);
-	
-	public abstract Map getDriverInfo(String id);
 
-	public abstract Map getDriverInfo(Map params);
-	
-	public abstract Map getDriverInfo(DriverInfoEntity selectInfo, String selectStatus);
-	
-	public abstract Map getDriverInfoCount(DriverInfoEntity selectInfo, String selectStatus);
-	
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getCondition(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map insertDriverInfo(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getTableInfoList(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getDriverInfoFields(Map<String, Object> params);
+
+	/**
+	 * @return
+	 */
 	public abstract Map getAllDriverInfo();
-	
-	public abstract Map deleteDriverInfo(String id);
-	
-	public abstract Map updateDriverInfo(DriverInfoEntity updateInfo);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map deleteDriverInfo(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map updateDriverInfo(Map<String, Object> params);
 
 }
