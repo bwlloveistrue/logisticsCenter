@@ -1,6 +1,25 @@
 package com.logisticscenter.model;
 
+import com.util.Utils;
+
+import java.util.Calendar;
+
 public class GoodsTypeEntity {
+
+	public GoodsTypeEntity() {
+		Calendar today = Calendar.getInstance();
+		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2);
+		this.createDate = currentdate;
+		this.createTime = currenttime;
+	}
+
+	public GoodsTypeEntity(String goodsName, int isUse, int isDelete) {
+		this.goodsName = goodsName;
+		this.isUse = isUse;
+		this.isDelete = isDelete;
+	}
+
 	//标识ID
 	private int id;
 	//货物名称
@@ -13,25 +32,6 @@ public class GoodsTypeEntity {
 	private String createDate;
 	//创建时间
 	private String createTime;
-	
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
-	
-	public String getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-	public String getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
-	}
 	
 	public int getId() {
 		return id;

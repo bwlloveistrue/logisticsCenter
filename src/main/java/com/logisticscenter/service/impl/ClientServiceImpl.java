@@ -151,7 +151,7 @@ public class ClientServiceImpl implements ClientService {
 		clientE.setProducts((String)params.get("products"));
 		int maxId = clientDao.insertClient(clientE);
 		int c     = clientE.getId();
-		CacheManager.clearOnly("clientBean_CACHE");
+		CacheManager.clearOnly("clientEntity_CACHE");
 		retResult.put("id",maxId);
 		retResult.put("c",c);
 		return retResult;
@@ -171,7 +171,7 @@ public class ClientServiceImpl implements ClientService {
 		clientE.setAddress((String)params.get("address"));
 		clientE.setProducts((String)params.get("products"));
 		count = clientDao.updateClient(clientE);
-		CacheManager.clearOnly("clientBean_CACHE");
+		CacheManager.clearOnly("clientEntity_CACHE");
 		retResult.put("count",count);
 		return retResult;
 	}

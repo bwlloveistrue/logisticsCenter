@@ -212,6 +212,19 @@ public class FieldUtil {
     }
 
     /**
+     * 封装数字输入框
+     * @param fieldName 字段id
+     * @param fieldLabel 字段名标签
+     * @param value 当前值
+     * @param viewAttr 编辑权限  1：只读，2：可编辑， 3：必填
+     * @return
+     */
+    public  static Map<String, Object> getFormItemForInputNumber(String fieldName, String fieldLabel, String value,int viewAttr) {
+        Map<String, Object> formItem = getPubFormItem(INPUTNUMBER,fieldName, fieldLabel, value, viewAttr);
+        return formItem;
+    }
+
+    /**
      * textarea
      * @param fieldName
      * @param fieldLabel

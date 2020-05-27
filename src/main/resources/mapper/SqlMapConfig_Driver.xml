@@ -6,67 +6,31 @@
 	<select id="getAllDriverInfo" resultType="driverInfoEntity">
 		select * from driverInfo order by id
 	</select>
-
-  <!-- 获得全查询列表 -->
-  <select id="getAllDriver" resultType="driverInfoEntity">
-    select * from driverInfo order by id
-  </select>
-  
-   <!--  -->
-   <select id="getDriverBy" resultType="driverInfoEntity" parameterType="driverInfoEntity">
-	select top ${pageSize} * from ( select row_number() over(order by id desc) as rownumber,* from driverInfo
-	   <where>
-		   <if test="name != null and name != ''">
-			   name like '%' + #{name} +  '%'
-		   </if>
-	   </where>
-	) A
-	   <where>
-		   <if test="currentPage != null and currentPage != ''">
-			   rownumber > ${currentPage}
-		   </if>
-	   </where>
-  </select> 
-  
-  <!--  -->
-   <select id="getDriverBy2" resultType="driverInfoEntity" parameterType="driverInfoEntity">
-	select top ${pageSize} * from ( select row_number() over(order by id desc) as rownumber,* from driverInfo
-	   <where>
-		   <if test="name != null and name != ''">
-			   name like '%' + #{name} +  '%'
-		   </if>
-	   </where>
-	) A
-	   <where>
-		   <if test="currentPage != null and currentPage != ''">
-			   rownumber > ${currentPage}
-		   </if>
-	   </where>
-  </select> 
-  
-   <!--  -->
-   <select id="getDriverByCount" resultType="string" parameterType="driverInfoEntity">
-	select count(*) from ( select row_number() over(order by id desc) as rownumber,* from driverInfo ) A
-	   <where>
-		   <if test="name != null and name != ''">
-			   name like '%' + #{name} +  '%'
-		   </if>
-	   </where>
-  </select> 
-  
-  <!--  -->
-   <select id="getDriverBy2Count" resultType="string" parameterType="driverInfoEntity">
-	select count(*) from ( select row_number() over(order by id desc) as rownumber,* from driverInfo ) A
-	   <where>
-		   <if test="name != null and name != ''">
-			   name like '%' + #{name} +  '%'
-		   </if>
-	   </where>
-  </select> 
   
   <!-- 根据id获得用户对象 -->
-    <select id="getDriverById" resultType="driverInfoEntity">
-     select * from driverInfo where id=#{id}   </select>
+    <select id="getDriverInfo" resultType="driverInfoEntity">
+     select * from driverInfo
+		<where>
+			<if test="id != null and id != ''">
+				id = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				name like '%' + #{name} +  '%'
+			</if>
+			<if test="mobile != null and mobile != ''">
+				mobile like '%' + #{mobile} +  '%'
+			</if>
+			<if test="idNumber != null and idNumber != ''">
+				idNumber =  #{idNumber}
+			</if>
+			<if test="startWorkDate != null and startWorkDate != ''">
+				startWorkDate =  #{startWorkDate}
+			</if>
+			<if test="driverLicense != null and driverLicense != ''">
+				driverLicense =  #{driverLicense}
+			</if>
+		</where>
+	</select>
   
    <!-- 新增用户对象 -->
    <insert id="insertDriver" parameterType="driverInfoEntity">
@@ -117,12 +81,8 @@
    </insert>
    
    <!-- 删除用户对象 -->
-   <delete id="deleteDriver" parameterType="java.util.List">
-	delete from driverInfo  WHERE ID in
-	   <foreach item="item" index="index" collection="list"
-				open="(" separator="," close=")">
-		   #{item}
-	   </foreach>
+   <delete id="deleteDriver" parameterType="string">
+	delete from driverInfo  WHERE ID =#{id}
    </delete>
    
    <!-- 更新用户对象 -->

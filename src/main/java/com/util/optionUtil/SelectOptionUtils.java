@@ -38,6 +38,53 @@ public class SelectOptionUtils {
     }
 
     /**
+     * 获取性别状态选择框
+     * @return
+     */
+    public List<SearchConditionOption> getSexOptions(){
+        List<SearchConditionOption> orderStatusOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption();
+        searchConditionOption = new SearchConditionOption("0","男",true,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("1","女",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        return orderStatusOptions;
+    }
+
+    /**
+     * 获取文化程度状态选择框
+     * @return
+     */
+    public List<SearchConditionOption> getEducationOptions(){
+        List<SearchConditionOption> orderStatusOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption();
+        searchConditionOption = new SearchConditionOption("0","小学",true,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("1","初中",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("2","高中",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("3","大专",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("4","本科",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("5","研究生",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        return orderStatusOptions;
+    }
+
+    /**
+     * 获取司机职务状态选择框
+     * @return
+     */
+    public List<SearchConditionOption> getDriverJobOptions(){
+        List<SearchConditionOption> orderStatusOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption();
+        searchConditionOption = new SearchConditionOption("0","司机",true,true);
+        return orderStatusOptions;
+    }
+
+    /**
      * 获取客户选择框
      * @return
      */

@@ -6,21 +6,46 @@ import java.util.Map;
 import com.javabean.GoodsTypeBean;
 
 public interface GoodsTypeService {
-	
-	public abstract int insertGoodsType(GoodsTypeBean insertInfo);
-	
-	public abstract GoodsTypeBean getGoodsType(String id);
-	
-	public abstract List<GoodsTypeBean> getGoodsType(GoodsTypeBean selectInfo);
-	
-	public abstract String getGoodsTypeCount(GoodsTypeBean selectInfo);
-	
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getCondition(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map insertGoodsType(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getTableInfoList(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getGoodsTypeFields(Map<String, Object> params);
+
+	/**
+	 * @return
+	 */
 	public abstract Map getAllGoodsType();
-	
-	public abstract int deleteGoodsType(String id);
-	
-	public abstract void updateGoodsType(GoodsTypeBean updateInfo);
-	
-	public abstract void updateAllGoodsType(GoodsTypeBean updateInfo);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map deleteGoodsType(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map updateGoodsType(Map<String, Object> params);
 
 }

@@ -189,7 +189,7 @@ public class CommonTransMethod {
 		int maxId = 0;
 		DriverInfoBean bean = new DriverInfoBean(0,driverName, "1", "", "", "", 0, "", "", "", "", "", "", "", "", "", "", "");
 //		maxId = driverService.insertDriverInfo(bean);
-		CacheManager.clearOnly("driverBean_CACHE");
+		CacheManager.clearOnly("driverEntity_CACHE");
 		return maxId;
 	}
 
@@ -221,7 +221,7 @@ public class CommonTransMethod {
 		int maxId = 0;
 		ClientBean bean = new ClientBean(0,clientName,"","","","","");
 //		maxId = clientService.insertClient(bean);
-		CacheManager.clearOnly("clientBean_CACHE");
+		CacheManager.clearOnly("clientEntity_CACHE");
 		return maxId;
 	}
 
@@ -336,9 +336,9 @@ public class CommonTransMethod {
 
 	public  int createGoodsType(String goodsName){
 		int maxId = 0;
-		GoodsTypeBean bean = new GoodsTypeBean( 0,goodsName, 1, 0,"","");
-		maxId = goodsTypeService.insertGoodsType(bean);
-		CacheManager.clearOnly("goodsTypeBean_CACHE");
+//		GoodsTypeEntity entity = new GoodsTypeEntity( goodsName, 1, 0);
+//		maxId = goodsTypeService.insertGoodsType(entity);
+		CacheManager.clearOnly("goodsTypeEntity_CACHE");
 		return maxId;
 	}
 

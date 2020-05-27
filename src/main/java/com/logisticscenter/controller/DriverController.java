@@ -59,7 +59,7 @@ public class DriverController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/getTableInfoList")
-	public Map getDriverInfo(HttpServletRequest request){
+	public Map getTableInfoList(HttpServletRequest request){
 
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -75,7 +75,7 @@ public class DriverController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/getDriverInfoFields")
-	public Map getOrderTakersInfoFields(HttpServletRequest request){
+	public Map getDriverInfoFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
 			apidatas.putAll(driverService.getDriverInfoFields(ParamUtil.request2Map(request)));

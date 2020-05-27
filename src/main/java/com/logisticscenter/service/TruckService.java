@@ -7,24 +7,47 @@ import com.javabean.TruckBean;
 import com.logisticscenter.model.TruckEntity;
 
 public interface TruckService {
-	
-	public abstract int insertTruck(TruckBean insertInfo);
-	
-	public abstract TruckBean getTruckInfo(String id);
-	
-	public abstract List<TruckBean> getTruckInfo(TruckBean selectInfo);
-	
-	public abstract String getTruckInfoCount(TruckBean selectInfo);
-	
-	public abstract Map getTruck(Map params);
-	
-	public abstract int deleteTruck(String id);
-	
-	public abstract int updateTruck(TruckBean updateInfo);
-	
-	public abstract void updateAllTruck(TruckBean updateInfo);
 
-	public abstract Map getAdvancedForm(Map params);
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getCondition(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map insertTruck(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getTableInfoList(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getTruckFields(Map<String, Object> params);
+
+	/**
+	 * @return
+	 */
+	public abstract Map getAllTruck();
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map deleteTruck(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map updateTruck(Map<String, Object> params);
 
 
 }

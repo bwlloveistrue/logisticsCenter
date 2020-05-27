@@ -7,41 +7,17 @@
     select * from goodsType
   </select>
 
-    <!--  -->
-    <select id="getGoodsTypeBy" resultType="goodsTypeEntity" parameterType="goodsTypeEntity">
-        select top ${pageSize} * from ( select row_number() over(order by id desc) as rownumber,* from goodsType
-        <where>
-            <if test="goodsName != null and goodsName != ''">
-                goodsName like '%' + #{goodsName} + '%'
-            </if>
-            <if test="isUse > -1">
-                isUse = #{isUse}
-            </if>
-        </where>
-        ) A
-        <where>
-            <if test="currentPage != null and currentPage != ''">
-                rownumber > ${currentPage}
-            </if>
-        </where>
-    </select>
-
-    <!--  -->
-    <select id="getGoodsTypeByCount" resultType="String" parameterType="goodsTypeEntity">
-        select count(*) from ( select row_number() over(order by id desc) as rownumber,* from goodsType ) A
-        <where>
-            <if test="goodsName != null and goodsName != ''">
-                goodsName like '%' + #{goodsName} + '%'
-            </if>
-            <if test="isUse > -1">
-                isUse = #{isUse}
-            </if>
-        </where>
-    </select>
-
     <!-- 根据id获得用户对象 -->
-    <select id="getGoodsTypeById" resultType="goodsTypeEntity">
-     select * from goodsType where id=#{id}
+    <select id="getGoodsType" resultType="goodsTypeEntity">
+     select * from goodsType
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                goodsName like '%' + #{goodsName} +  '%'
+            </if>
+        </where>
   </select>
 
     <!-- 新增用户对象 -->
@@ -54,12 +30,9 @@
     </insert>
 
     <!-- 删除用户对象 -->
-    <delete id="deleteGoodsType" parameterType="java.util.List">
-        delete from goodsType WHERE ID in
-        <foreach item="item" index="index" collection="list"
-                 open="(" separator="," close=")">
-            #{item}
-        </foreach>
+    <delete id="deleteGoodsType" parameterType="string">
+        delete from goodsType WHERE ID = {id}
+
     </delete>
 
     <!-- 更新用户对象 -->

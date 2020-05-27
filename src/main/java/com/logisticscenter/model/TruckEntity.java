@@ -1,13 +1,21 @@
 package com.logisticscenter.model;
 
 import com.javabean.TruckBean;
+import com.util.Utils;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 public class TruckEntity {
 	
 	public TruckEntity(){
-		
+		Calendar today = Calendar.getInstance();
+		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2);
+		this.editDate = currentdate;
+		this.editTime = currenttime;
+		this.createDate = currentdate;
+		this.createTime = currenttime;
 	}
 	
 	public TruckEntity(TruckBean insertInfo) {
@@ -117,25 +125,6 @@ public class TruckEntity {
 	
 	//查询用买进时间段(开始时间)
 	private String buyEndDate;
-	
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
-	
-	public String getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-	public String getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
-	}
 	
 	public int getId() {
 		return id;

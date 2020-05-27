@@ -5,10 +5,19 @@ import java.util.*;
 import com.cache.Cache;
 import com.cache.CacheManager;
 import com.common.ConvertService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.javabean.GoodsTypeBean;
 import com.logisticscenter.mapper.GoodsTypeDao;
+import com.logisticscenter.model.DriverInfoEntity;
+import com.logisticscenter.model.GoodsTypeEntity;
 import com.logisticscenter.model.GoodsTypeEntity;
 import com.logisticscenter.service.GoodsTypeService;
+import com.splitPage.OrderTakerSplitPage;
+import com.splitPage.pageInterface.SplitPageInterface;
+import com.util.FileldsUtil.FieldUtil;
+import com.util.FileldsUtil.SearchConditionOption;
+import com.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -19,72 +28,88 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 	@Autowired
 	GoodsTypeDao goodsTypeDao;
 
+
 	@Override
-	public int deleteGoodsType(String id) {
-		int count = goodsTypeDao.deleteGoodsType(id);
-		return count;
+	public Map getCondition(Map<String, Object> params) {
+		Map retMap = new HashMap();
+		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
+		Map<String,Object> groupitem = new HashMap<String,Object>();
+		List itemlist = new ArrayList();
+		itemlist.add(FieldUtil.getFormItemForInput("goodsName", "货物名称", "", 3));
+
+		groupitem.put("title", "基本信息");
+		groupitem.put("defaultshow", true);
+		groupitem.put("col", 6);
+		groupitem.put("items", itemlist);
+		grouplist.add(groupitem);
+		retMap.put("data",grouplist);
+		return retMap;
 	}
 
 	@Override
-	public GoodsTypeBean getGoodsType(String id) {
-		return (GoodsTypeBean) ConvertService.convertEntityToBean(goodsTypeDao.getGoodsType(id), new GoodsTypeBean());
+	public Map insertGoodsType(Map<String, Object> params) {
+		Map retResult = new HashMap();
+		String goodsName = Utils.null2String(params.get("goodsName"));
+		int isUse = Utils.getIntValue( Utils.null2String(params.get("isUse")));
+		GoodsTypeEntity goodsTypeEntity = new GoodsTypeEntity();
+		goodsTypeEntity.setGoodsName(goodsName);
+		goodsTypeEntity.setIsUse(isUse);
+		goodsTypeDao.insertGoodsType(goodsTypeEntity);
+		retResult.put("status",true);
+		retResult.put("ret",true);
+		CacheManager.clearOnly("goodsTypeEntity_CACHE");
+		return retResult;
 	}
 
 	@Override
-	public List<GoodsTypeBean> getGoodsType(GoodsTypeBean selectInfo) {
-		List<GoodsTypeBean> beanList = new ArrayList<GoodsTypeBean>();
-		try{
-			GoodsTypeEntity GoodsTypeE = (GoodsTypeEntity)ConvertService.convertBeanToEntity(selectInfo, new GoodsTypeEntity());
-			List<GoodsTypeEntity> entityList = new ArrayList<GoodsTypeEntity>();
-			if(!"".equals(GoodsTypeE.getPageSize())){
-				int pageSize =Integer.parseInt(GoodsTypeE.getPageSize());
-				int currentPage =Integer.parseInt(GoodsTypeE.getCurrentPage());
-				currentPage = (currentPage -1)*pageSize;
-				GoodsTypeE.setCurrentPage(currentPage+"");
+	public Map getTableInfoList(Map<String, Object> params) {
+		Map retMap = new HashMap();
+		List<GoodsTypeEntity> entityList = new ArrayList<GoodsTypeEntity>();
+		int page = Utils.getIntValue(Utils.null2String(params.get("currentPage")) ,1) ;
+		int pageSize = Utils.getIntValue(Utils.null2String(params.get("pageSize")) ,10) ;
+		PageHelper.startPage(page,pageSize);
+		GoodsTypeEntity searchEntity = new GoodsTypeEntity();
+
+		String goodsName = Utils.null2String(params.get("goodsName"));
+		searchEntity.setGoodsName(goodsName);
+		entityList = goodsTypeDao.getGoodsType(searchEntity);
+		PageInfo pageInfo = new PageInfo(entityList);
+		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
+		splitPageInterface.init(pageInfo);
+		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
+		retMap.put("data",splitPageInterface.splitPageBean.getData());
+		return retMap;
+	}
+
+	@Override
+	public Map getGoodsTypeFields(Map<String, Object> params) {
+		Map retMap = new HashMap();
+		int id = Utils.getIntValue(Utils.null2String(params.get("id")),0) ;
+		GoodsTypeEntity goodsTypeValueEntity = new GoodsTypeEntity();
+		if(id > 0){
+			GoodsTypeEntity searchEntity = new GoodsTypeEntity();
+			searchEntity.setId(id);
+			List<GoodsTypeEntity> driverInfoList = goodsTypeDao.getGoodsType(searchEntity);
+			if(driverInfoList.size() > 0){
+				goodsTypeValueEntity = driverInfoList.get(0);
 			}
-			entityList = goodsTypeDao.getGoodsType(GoodsTypeE);
-			for(int i=0;i<entityList.size(); i++){
-				GoodsTypeBean dirverBean = (GoodsTypeBean) ConvertService.convertEntityToBean(entityList.get(i), new GoodsTypeBean());
-				beanList.add(dirverBean);
-			}
-		}catch(Exception e){e.printStackTrace();}
-		return beanList;
-	}
-	
-	@Override
-	public String getGoodsTypeCount(GoodsTypeBean selectInfo) {
-		String count = "";
-		try{
-			GoodsTypeEntity GoodsTypeE = (GoodsTypeEntity)ConvertService.convertBeanToEntity(selectInfo, new GoodsTypeEntity());
-			count = goodsTypeDao.getGoodsTypeCount(GoodsTypeE);
-		}catch(Exception e){e.printStackTrace();}
-		return count;
+		}
+		String name = Utils.null2String(goodsTypeValueEntity.getGoodsName());
+		String isUse = Utils.null2String(goodsTypeValueEntity.getIsUse());
+		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
+		Map<String,Object> groupitem = new HashMap<String,Object>();
+		List itemlist = new ArrayList();
+		itemlist.add(FieldUtil.getFormItemForInput("goodsName", "货物名称",name , 3));
+		itemlist.add(FieldUtil.getFormItemForSwitch("isUse", "启用", isUse, 3));
+		groupitem.put("title", "基本信息");
+		groupitem.put("defaultshow", true);
+		groupitem.put("col", 3);
+		groupitem.put("items", itemlist);
+		grouplist.add(groupitem);
+		retMap.put("data",grouplist);
+		return retMap;
 	}
 
-	@Override
-	public void updateGoodsType(GoodsTypeBean updateInfo) {
-		GoodsTypeEntity GoodsTypeE = (GoodsTypeEntity) ConvertService.convertBeanToEntity(updateInfo, new GoodsTypeEntity());
-		goodsTypeDao.updateGoodsType(GoodsTypeE);
-		
-	}
-	
-	@Override
-	public void updateAllGoodsType(GoodsTypeBean updateInfo) {
-		GoodsTypeEntity GoodsTypeE = new GoodsTypeEntity();
-		goodsTypeDao.updateAllGoodsType(GoodsTypeE);
-		
-	}
-
-	@Override
-	public int insertGoodsType(GoodsTypeBean insertInfo) {
-		GoodsTypeEntity GoodsTypeE = (GoodsTypeEntity) ConvertService.convertBeanToEntity(insertInfo, new GoodsTypeEntity());
-		GoodsTypeE.setCreateDate(ConvertService.getDate());
-		GoodsTypeE.setCreateTime(ConvertService.getTime());
-		int statusFlg = goodsTypeDao.insertGoodsType(GoodsTypeE);
-		// TODO Auto-generated method stub
-		return statusFlg;
-	}
-	
 	public Map getAllGoodsType(){
 		Map retMap = new HashMap();
 		List<GoodsTypeEntity> entityList = new ArrayList<GoodsTypeEntity>();
@@ -110,6 +135,38 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		}
 		retMap.put("goodsTypeInfo",entityList);
 		return retMap;
+	}
+
+	@Override
+	public Map deleteGoodsType(Map<String, Object> params) {
+		Map retMap = new HashMap();
+		String delids = Utils.null2String(params.get("delIds"));
+		if(!delids.equals("")){
+			Arrays.asList(delids.split(",")).stream().filter(item->!item.equals("")).forEach(item->{
+				goodsTypeDao.deleteGoodsType(item);
+			});
+		}
+		retMap.put("status",true);
+		CacheManager.clearOnly("goodsTypeEntity_CACHE");
+		return retMap;
+	}
+
+	@Override
+	public Map updateGoodsType(Map<String, Object> params) {
+		Map retResult = new HashMap();
+		int id = Utils.getIntValue(Utils.null2String(params.get("goodsName"))) ;
+		String goodsName = Utils.null2String(params.get("goodsName"));
+		int isUse = Utils.getIntValue( Utils.null2String(params.get("isUse")));
+		GoodsTypeEntity goodsTypeEntity = new GoodsTypeEntity();
+		goodsTypeEntity.setId(id);
+		goodsTypeEntity.setGoodsName(goodsName);
+		goodsTypeEntity.setIsUse(isUse);
+		goodsTypeDao.updateGoodsType(goodsTypeEntity);
+		CacheManager.clearOnly("goodsTypeEntity_CACHE");
+		retResult.put("status",true);
+		retResult.put("ret",true);
+
+		return retResult;
 	}
 
 }

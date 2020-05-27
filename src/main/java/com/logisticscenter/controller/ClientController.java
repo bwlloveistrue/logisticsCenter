@@ -59,7 +59,7 @@ public class ClientController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/getTableInfoList")
-	public Map getClientInfo(HttpServletRequest request){
+	public Map getTableInfoList(HttpServletRequest request){
 
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -75,7 +75,7 @@ public class ClientController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/getClientInfoFields")
-	public Map getOrderTakersInfoFields(HttpServletRequest request){
+	public Map getClientInfoFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
 			apidatas.putAll(clientService.getClientInfoFields(ParamUtil.request2Map(request)));
