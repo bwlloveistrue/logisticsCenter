@@ -61,9 +61,6 @@ public class DriverServiceImpl implements DriverService {
         Map retMap = new HashMap();
         List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
         Map<String,Object> groupitem = new HashMap<String,Object>();
-        List<SearchConditionOption> sexOptions = selectOptionUtils.getSexOptions();
-        List<SearchConditionOption> educationOptions = selectOptionUtils.getEducationOptions();
-        List<SearchConditionOption> driverJobOptions = selectOptionUtils.getDriverJobOptions();
         List itemlist = new ArrayList();
         itemlist.add(FieldUtil.getFormItemForInput("name", "姓名", "", 3));
         itemlist.add(FieldUtil.getFormItemForInput("mobile", "手机号码", "", 3));
@@ -121,7 +118,7 @@ public class DriverServiceImpl implements DriverService {
         int maxId = driverInfoDao.insertDriverInfo(driverInfoEntity);
         CacheManager.clearOnly("driverEntity_CACHE");
         retResult.put("id",maxId);
-        return null;
+        return retResult;
     }
 
     @Override
@@ -215,6 +212,7 @@ public class DriverServiceImpl implements DriverService {
                 driverInfoDao.deleteDriverInfo(item);
             });
         }
+        CacheManager.clearOnly("driverEntity_CACHE");
         retMap.put("status",true);
         return retMap;
     }

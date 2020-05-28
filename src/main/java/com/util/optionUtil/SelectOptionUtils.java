@@ -149,4 +149,20 @@ public class SelectOptionUtils {
         return clientOptions;
     }
 
+    /**
+     * 获取车辆选择框
+     * @return
+     */
+    public List<SearchConditionOption> getTruckOptions(){
+        List<TruckEntity> allDriverMap =  commonTransMethod.getAllTruck();
+        List<SearchConditionOption> truckOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+        truckOptions.add(searchConditionOption);
+        allDriverMap.forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getTruckName(),false,true);
+            truckOptions.add(childOption);
+        });
+        return truckOptions;
+    }
+
 }

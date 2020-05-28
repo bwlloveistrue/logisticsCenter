@@ -131,6 +131,22 @@ public class CommonTransMethod {
 		return allGoodsType;
 	}
 
+	/**
+	 * @return 货物类型ID
+	 */
+	public  List<TruckEntity> getAllTruck(){
+		List<TruckEntity> allTruck = new ArrayList<TruckEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= truckService.getAllTruck();
+			allTruck = (List<TruckEntity>)beanMap.get("goodsTypeInfo");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return allTruck;
+	}
+
 
 	/**
 	 * @param id 司机ID
@@ -351,7 +367,7 @@ public class CommonTransMethod {
 		if("".equals(id) || id == null || id.equals("0")){
 			return "";
 		}
-		Map truckInfoMap= truckService.getTruck(new HashMap());
+		Map truckInfoMap= truckService.getAllTruck();
 		List<TruckEntity> entityList = (List<TruckEntity>)truckInfoMap.get("data");
 		try{
 			for(int i = 0;i<entityList.size();i++){
@@ -376,7 +392,7 @@ public class CommonTransMethod {
 		if("".equals(truckNmuber) || truckNmuber == null ){
 			return 0;
 		}
-		Map truckInfoMap= truckService.getTruck(new HashMap());
+		Map truckInfoMap= truckService.getAllTruck();
 		List<TruckEntity> entityList = (List<TruckEntity>)truckInfoMap.get("data");
 		try{
 			for(int i = 0;i<entityList.size();i++){
@@ -394,12 +410,9 @@ public class CommonTransMethod {
 
 	public  int createTruck(String truckNumber){
 		int maxId = 0;
-		TruckBean truckBean = new TruckBean(0,truckNumber,"1","","","",0,0,"","", "", "",
-				"", "",
-				"", "", "",
-				"", "", "");
-		maxId = truckService.insertTruck(truckBean);
-		CacheManager.clearOnly("truckBean_CACHE");
+		Map truckValueMap = new HashMap();
+		Map retMap = truckService.insertTruck(truckValueMap);
+		CacheManager.clearOnly("truckEntity_CACHE");
 		return maxId;
 	}
 

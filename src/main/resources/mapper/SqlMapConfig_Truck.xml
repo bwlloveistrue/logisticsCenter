@@ -2,73 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.logisticscenter.mapper.TruckInfoDao">
 
-    <!--查询所有车辆信息 -->
-    <select id="getTruck" resultType="truckEntity">
-    select a.* from truckInfo a left join commercialInsurance b on a.id=b.truckNumber left join compulsoryInsurance c on a.id = c.truckNumber
-  </select>
-
-    <!-- 根据车辆名称查询 -->
-    <select id="getTruckBy" resultType="truckEntity" parameterType="truckEntity">
-        select top ${pageSize} * from (select row_number() over(order by a.id desc) as rownumber,a.* from truckInfo a
-        left join commercialInsurance b on a.id=b.truckNumber left join compulsoryInsurance c on a.id = c.truckNumber
-        <where>
-            <if test="truckNumber != null and truckNumber != ''">
-                a.truckNumber like '%' + #{truckNumber}+ '%'
-            </if>
-            <if test="driver > 0">
-                a.driver = #{driver#
-            </if>
-            <if test="truckBrand != null and truckBrand != ''">
-                a.truckBrand like '%' + #{truckBrand}+ '%'
-            </if>
-            <if test="engineNumber != null and engineNumber != ''">
-                a.engineNumber like '%' + #{engineNumber}+ '%'
-            </if>
-            <if test="buyStartDate != null and buyStartDate != ''">
-                a.buyDate &gt; #{buyStartDate}
-            </if>
-            <if test="buyEndDate != null and buyEndDate != ''">
-                a.buyDate &lt; #{buyEndDate}
-            </if>
-        </where>
-        ) d
-        <where>
-            <if test="currentPage != null and currentPage != ''">
-                rownumber > ${currentPage}
-            </if>
-        </where>
+    <!-- 根据id查询详细 -->
+    <select id="getAllTruck" resultType="truckEntity">
+        select * from truckInfo order by id
     </select>
 
     <!-- 根据车辆名称查询 -->
-    <select id="getTruckByCount" resultType="String" parameterType="truckEntity">
-        select count(*) from (select row_number() over(order by a.id desc) as rownumber,a.* from truckInfo a left join
-        commercialInsurance b on a.id=b.truckNumber left join compulsoryInsurance c on a.id = c.truckNumber ) d
+    <select id="getTruckInfo" resultType="truckEntity" parameterType="truckEntity">
+        select * from truckInfo
         <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
             <if test="truckNumber != null and truckNumber != ''">
-                a.truckNumber like '%' + #{truckNumber}+ '%'
+                truckNumber like '%' + #{truckNumber}+ '%'
             </if>
             <if test="driver > 0">
-                a.driver = #{driver#
+                driver = #{driver}
             </if>
             <if test="truckBrand != null and truckBrand != ''">
-                a.truckBrand like '%' + #{truckBrand}+ '%'
+                truckBrand like '%' + #{truckBrand}+ '%'
             </if>
             <if test="engineNumber != null and engineNumber != ''">
-                a.engineNumber like '%' + #{engineNumber}+ '%'
+                engineNumber like '%' + #{engineNumber}+ '%'
             </if>
             <if test="buyStartDate != null and buyStartDate != ''">
-                a.buyDate &gt; #{buyStartDate}
+                buyDate &gt; #{buyStartDate}
             </if>
             <if test="buyEndDate != null and buyEndDate != ''">
-                a.buyDate &lt; #{buyEndDate}
+                buyDate &lt; #{buyEndDate}
             </if>
         </where>
-    </select>
 
-    <!-- 根据id获得用户对象 -->
-    <select id="getTruckById" resultType="truckEntity">
-     select * from truckInfo where id=#{id}
-  </select>
+    </select>
 
     <!-- 新增用户对象 -->
     <insert id="insertTruck" parameterType="truckEntity">
@@ -101,12 +67,8 @@
     </insert>
 
     <!-- 删除用户对象 -->
-    <delete id="deleteTruck" parameterType="java.util.List">
-        delete from truckInfo WHERE ID in
-        <foreach item="item" index="index" collection="list"
-                 open="(" separator="," close=")">
-            #{{item}
-        </foreach>
+    <delete id="deleteTruck" parameterType="string">
+        delete from truckInfo WHERE ID = #{id}
     </delete>
 
     <!-- 更新用户对象 -->

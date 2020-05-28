@@ -17,31 +17,7 @@ public class TruckEntity {
 		this.createDate = currentdate;
 		this.createTime = currenttime;
 	}
-	
-	public TruckEntity(TruckBean insertInfo) {
-		id = insertInfo.getId();
-		truckNumber = insertInfo.getTruckNumber();
-		truckOwner = insertInfo.getTruckOwner();
-		truckBrand = insertInfo.getTruckBrand();
-		truckName = insertInfo.getTruckName();
-		contactNumber = insertInfo.getContactNumber();
-		truckType = insertInfo.getTruckType();
-		driver = insertInfo.getDriver();
-		truckColor = insertInfo.getTruckColor();
-		truckLength = insertInfo.getTruckLength();
-		truckWidth = insertInfo.getTruckWidth();
-		truckHeight = insertInfo.getTruckHeight();
-		standardWeight = insertInfo.getStandardWeight();
-		driverLicense = insertInfo.getDriverLicense();
-		engineNumber = insertInfo.getEngineNumber();
-		madeDate = insertInfo.getMadeDate();
-		buyDate = insertInfo.getBuyDate();
-		worth = insertInfo.getWorth();
-		buyCost = insertInfo.getBuyCost();
-		remark = insertInfo.getRemark();
-	}
-	
-	
+
 	//id
 	private int id;
 	
