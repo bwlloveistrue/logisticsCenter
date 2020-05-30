@@ -22,6 +22,7 @@ public class TruckGoodsOrderTakerEntity {
 	private BigDecimal packagePrice;
 	//发车时间
 	private String beginDate;
+
 	//客户
 	private int client;
 	//客户

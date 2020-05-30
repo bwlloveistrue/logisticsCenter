@@ -33,7 +33,7 @@
                 buyDate &lt; #{buyEndDate}
             </if>
         </where>
-
+        order by id desc
     </select>
 
     <!-- 新增用户对象 -->

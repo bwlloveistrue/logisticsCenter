@@ -16,6 +16,7 @@ import com.logisticscenter.model.DriverInfoEntity;
 import com.logisticscenter.model.TruckEntity;
 import com.logisticscenter.service.TruckService;
 import com.splitPage.OrderTakerSplitPage;
+import com.splitPage.TruckSplitPage;
 import com.splitPage.pageInterface.SplitPageInterface;
 import com.util.FileldsUtil.FieldUtil;
 import com.util.FileldsUtil.SearchConditionOption;
@@ -59,7 +60,7 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     public Map getCondition(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         List<Map<String, Object>> grouplist = new ArrayList<Map<String, Object>>();
         Map<String, Object> groupitem = new HashMap<String, Object>();
         List itemlist = new ArrayList();
@@ -70,16 +71,18 @@ public class TruckServiceImpl implements TruckService {
 
         groupitem.put("title", "基本信息");
         groupitem.put("defaultshow", true);
-        groupitem.put("col", 6);
+        groupitem.put("col", 3);
         groupitem.put("items", itemlist);
         grouplist.add(groupitem);
-        retMap.put("data", grouplist);
-        return retMap;
+        retResult.put("data", grouplist);
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
     @Override
     public Map getTableInfoList(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         List<TruckEntity> entityList = new ArrayList<TruckEntity>();
         int page = Utils.getIntValue(Utils.null2String(params.get("currentPage")), 1);
         int pageSize = Utils.getIntValue(Utils.null2String(params.get("pageSize")), 10);
@@ -96,16 +99,18 @@ public class TruckServiceImpl implements TruckService {
         searchEntity.setEngineNumber(engineNumber);
         entityList = truckDao.getTruckInfo(searchEntity);
         PageInfo pageInfo = new PageInfo(entityList);
-        SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
+        TruckSplitPage splitPageInterface = new TruckSplitPage();
         splitPageInterface.init(pageInfo);
-        retMap.put("columns", splitPageInterface.splitPageBean.getColumns());
-        retMap.put("data", splitPageInterface.splitPageBean.getData());
-        return retMap;
+        retResult.put("columns", splitPageInterface.splitPageBean.getColumns());
+        retResult.put("data", splitPageInterface.splitPageBean.getData());
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
     @Override
     public Map getTruckFields(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         int id = Utils.getIntValue(Utils.null2String(params.get("id")),0) ;
         TruckEntity truckValueEntity = new TruckEntity();
         if(id > 0){
@@ -180,10 +185,10 @@ public class TruckServiceImpl implements TruckService {
         itemlist.add(FieldUtil.getFormItemForInput("truckOwner", "户主", truckOwner, 3));
         itemlist.add(FieldUtil.getFormItemForInput("truckBrand", "车牌型号", truckBrand, 3));
         itemlist.add(FieldUtil.getFormItemForInput("truckName", "车辆名称", truckName, 3));
-        itemlist.add(FieldUtil.getFormItemForInput("contactNumber", "司机联系方式", contactNumber, 3));
+//        itemlist.add(FieldUtil.getFormItemForInput("contactNumber", "司机联系方式", contactNumber, 3));
 //        itemlist.add(FieldUtil.getFormItemForInput("truckType", "车辆类型", "", 3));
 //        itemlist.add(FieldUtil.getFormItemForInput("driver", "司机", "", 3));
-        itemlist.add(FieldUtil.getFormItemForInputNumber("truckColor", "车辆颜色", truckColor, 3));
+        itemlist.add(FieldUtil.getFormItemForInput("truckColor", "车辆颜色", truckColor, 3));
         itemlist.add(FieldUtil.getFormItemForInputNumber("truckLength", "车辆长度", truckLength+"", 3));
         itemlist.add(FieldUtil.getFormItemForInputNumber("truckWidth", "车辆宽度", truckWidth+"", 3));
         itemlist.add(FieldUtil.getFormItemForInputNumber("truckHeight", "车辆高度", truckHeight+"", 3));
@@ -194,20 +199,22 @@ public class TruckServiceImpl implements TruckService {
         itemlist.add(FieldUtil.getFormItemForDate("buyDate", "买进日期", buyDate, 3,false));
         itemlist.add(FieldUtil.getFormItemForInputNumber("worth", "原值", worth+"", 3));
         itemlist.add(FieldUtil.getFormItemForInputNumber("buyCost", "买进价格", buyCost+"", 3));
-        itemlist.add(FieldUtil.getFormItemForInput("remark", "备注", remark, 3));
+        itemlist.add(FieldUtil.getFormItemForInput("remark", "备注", remark, 2));
 
         groupitem.put("title", "基本信息");
         groupitem.put("defaultshow", true);
-        groupitem.put("col", 6);
+        groupitem.put("col", 4);
         groupitem.put("items", itemlist);
         grouplist.add(groupitem);
-        retMap.put("data", grouplist);
-        return retMap;
+        retResult.put("data", grouplist);
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
     @Override
     public Map deleteTruck(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         String delids = Utils.null2String(params.get("delIds"));
         if (!delids.equals("")) {
             Arrays.asList(delids.split(",")).stream().filter(item -> !item.equals("")).forEach(item -> {
@@ -215,8 +222,9 @@ public class TruckServiceImpl implements TruckService {
             });
         }
         CacheManager.clearOnly("truckEntity_CACHE");
-        retMap.put("status", true);
-        return retMap;
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
     @Override
@@ -225,7 +233,7 @@ public class TruckServiceImpl implements TruckService {
         int id = Utils.getIntValue( Utils.null2String(params.get("id")));
         if(id > 0){
             //车牌号码
-            String truckNumber = Utils.null2String(params.get("truckNumbe"));
+            String truckNumber = Utils.null2String(params.get("truckNumber"));
 
             //户主
             String truckOwner = Utils.null2String(params.get("truckOwner"));
@@ -282,6 +290,7 @@ public class TruckServiceImpl implements TruckService {
             String remark = Utils.null2String(params.get("remark"));
 
             TruckEntity truckEntity = new TruckEntity();
+            truckEntity.setId(id);
             truckEntity.setTruckNumber(truckNumber);
             truckEntity.setTruckOwner(truckOwner);
             truckEntity.setTruckBrand(truckBrand);
@@ -301,9 +310,11 @@ public class TruckServiceImpl implements TruckService {
             truckEntity.setWorth(worth);
             truckEntity.setBuyCost(buyCost);
             truckEntity.setRemark(remark);
-            int maxId = truckDao.insertTruck(truckEntity);
+            int maxId = truckDao.updateTruck(truckEntity);
             CacheManager.clearOnly("driverEntity_CACHE");
             retResult.put("id",maxId);
+            retResult.put("status",true);
+            retResult.put("ret",true);
         }else{
             retResult.put("status",true);
             retResult.put("ret",false);
@@ -318,58 +329,58 @@ public class TruckServiceImpl implements TruckService {
     public Map insertTruck(Map<String, Object> params) {
         Map retResult = new HashMap();
         //车牌号码
-        String truckNumber = Utils.null2String(params.get("truckNumbe"));
+        String truckNumber = Utils.null2String(params.get("truckNumber"));
 
         //户主
-        String truckOwner = Utils.null2String(params.get("truckNumbe"));
+        String truckOwner = Utils.null2String(params.get("truckOwner"));
 
         //车牌型号
-        String truckBrand = Utils.null2String(params.get("truckNumbe"));
+        String truckBrand = Utils.null2String(params.get("truckBrand"));
 
         //车辆名称
-        String truckName = Utils.null2String(params.get("truckNumbe"));
+        String truckName = Utils.null2String(params.get("truckName"));
 
         //司机联系方式
-        String contactNumber = Utils.null2String(params.get("truckNumbe"));
+        String contactNumber = Utils.null2String(params.get("contactNumber"));
 
         //车辆类型
-        int truckType = Utils.getIntValue(Utils.null2String(params.get("truckNumbe")));
+        int truckType = Utils.getIntValue(Utils.null2String(params.get("truckType")));
 
         //司机
-        int driver = Utils.getIntValue(Utils.null2String(params.get("truckNumbe")));
+        int driver = Utils.getIntValue(Utils.null2String(params.get("driver")));
 
         //车辆颜色
-        String truckColor = Utils.null2String(params.get("truckNumbe"));
+        String truckColor = Utils.null2String(params.get("truckColor"));
 
         //车辆长度
-        BigDecimal truckLength = Utils.toDecimal(Utils.null2String(params.get("truckNumbe")), 0);
+        BigDecimal truckLength = Utils.toDecimal(Utils.null2String(params.get("truckLength")), 0);
 
         //车辆宽度
-        BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(params.get("truckNumbe")), 0);
+        BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(params.get("truckWidth")), 0);
 
         //车辆高度
-        BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(params.get("truckNumbe")), 0);
+        BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(params.get("truckHeight")), 0);
 
         //标准载重
-        BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(params.get("truckNumbe")), 0);
+        BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(params.get("standardWeight")), 0);
 
         //驾驶证号
-        String driverLicense = Utils.null2String(params.get("truckNumbe"));
+        String driverLicense = Utils.null2String(params.get("driverLicense"));
 
         //发动机号
-        String engineNumber = Utils.null2String(params.get("truckNumbe"));
+        String engineNumber = Utils.null2String(params.get("engineNumber"));
 
         //生产日期
-        String madeDate = Utils.null2String(params.get("truckNumbe"));
+        String madeDate = Utils.null2String(params.get("madeDate"));
 
         //买进日期
-        String buyDate = Utils.null2String(params.get("truckNumbe"));
+        String buyDate = Utils.null2String(params.get("buyDate"));
 
         //原值
-        BigDecimal worth = Utils.toDecimal(Utils.null2String(params.get("truckNumbe")), 0);
+        BigDecimal worth = Utils.toDecimal(Utils.null2String(params.get("worth")), 0);
 
         //买进价格
-        BigDecimal buyCost = Utils.toDecimal(Utils.null2String(params.get("truckNumbe")), 0);
+        BigDecimal buyCost = Utils.toDecimal(Utils.null2String(params.get("buyCost")), 0);
 
         //备注
         String remark = Utils.null2String(params.get("truckNumbe"));
@@ -397,7 +408,8 @@ public class TruckServiceImpl implements TruckService {
         int maxId = truckDao.insertTruck(truckEntity);
         CacheManager.clearOnly("driverEntity_CACHE");
         retResult.put("id",maxId);
-
+        retResult.put("status",true);
+        retResult.put("ret",true);
         return retResult;
     }
 }

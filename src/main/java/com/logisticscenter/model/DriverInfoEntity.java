@@ -11,7 +11,7 @@ public class DriverInfoEntity {
 	public DriverInfoEntity() {
 		Calendar today = Calendar.getInstance();
 		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
-		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2);
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
 		this.editDate = currentdate;
 		this.editTime = currenttime;
 		this.createDate = currentdate;
@@ -20,6 +20,8 @@ public class DriverInfoEntity {
 
 	//标识ID
 	private int id;
+	//id
+	private int key;
 	//司机姓名
 	private String name;
 	//司机性别
@@ -69,7 +71,17 @@ public class DriverInfoEntity {
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
 	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+	}
+
 	public String getName() {
 		return name;
 	}

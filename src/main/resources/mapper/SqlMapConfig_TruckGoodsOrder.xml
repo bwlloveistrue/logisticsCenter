@@ -81,59 +81,24 @@
 	<!-- 根据条件查询出车预录信息 -->
 	<select id="getTruckGoodsOrderTaker" resultType="truckGoodsOrderTakerEntity" parameterType="truckGoodsOrderTakerEntity">
 		select * from truckGoodsOrderTaker
+		<where>
+			<if test="id != null and id != ''">
+				id = #{id}
+			</if>
+			<if test="client != null and client != ''">
+				client = #{client}
+			</if>
+			<if test="orderStatus > 0">
+				orderStatus = #{orderStatus}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 根据条件查询出车预录详细信息 -->
 	<select id="getTruckGoodsOrderDetail" resultType="truckGoodsOrderDetailEntity" parameterType="truckGoodsOrderDetailEntity">
 		select * from truckGoodsOrderDetail 
-		<!--<dynamic prepend="WHERE ">-->
-			<!--<isNotEmpty prepend="AND" property="deleteFlg">-->
-				<!--deleteFlg = #deleteFlg#-->
-			<!--</isNotEmpty>-->
-			<!--<isNotEmpty prepend="AND" property="reportId">-->
-				<!--reportId = #reportId#-->
-			<!--</isNotEmpty>-->
-			<!--<isNotEmpty prepend="AND" property="goodsTypes">-->
-				<!--goodsType in ($goodsTypes$)-->
-			<!--</isNotEmpty>-->
-			<!--<isNotEmpty prepend="AND" property="startPlace">-->
-				<!--startPlace like '%' + #startPlace# +  '%' -->
-			<!--</isNotEmpty>-->
-			<!--<isNotEmpty prepend="AND" property="endPlace">-->
-				<!--endPlace like '%' + #endPlace# +  '%' -->
-			<!--</isNotEmpty>-->
-		<!--</dynamic>-->
-	</select>  
-	
-  <!-- 根据条件查询出车分页pageTotal -->
-	<select id="getTruckGoodsOrderByCount" resultType="String" parameterType="truckGoodsOrderTakerEntity">
-		select count(*) from ( select row_number() over(order by id) as rownumber,* from truckGoodsOrderTaker ) A
-		<!--<dynamic prepend="WHERE ">-->
-			<!--<isEqual prepend="AND" property="orderStatus" compareValue="0">-->
-				<!--(orderStatus = 0 or orderStatus is null)-->
-			<!--</isEqual>-->
-			<!--<isGreaterThan prepend="AND" property="orderStatus" compareValue="0">-->
-				<!--orderStatus = #orderStatus#-->
-			<!--</isGreaterThan>-->
-			<!--<isNotEmpty prepend="AND" property="deleteFlg">-->
-				<!--deleteFlg = #deleteFlg#-->
-			<!--</isNotEmpty>-->
-			<!--<isNotEmpty prepend="AND" property="beginDate">-->
-				<!--beginDate &gt; #beginDate#-->
-			<!--</isNotEmpty>-->
-			<!--<isGreaterThan prepend="AND" property="client" compareValue="-1">-->
-				<!--client=#client#-->
-			<!--</isGreaterThan>-->
-			<!--<isGreaterThan prepend="AND" property="goodsType" compareValue="-1">-->
-				<!--goodsType=#goodsType#-->
-			<!--</isGreaterThan>-->
-		<!--</dynamic>-->
-	</select> 
-  
-  <!-- 根据id获得预录出车信息-->
-	<select id="getTruckGoodsOrderTakerById" resultType="truckGoodsOrderTakerEntity">
-		select * from truckGoodsOrderTaker where id=#id#
-	</select> 
+
+	</select>
 	
 	<!-- 根据reportID获得预录出车信息-->
 	<select id="getTruckGoodsOrderDetailByReprotId" resultType="truckGoodsOrderDetailEntity">
@@ -141,21 +106,13 @@
 	</select>
 	
    <!-- 删除预录信息 -->
-	<update id="deleteTruckGoodsOrderTaker" parameterType="java.util.List">
-		update truckGoodsOrderTaker set deleteFlg = 1 ,orderStatus =2
-		<!--<iterate prepend="WHERE" open="(" close=")"-->
-			<!--conjunction="OR">-->
-			<!--id=#idLst[]#-->
-		<!--</iterate>-->
+	<update id="deleteTruckGoodsOrderTaker" parameterType="string">
+		update truckGoodsOrderTaker set deleteFlg = 1 ,orderStatus =2 where id = #{id}
 	</update>
 	
 	<!-- 删除预录详细信息 -->
-	<update id="deleteTruckGoodsOrderDetail" parameterType="java.util.List">
-		update truckGoodsOrderDetail set deleteFlg = 1 
-		<!--<iterate prepend="WHERE" open="(" close=")"-->
-			<!--conjunction="OR">-->
-			<!--reportId=#idLst[]#-->
-		<!--</iterate>-->
+	<update id="deleteTruckGoodsOrderDetail" parameterType="string">
+		update truckGoodsOrderDetail set deleteFlg = 1  where id = #{id}
 	</update>
    
    <!-- 更新预录出车信息 -->

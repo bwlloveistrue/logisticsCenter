@@ -4,11 +4,11 @@
 
     <!-- 获得全查询列表 -->
     <select id="getAllGoodsType" resultType="goodsTypeEntity">
-    select * from goodsType
+    select * from goodsType order by id desc
   </select>
 
     <!-- 根据id获得用户对象 -->
-    <select id="getGoodsType" resultType="goodsTypeEntity">
+    <select id="getGoodsTypeInfo" resultType="goodsTypeEntity">
      select * from goodsType
         <where>
             <if test="id != null and id != ''">
@@ -18,10 +18,11 @@
                 goodsName like '%' + #{goodsName} +  '%'
             </if>
         </where>
+        order by id desc
   </select>
 
     <!-- 新增用户对象 -->
-    <insert id="insertGoodsType" parameterType="goodsTypeEntity">
+    <insert id="insertGoodsTypeInfo" parameterType="goodsTypeEntity">
         insert into goodsType (goodsName,isUse,isDelete,createDate,createTime)
         values (#{goodsName},#{isUse},#{isDelete},#{createDate},#{createTime})
         <selectKey resultType="int" keyProperty="id" order="AFTER">
@@ -30,13 +31,13 @@
     </insert>
 
     <!-- 删除用户对象 -->
-    <delete id="deleteGoodsType" parameterType="string">
-        delete from goodsType WHERE ID = {id}
+    <delete id="deleteGoodsTypeInfo" parameterType="string">
+        delete from goodsType WHERE ID = #{id}
 
     </delete>
 
     <!-- 更新用户对象 -->
-    <update id="updateGoodsType" parameterType="goodsTypeEntity">
-      update goodsType set goodsname=#{goodsName},isUse=#{isUse} where id={id}
+    <update id="updateGoodsTypeInfo" parameterType="goodsTypeEntity">
+      update goodsType set goodsname=#{goodsName},isUse=#{isUse} where id=#{id}
    </update>
 </mapper>

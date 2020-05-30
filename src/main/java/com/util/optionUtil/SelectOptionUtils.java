@@ -26,9 +26,9 @@ public class SelectOptionUtils {
      */
     public List<SearchConditionOption> getOrderStatusOptions(){
         List<SearchConditionOption> orderStatusOptions = new ArrayList<SearchConditionOption>();
-        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",false,true);
         orderStatusOptions.add(searchConditionOption);
-        searchConditionOption = new SearchConditionOption("0","未分配",false,true);
+        searchConditionOption = new SearchConditionOption("0","未分配",true,true);
         orderStatusOptions.add(searchConditionOption);
         searchConditionOption = new SearchConditionOption("1","已分配",false,true);
         orderStatusOptions.add(searchConditionOption);

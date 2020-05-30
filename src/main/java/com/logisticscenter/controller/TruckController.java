@@ -72,7 +72,7 @@ public class TruckController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/getTruckFields")
+	@PostMapping("/getTruckInfoFields")
 	public Map getTruckFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -87,7 +87,7 @@ public class TruckController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/addTruck")
+	@PostMapping("/addTruckInfo")
 	public Map addTruck(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -103,7 +103,7 @@ public class TruckController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/updateTruck")
+	@PostMapping("/updateTruckInfo")
 	public Map updateTruck(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -119,7 +119,7 @@ public class TruckController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/deleteTruck")
+	@PostMapping("/deleteTruckInfo")
 	public Map deleteTruck(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {

@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import com.logisticscenter.mapper.DriverInfoDao;
 import com.logisticscenter.model.DriverInfoEntity;
 import com.logisticscenter.service.DriverService;
+import com.splitPage.DriverSplitPage;
 import com.splitPage.OrderTakerSplitPage;
 import com.splitPage.pageInterface.SplitPageInterface;
 import com.util.FileldsUtil.FieldUtil;
@@ -58,14 +59,13 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Map getCondition(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
         Map<String,Object> groupitem = new HashMap<String,Object>();
         List itemlist = new ArrayList();
         itemlist.add(FieldUtil.getFormItemForInput("name", "姓名", "", 3));
         itemlist.add(FieldUtil.getFormItemForInput("mobile", "手机号码", "", 3));
         itemlist.add(FieldUtil.getFormItemForInput("idNumber", "身份证号码", "", 3));
-        itemlist.add(FieldUtil.getFormItemForDate("startWorkDate", "入职时间", "", 3,false));
         itemlist.add(FieldUtil.getFormItemForInput("driverLicense", "驾驶证号", "", 3));
 
         groupitem.put("title", "基本信息");
@@ -73,8 +73,10 @@ public class DriverServiceImpl implements DriverService {
         groupitem.put("col", 6);
         groupitem.put("items", itemlist);
         grouplist.add(groupitem);
-        retMap.put("data",grouplist);
-        return retMap;
+        retResult.put("data",grouplist);
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
     @Override
@@ -118,12 +120,14 @@ public class DriverServiceImpl implements DriverService {
         int maxId = driverInfoDao.insertDriverInfo(driverInfoEntity);
         CacheManager.clearOnly("driverEntity_CACHE");
         retResult.put("id",maxId);
+        retResult.put("status",true);
+        retResult.put("ret",true);
         return retResult;
     }
 
     @Override
     public Map getTableInfoList(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         List<DriverInfoEntity> entityList = new ArrayList<DriverInfoEntity>();
         int page = Utils.getIntValue(Utils.null2String(params.get("currentPage")) ,1) ;
         int pageSize = Utils.getIntValue(Utils.null2String(params.get("pageSize")) ,10) ;
@@ -142,11 +146,13 @@ public class DriverServiceImpl implements DriverService {
         searchEntity.setDriverLicense(driverLicense);
         entityList = driverInfoDao.getDriverInfo(searchEntity);
         PageInfo pageInfo = new PageInfo(entityList);
-        SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
+        SplitPageInterface splitPageInterface = new DriverSplitPage();
         splitPageInterface.init(pageInfo);
-        retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
-        retMap.put("data",splitPageInterface.splitPageBean.getData());
-        return retMap;
+        retResult.put("columns",splitPageInterface.splitPageBean.getColumns());
+        retResult.put("data",splitPageInterface.splitPageBean.getData());
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
     @Override
@@ -205,7 +211,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Map deleteDriverInfo(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         String delids = Utils.null2String(params.get("delIds"));
         if(!delids.equals("")){
             Arrays.asList(delids.split(",")).stream().filter(item->!item.equals("")).forEach(item->{
@@ -213,8 +219,9 @@ public class DriverServiceImpl implements DriverService {
             });
         }
         CacheManager.clearOnly("driverEntity_CACHE");
-        retMap.put("status",true);
-        return retMap;
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
 
@@ -223,7 +230,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Map getDriverInfoFields(Map<String, Object> params) {
-        Map retMap = new HashMap();
+        Map retResult = new HashMap();
         int id = Utils.getIntValue(Utils.null2String(params.get("id")),0) ;
         DriverInfoEntity driverValueEntity = new DriverInfoEntity();
         if(id > 0){
@@ -259,8 +266,8 @@ public class DriverServiceImpl implements DriverService {
         List itemlist = new ArrayList();
         itemlist.add(FieldUtil.getFormItemForInput("name", "姓名", name, 3));
         itemlist.add(FieldUtil.getFormItemForSelect("sex", "性别", sex, 3,3,sexOptions));
-        itemlist.add(FieldUtil.getFormItemForInput("nativePlace", "国籍", nativePlace, 3));
-        itemlist.add(FieldUtil.getFormItemForSelect("education", "文化程度", education, 3,3,educationOptions));
+        itemlist.add(FieldUtil.getFormItemForInput("nativePlace", "国籍", nativePlace, 2));
+        itemlist.add(FieldUtil.getFormItemForSelect("education", "文化程度", education, 2,3,educationOptions));
         itemlist.add(FieldUtil.getFormItemForDate("birthday", "生日", birthday, 3,false));
         itemlist.add(FieldUtil.getFormItemForInputNumber("age", "年龄", age+"", 3));
         itemlist.add(FieldUtil.getFormItemForInput("address", "地址", address, 3));
@@ -269,18 +276,20 @@ public class DriverServiceImpl implements DriverService {
         itemlist.add(FieldUtil.getFormItemForInput("idNumber", "身份证号码", idNumber, 3));
         itemlist.add(FieldUtil.getFormItemForDate("startWorkDate", "入职时间", startWorkDate, 3,false));
         itemlist.add(FieldUtil.getFormItemForInput("driverLicense", "驾驶证号", driverLicense, 3));
-        itemlist.add(FieldUtil.getFormItemForInput("appraise", "评价", appraise, 3));
+        itemlist.add(FieldUtil.getFormItemForInput("appraise", "评价", appraise, 2));
         itemlist.add(FieldUtil.getFormItemForInputNumber("salary", "工资标准", salary, 3));
-        itemlist.add(FieldUtil.getFormItemForInput("remark", "备注", remark, 3));
-        itemlist.add(FieldUtil.getFormItemForSelect("job", "职位", job, 3,3,driverJobOptions));
+        itemlist.add(FieldUtil.getFormItemForInput("remark", "备注", remark, 2));
+        itemlist.add(FieldUtil.getFormItemForSelect("job", "职位", job, 2,3,driverJobOptions));
 
         groupitem.put("title", "基本信息");
         groupitem.put("defaultshow", true);
-        groupitem.put("col", 6);
+        groupitem.put("col", 4);
         groupitem.put("items", itemlist);
         grouplist.add(groupitem);
-        retMap.put("data",grouplist);
-        return retMap;
+        retResult.put("data",grouplist);
+        retResult.put("status",true);
+        retResult.put("ret",true);
+        return retResult;
     }
 
 }

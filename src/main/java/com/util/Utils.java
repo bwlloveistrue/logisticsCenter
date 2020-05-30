@@ -140,7 +140,7 @@ public class Utils {
 		String s1 = s;
 		BigDecimal bigdecimal = null;
 		if (null == s || s.equals(""))
-			return null;
+			return BigDecimal.valueOf(Float.parseFloat("0"));
 		try
 		{
 			int j = 0;

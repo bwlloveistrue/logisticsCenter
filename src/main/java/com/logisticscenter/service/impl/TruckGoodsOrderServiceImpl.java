@@ -238,7 +238,7 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 	@Override
 	public Map deleteOrderTaker(Map params) {
 		Map retMap = new HashMap();
-		String delids = Utils.null2String(retMap.get("delIds"));
+		String delids = Utils.null2String(params.get("delIds"));
 		if(!delids.equals("")){
 			Arrays.asList(delids.split(",")).stream().filter(item->!item.equals("")).forEach(item->{
 				truckGoodsOrderDao.deleteTruckGoodsOrderTaker(item);

@@ -8,14 +8,14 @@ import java.util.List;
 @Mapper
 public interface GoodsTypeDao {
 	
-	public abstract int insertGoodsType(GoodsTypeEntity insertInfo);
+	public abstract int insertGoodsTypeInfo(GoodsTypeEntity insertInfo);
 
-	public abstract List<GoodsTypeEntity> getGoodsType(GoodsTypeEntity selectInfo);
+	public abstract List<GoodsTypeEntity> getGoodsTypeInfo(GoodsTypeEntity selectInfo);
 	
 	public abstract List<GoodsTypeEntity> getAllGoodsType();
 	
-	public abstract int deleteGoodsType(String id);
+	public abstract int deleteGoodsTypeInfo(String id);
 	
-	public abstract void updateGoodsType(GoodsTypeEntity selectInfo);
+	public abstract void updateGoodsTypeInfo(GoodsTypeEntity selectInfo);
 
 }

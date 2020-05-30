@@ -179,10 +179,6 @@ public class CommonTransMethod {
 	 * @return 司机ID
 	 */
 	public  int getDriverId(String driverName){
-		if("".equals(driverName) || driverName == null){
-			return 0;
-		}
-
 		int retStr = 0;
 		List<DriverInfoBean> beanLst = null;
 		try{

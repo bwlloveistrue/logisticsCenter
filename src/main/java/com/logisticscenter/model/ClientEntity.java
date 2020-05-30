@@ -10,7 +10,7 @@ public class ClientEntity {
 		Calendar today = Calendar.getInstance();
 		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
 
-		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2);
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
 		this.editDate = currentdate;
 		this.editTime = currenttime;
 		this.createDate = currentdate;
@@ -19,9 +19,11 @@ public class ClientEntity {
 
 	//标识ID
 	private int id;
+	//id
+	private int key;
 	//客户名称
 	private String clientName;
-	//联系方式
+	//联系人
 	private String contant;
 	//手机
 	private String mobile;
@@ -46,7 +48,17 @@ public class ClientEntity {
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
 	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+	}
+
 	public String getClientName() {
 		return clientName;
 	}

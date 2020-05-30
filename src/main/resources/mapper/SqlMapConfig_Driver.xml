@@ -4,7 +4,7 @@
 
 	<!-- 获得全查询列表 -->
 	<select id="getAllDriverInfo" resultType="driverInfoEntity">
-		select * from driverInfo order by id
+		select * from driverInfo order by id desc
 	</select>
   
   <!-- 根据id获得用户对象 -->
@@ -30,10 +30,11 @@
 				driverLicense =  #{driverLicense}
 			</if>
 		</where>
+		order by id desc
 	</select>
   
    <!-- 新增用户对象 -->
-   <insert id="insertDriver" parameterType="driverInfoEntity">
+   <insert id="insertDriverInfo" parameterType="driverInfoEntity">
       insert into driverInfo (
 	   name,
 	   sex,
@@ -81,12 +82,12 @@
    </insert>
    
    <!-- 删除用户对象 -->
-   <delete id="deleteDriver" parameterType="string">
+   <delete id="deleteDriverInfo" parameterType="string">
 	delete from driverInfo  WHERE ID =#{id}
    </delete>
    
    <!-- 更新用户对象 -->
-   <update id="updateDriver" parameterType="driverInfoEntity">
+   <update id="updateDriverInfo" parameterType="driverInfoEntity">
       update driverInfo set 
 		  name= #{name}, 
 		  sex= #{sex}, 

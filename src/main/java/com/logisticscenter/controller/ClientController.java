@@ -89,7 +89,7 @@ public class ClientController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/addClient")
+	@PostMapping("/addClientInfo")
 	public Map addClient(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -105,7 +105,7 @@ public class ClientController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/updateClient")
+	@PostMapping("/updateClientInfo")
 	public Map updateClient(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -121,7 +121,7 @@ public class ClientController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/deleteClient")
+	@PostMapping("/deleteClientInfo")
 	public Map deleteClient(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {

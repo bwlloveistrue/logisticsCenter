@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.logisticscenter.mapper.ClientDao;
 import com.logisticscenter.model.ClientEntity;
 import com.logisticscenter.service.ClientService;
+import com.splitPage.ClientSplitPage;
 import com.splitPage.EditTableBean;
 import com.splitPage.OrderTakerSplitPage;
 import com.splitPage.pageInterface.SplitPageInterface;
@@ -31,7 +32,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Map getCondition(Map<String, Object> params) {
-		Map retMap = new HashMap();
+		Map retResult = new HashMap();
 		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
 		Map<String,Object> groupitem = new HashMap<String,Object>();
 		List itemlist = new ArrayList();
@@ -43,12 +44,14 @@ public class ClientServiceImpl implements ClientService {
 		groupitem.put("col", 6);
 		groupitem.put("items", itemlist);
 		grouplist.add(groupitem);
-		retMap.put("data",grouplist);
-		return retMap;
+		retResult.put("data",grouplist);
+		retResult.put("status",true);
+		retResult.put("ret",true);
+		return retResult;
 	}
 
 	public Map getTableInfoList(Map<String, Object> params){
-		Map retMap = new HashMap();
+		Map retResult = new HashMap();
 		List<ClientEntity> entityList = new ArrayList<ClientEntity>();
 		int page = Utils.getIntValue(Utils.null2String(params.get("currentPage")) ,1) ;
 		int pageSize = Utils.getIntValue(Utils.null2String(params.get("pageSize")) ,10) ;
@@ -63,16 +66,18 @@ public class ClientServiceImpl implements ClientService {
 		searchEntity.setAddress(address);
 		entityList = clientDao.getClient(searchEntity);
 		PageInfo pageInfo = new PageInfo(entityList);
-		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
+		SplitPageInterface splitPageInterface = new ClientSplitPage();
 		splitPageInterface.init(pageInfo);
-		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
-		retMap.put("data",splitPageInterface.splitPageBean.getData());
-		return retMap;
+		retResult.put("columns",splitPageInterface.splitPageBean.getColumns());
+		retResult.put("data",splitPageInterface.splitPageBean.getData());
+		retResult.put("status",true);
+		retResult.put("ret",true);
+		return retResult;
 	}
 
 	@Override
 	public Map getClientInfoFields(Map<String, Object> params) {
-		Map retMap = new HashMap();
+		Map retResult = new HashMap();
 		int id = Utils.getIntValue(Utils.null2String(params.get("id")),0) ;
 		ClientEntity clientValueEntity = new ClientEntity();
 		if(id > 0){
@@ -97,7 +102,7 @@ public class ClientServiceImpl implements ClientService {
 		itemlist.add(FieldUtil.getFormItemForInput("clientName", "客户名称", clientName, 3));
 		itemlist.add(FieldUtil.getFormItemForInput("contant", "联系方式", contant, 2));
 		itemlist.add(FieldUtil.getFormItemForInput("mobile", "手机", mobile, 3));
-		itemlist.add(FieldUtil.getFormItemForInput("fax", "传真", fax, 3));
+		itemlist.add(FieldUtil.getFormItemForInput("fax", "传真", fax, 2));
 		itemlist.add(FieldUtil.getFormItemForInput("address", "地址", address, 3));
 		itemlist.add(FieldUtil.getFormItemForSelect("products", "主要货物", products,2, 2,goodsTypeOptions));
 		groupitem.put("title", "基本信息");
@@ -105,9 +110,10 @@ public class ClientServiceImpl implements ClientService {
 		groupitem.put("col", 3);
 		groupitem.put("items", itemlist);
 		grouplist.add(groupitem);
-		retMap.put("data",grouplist);
-
-		return retMap;
+		retResult.put("data",grouplist);
+		retResult.put("status",true);
+		retResult.put("ret",true);
+		return retResult;
 	}
 
 
@@ -136,6 +142,8 @@ public class ClientServiceImpl implements ClientService {
 		}
 
 		retResult.put("clientInfo",entityList);
+		retResult.put("status",true);
+		retResult.put("ret",true);
 		return retResult;
 	}
 
@@ -143,17 +151,19 @@ public class ClientServiceImpl implements ClientService {
 	public Map insertClient(Map<String, Object> params) {
 		Map retResult = new HashMap();
 		ClientEntity clientE = new ClientEntity();
-		clientE.setClientName((String)params.get("clientName"));
-		clientE.setContant((String)params.get("contant"));
-		clientE.setMobile((String)params.get("mobile"));
-		clientE.setFax((String)params.get("fax"));
-		clientE.setAddress((String)params.get("address"));
-		clientE.setProducts((String)params.get("products"));
+		clientE.setClientName(Utils.null2String(params.get("clientName")));
+		clientE.setContant(Utils.null2String(params.get("contant")));
+		clientE.setMobile(Utils.null2String(params.get("mobile")));
+		clientE.setFax(Utils.null2String(params.get("fax")));
+		clientE.setAddress(Utils.null2String(params.get("address")));
+		clientE.setProducts(Utils.null2String(params.get("products")));
 		int maxId = clientDao.insertClient(clientE);
 		int c     = clientE.getId();
 		CacheManager.clearOnly("clientEntity_CACHE");
 		retResult.put("id",maxId);
 		retResult.put("c",c);
+		retResult.put("status",true);
+		retResult.put("ret",true);
 		return retResult;
 	}
 
@@ -163,30 +173,33 @@ public class ClientServiceImpl implements ClientService {
 		int count=0;
 		Map retResult = new HashMap();
 		ClientEntity clientE = new ClientEntity();
-		clientE.setId(Integer.parseInt((String)params.get("id")));
-		clientE.setClientName((String)params.get("clientName"));
-		clientE.setContant((String)params.get("contant"));
-		clientE.setMobile((String)params.get("mobile"));
-		clientE.setFax((String)params.get("fax"));
-		clientE.setAddress((String)params.get("address"));
-		clientE.setProducts((String)params.get("products"));
+		clientE.setId( Utils.getIntValue(Utils.null2String(params.get("id")) ) );
+		clientE.setClientName(Utils.null2String(params.get("clientName")));
+		clientE.setContant(Utils.null2String(params.get("contant")));
+		clientE.setMobile(Utils.null2String(params.get("mobile")));
+		clientE.setFax(Utils.null2String(params.get("fax")));
+		clientE.setAddress(Utils.null2String(params.get("address")));
+		clientE.setProducts(Utils.null2String(params.get("products")));
 		count = clientDao.updateClient(clientE);
 		CacheManager.clearOnly("clientEntity_CACHE");
 		retResult.put("count",count);
+		retResult.put("status",true);
+		retResult.put("ret",true);
 		return retResult;
 	}
 
 	@Override
 	public Map deleteClient(Map<String, Object> params) {
-		Map retMap = new HashMap();
+		Map retResult = new HashMap();
 		String delids = Utils.null2String(params.get("delIds"));
 		if(!delids.equals("")){
 			Arrays.asList(delids.split(",")).stream().filter(item->!item.equals("")).forEach(item->{
 				clientDao.deleteClient(item);
 			});
 		}
-		retMap.put("status",true);
-		return retMap;
+		retResult.put("status",true);
+		retResult.put("ret",true);
+		return retResult;
 
 	}
 

@@ -89,7 +89,7 @@ public class DriverController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/addDriver")
+	@PostMapping("/addDriverInfo")
 	public Map addDriver(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -105,7 +105,7 @@ public class DriverController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/updateDriver")
+	@PostMapping("/updateDriverInfo")
 	public Map updateDriver(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -121,7 +121,7 @@ public class DriverController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/deleteDriver")
+	@PostMapping("/deleteDriverInfo")
 	public Map deleteDriver(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {

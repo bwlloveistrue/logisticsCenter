@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/goodsType")
+@RequestMapping(value = "/api/goodsTypeInfo")
 public class GoodsTypeController implements Serializable{
 	
 	/**
@@ -72,7 +72,7 @@ public class GoodsTypeController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/getGoodsTypeFields")
+	@PostMapping("/getGoodsTypeInfoFields")
 	public Map getGoodsTypeFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -87,7 +87,7 @@ public class GoodsTypeController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/addGoodsType")
+	@PostMapping("/addGoodsTypeInfo")
 	public Map addGoodsType(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -103,7 +103,7 @@ public class GoodsTypeController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/updateGoodsType")
+	@PostMapping("/updateGoodsTypeInfo")
 	public Map updateGoodsType(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -119,7 +119,7 @@ public class GoodsTypeController implements Serializable{
 
 
 	@ResponseBody
-	@PostMapping("/deleteGoodsType")
+	@PostMapping("/deleteGoodsTypeInfo")
 	public Map deleteGoodsType(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {

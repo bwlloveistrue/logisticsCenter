@@ -13,6 +13,7 @@ import com.logisticscenter.model.DriverInfoEntity;
 import com.logisticscenter.model.GoodsTypeEntity;
 import com.logisticscenter.model.GoodsTypeEntity;
 import com.logisticscenter.service.GoodsTypeService;
+import com.splitPage.GoodsTypeSplitPage;
 import com.splitPage.OrderTakerSplitPage;
 import com.splitPage.pageInterface.SplitPageInterface;
 import com.util.FileldsUtil.FieldUtil;
@@ -54,7 +55,7 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		GoodsTypeEntity goodsTypeEntity = new GoodsTypeEntity();
 		goodsTypeEntity.setGoodsName(goodsName);
 		goodsTypeEntity.setIsUse(isUse);
-		goodsTypeDao.insertGoodsType(goodsTypeEntity);
+		goodsTypeDao.insertGoodsTypeInfo(goodsTypeEntity);
 		retResult.put("status",true);
 		retResult.put("ret",true);
 		CacheManager.clearOnly("goodsTypeEntity_CACHE");
@@ -72,9 +73,9 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 
 		String goodsName = Utils.null2String(params.get("goodsName"));
 		searchEntity.setGoodsName(goodsName);
-		entityList = goodsTypeDao.getGoodsType(searchEntity);
+		entityList = goodsTypeDao.getGoodsTypeInfo(searchEntity);
 		PageInfo pageInfo = new PageInfo(entityList);
-		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
+		SplitPageInterface splitPageInterface = new GoodsTypeSplitPage();
 		splitPageInterface.init(pageInfo);
 		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
 		retMap.put("data",splitPageInterface.splitPageBean.getData());
@@ -89,7 +90,7 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		if(id > 0){
 			GoodsTypeEntity searchEntity = new GoodsTypeEntity();
 			searchEntity.setId(id);
-			List<GoodsTypeEntity> driverInfoList = goodsTypeDao.getGoodsType(searchEntity);
+			List<GoodsTypeEntity> driverInfoList = goodsTypeDao.getGoodsTypeInfo(searchEntity);
 			if(driverInfoList.size() > 0){
 				goodsTypeValueEntity = driverInfoList.get(0);
 			}
@@ -143,7 +144,7 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		String delids = Utils.null2String(params.get("delIds"));
 		if(!delids.equals("")){
 			Arrays.asList(delids.split(",")).stream().filter(item->!item.equals("")).forEach(item->{
-				goodsTypeDao.deleteGoodsType(item);
+				goodsTypeDao.deleteGoodsTypeInfo(item);
 			});
 		}
 		retMap.put("status",true);
@@ -154,14 +155,14 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 	@Override
 	public Map updateGoodsType(Map<String, Object> params) {
 		Map retResult = new HashMap();
-		int id = Utils.getIntValue(Utils.null2String(params.get("goodsName"))) ;
+		int id = Utils.getIntValue(Utils.null2String(params.get("id"))) ;
 		String goodsName = Utils.null2String(params.get("goodsName"));
 		int isUse = Utils.getIntValue( Utils.null2String(params.get("isUse")));
 		GoodsTypeEntity goodsTypeEntity = new GoodsTypeEntity();
 		goodsTypeEntity.setId(id);
 		goodsTypeEntity.setGoodsName(goodsName);
 		goodsTypeEntity.setIsUse(isUse);
-		goodsTypeDao.updateGoodsType(goodsTypeEntity);
+		goodsTypeDao.updateGoodsTypeInfo(goodsTypeEntity);
 		CacheManager.clearOnly("goodsTypeEntity_CACHE");
 		retResult.put("status",true);
 		retResult.put("ret",true);

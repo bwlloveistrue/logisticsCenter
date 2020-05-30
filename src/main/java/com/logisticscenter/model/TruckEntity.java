@@ -11,7 +11,7 @@ public class TruckEntity {
 	public TruckEntity(){
 		Calendar today = Calendar.getInstance();
 		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
-		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2);
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
 		this.editDate = currentdate;
 		this.editTime = currenttime;
 		this.createDate = currentdate;
@@ -20,6 +20,9 @@ public class TruckEntity {
 
 	//id
 	private int id;
+
+	//id
+	private int key;
 	
 	//车牌号码
 	private String  truckNumber ;
@@ -107,7 +110,17 @@ public class TruckEntity {
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
 	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+	}
+
 	public String getTruckNumber() {
 		return truckNumber;
 	}

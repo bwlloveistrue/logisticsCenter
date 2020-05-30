@@ -9,7 +9,7 @@ public class GoodsTypeEntity {
 	public GoodsTypeEntity() {
 		Calendar today = Calendar.getInstance();
 		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
-		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2);
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
 		this.createDate = currentdate;
 		this.createTime = currenttime;
 	}
@@ -22,6 +22,9 @@ public class GoodsTypeEntity {
 
 	//标识ID
 	private int id;
+
+	//标识ID
+	private int key;
 	//货物名称
 	private String goodsName;
 	//是否启用
@@ -39,6 +42,15 @@ public class GoodsTypeEntity {
 
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
+	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
 	}
 
 	public String getGoodsName() {
