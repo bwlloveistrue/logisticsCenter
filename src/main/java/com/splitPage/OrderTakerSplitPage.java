@@ -29,10 +29,10 @@ public class OrderTakerSplitPage extends SplitPageInterface {
         pageCell = new PageCell("货物类型","goodsTypeShow","goodsTypeShow","15%",false,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("始发地","startPlace","startPlace","15%",false,false);
+        pageCell = new PageCell("始发地","startPlace","startPlace","10%",false,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("目的地","endPlace","endPlace","15%",false,false);
+        pageCell = new PageCell("目的地","endPlace","endPlace","10%",false,false);
         pageCellList.add(pageCell);
 
 //        pageCell = new PageCell("单价","price","price","5%",true,false);
@@ -44,7 +44,10 @@ public class OrderTakerSplitPage extends SplitPageInterface {
         pageCell = new PageCell("出发日期","beginDate","beginDate","10%",true,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("是否包车","packageFlg","packageFlg","15%",true,false);
+        pageCell = new PageCell("状态","orderStatusName","orderStatusName","10%",true,false);
+        pageCellList.add(pageCell);
+
+        pageCell = new PageCell("是否包车","packageFlgShow","packageFlgShow","15%",true,false);
         pageCellList.add(pageCell);
 
         pageCell = new PageCell("创建日期","createDate","createDate","10%",true,false);

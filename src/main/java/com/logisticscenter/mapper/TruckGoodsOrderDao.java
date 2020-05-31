@@ -36,27 +36,7 @@ public interface TruckGoodsOrderDao {
 	 * @return
 	 */
 	public abstract List<TruckGoodsOrderDetailEntity> getTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity selectInfo);
-	
-	/**
-	 * 分页用,获得要查询的总数
-	 * @param selectInfo
-	 * @return
-	 */
-	public abstract String getTruckGoodsOrderByCount(TruckGoodsOrderTakerEntity selectInfo);
-	
-	/**
-	 * 根据ID获得预录车辆信息
-	 * @param id
-	 * @return
-	 */
-	public abstract List<TruckGoodsOrderTakerEntity> getTruckGoodsOrderTakerById(String id);
-	
-	/**
-	 * 根据ID获得预录车辆详细信息
-	 * @param id
-	 * @return
-	 */
-	public abstract List<TruckGoodsOrderDetailEntity> getTruckGoodsOrderDetailById(String id);
+
 	 
 	/**
 	 * 根据ID删除预录信息
@@ -71,6 +51,13 @@ public interface TruckGoodsOrderDao {
 	 * @return
 	 */
 	public abstract int deleteTruckGoodsOrderDetail(String reportId);
+
+	/**
+	 * 根据ID删除预录信息
+	 * @param delEntity
+	 * @return
+	 */
+	public abstract int deleteTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity delEntity);
 	
 	/**
 	 * 更新预录信息(现在不用)
@@ -84,9 +71,5 @@ public interface TruckGoodsOrderDao {
 	 */
 	public abstract void updateTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity updateInfo);
 
-	/**
-	 * @param entity
-	 */
-	public abstract int updateTruckGoodsOrderStatus(TruckGoodsOrderTakerEntity entity);
 	
 }

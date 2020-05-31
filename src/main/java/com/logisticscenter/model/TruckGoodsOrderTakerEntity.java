@@ -2,6 +2,7 @@ package com.logisticscenter.model;
 
 import com.cache.Cache;
 import com.cache.CacheManager;
+import com.common.CommonTransMethod;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,8 @@ public class TruckGoodsOrderTakerEntity {
 
 	//是否包车
 	private int packageFlg;
+
+	private String packageFlgShow;
 	//包车价格
 	private BigDecimal packagePrice;
 	//发车时间
@@ -46,7 +49,10 @@ public class TruckGoodsOrderTakerEntity {
 	private String startPlace;
 	private String endPlace;
 	//预录状态
-	private int orderStatus;
+	private int orderStatus = -1;
+
+	//预录状态
+	private String orderStatusName;
 	//修改日期
 	private String editDate;
 	//修改时间
@@ -81,8 +87,17 @@ public class TruckGoodsOrderTakerEntity {
 	
 	public void setPackageFlg(int packageFlg) {
 		this.packageFlg = packageFlg;
+		this.setPackageFlgShow(packageFlg+"");
 	}
-	
+
+	public String getPackageFlgShow() {
+		return packageFlgShow;
+	}
+
+	public void setPackageFlgShow(String packageFlgShow) {
+		this.packageFlgShow = CommonTransMethod.getIsOrNotString(packageFlgShow);
+	}
+
 	public BigDecimal getPackagePrice() {
 		return packagePrice;
 	}
@@ -113,16 +128,8 @@ public class TruckGoodsOrderTakerEntity {
 	}
 
 	public void setClientName(String client) {
-		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
-		String clientNameTemp = "";
-		for (int i = 0; i < cacheList.size(); i++) {
-			String key = cacheList.get(i).getKey();
-			if(key.equals(this.client+"")){
-				ClientEntity clientEntity = (ClientEntity) cacheList.get(i).getValue();
-				clientNameTemp = clientEntity.getClientName();
-			}
-		}
-		this.clientName = clientNameTemp;
+
+		this.clientName = CommonTransMethod.getClientName(client);
 	}
 
 	public String getGoodsType() {
@@ -131,6 +138,15 @@ public class TruckGoodsOrderTakerEntity {
 
 	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType;
+		this.setGoodsTypeName(goodsType);
+	}
+
+	public String getGoodsTypeName() {
+		return goodsTypeName;
+	}
+
+	public void setGoodsTypeName(String goodsTypeName) {
+		this.goodsTypeName = CommonTransMethod.getGoodsTypeName(goodsTypeName);
 	}
 
 
@@ -211,6 +227,14 @@ public class TruckGoodsOrderTakerEntity {
 
 	public void setOrderStatus(int orderStatus) {
 		this.orderStatus = orderStatus;
+		this.setOrderStatusName(orderStatus+"");
 	}
 
+	public String getOrderStatusName() {
+		return orderStatusName;
+	}
+
+	public void setOrderStatusName(String orderStatusName) {
+		this.orderStatusName = CommonTransMethod.getOrderStatusName(orderStatusName);
+	}
 }

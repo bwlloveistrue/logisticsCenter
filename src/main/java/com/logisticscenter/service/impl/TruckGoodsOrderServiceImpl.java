@@ -40,7 +40,7 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		Map<String,Object> groupitem = new HashMap<String,Object>();
 		List itemlist = new ArrayList();
 		List<SearchConditionOption> orderStatusOptions = selectOptionUtils.getOrderStatusOptions();
-		itemlist.add(FieldUtil.getFormItemForSelect("orderStatus", "状态", "", 2, 2, orderStatusOptions));
+		itemlist.add(FieldUtil.getFormItemForSelect("orderStatus", "状态", "0", 2, 2, orderStatusOptions));
 		List<SearchConditionOption> clientOptions = selectOptionUtils.getClientOptions();
 		itemlist.add(FieldUtil.getFormItemForSelect("client", "客户", "", 2, 2, clientOptions));
 		List<SearchConditionOption> driverOptions = selectOptionUtils.getDriverOptions();
@@ -65,6 +65,10 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		PageHelper.startPage(page,pageSize);
 
 		TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
+		int client = Utils.getIntValue(Utils.null2String(params.get("client")),0);
+		int orderStatus = Utils.getIntValue(Utils.null2String(params.get("orderStatus")),-1) ;
+		truckGoodsOrderTakerEntity.setClient(client);
+		truckGoodsOrderTakerEntity.setOrderStatus(orderStatus);
 		List<TruckGoodsOrderTakerEntity> truckGoodsOrderTakerEntityList = truckGoodsOrderDao.getTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
 		PageInfo pageInfo = new PageInfo(truckGoodsOrderTakerEntityList);
 		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
@@ -79,11 +83,27 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		Map retMap = new HashMap();
 		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
 		Map<String,Object> groupitem = new HashMap<String,Object>();
+		int id = Utils.getIntValue(Utils.null2String(params.get("id")),0) ;
+		TruckGoodsOrderTakerEntity truckGoodsOrderTakerValueEntity = new TruckGoodsOrderTakerEntity();
+		if(id > 0){
+			TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
+			truckGoodsOrderTakerEntity.setId(id);
+			List<TruckGoodsOrderTakerEntity> truckGoodsOrderTakerEntityList = truckGoodsOrderDao.getTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
+			if(truckGoodsOrderTakerEntityList.size() > 0){
+				truckGoodsOrderTakerValueEntity = truckGoodsOrderTakerEntityList.get(0);
+			}
+		}
+		String client = Utils.null2String(truckGoodsOrderTakerValueEntity.getClient() );
+		String beginDate = Utils.null2String(truckGoodsOrderTakerValueEntity.getBeginDate());
+		String packageFlg = Utils.null2String(truckGoodsOrderTakerValueEntity.getPackageFlg());
+		String packageFlgPrice = Utils.null2String(truckGoodsOrderTakerValueEntity.getPackagePrice());
 		List itemlist = new ArrayList();
 		List<SearchConditionOption> clientOptions = selectOptionUtils.getClientOptions();
-		itemlist.add(FieldUtil.getFormItemForSelect("client", "客户", "", 3, 2, clientOptions));
-		itemlist.add(FieldUtil.getFormItemForDate("beginDate", "出发时间", "", 3,false));
-		itemlist.add(FieldUtil.getFormItemForCheckbox("packageFlg", "是否包车", "", 3));
+		List<SearchConditionOption> goodsTypeOptions = selectOptionUtils.getGoodsTypeOptions();
+		itemlist.add(FieldUtil.getFormItemForSelect("client", "客户", client, 3, 2, clientOptions));
+		itemlist.add(FieldUtil.getFormItemForDate("beginDate", "出发时间", beginDate, 3,false));
+		itemlist.add(FieldUtil.getFormItemForCheckbox("packageFlg", "是否包车", packageFlg, 3));
+		itemlist.add(FieldUtil.getFormItemForInputNumber("packageFlgPrice", "包车价格", packageFlgPrice, 3));
 		groupitem.put("title", "基本信息");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 3);
@@ -93,7 +113,6 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 
 		List<EditTableBean> editTableBeanList = new ArrayList<EditTableBean>();
 		//货物类型
-		List<SearchConditionOption> goodsTypeOptions = selectOptionUtils.getGoodsTypeOptions();
 		EditTableBean editTableBean = new EditTableBean("货物类型","goodsType","20%",true);
 		Map goodsTypeMap = FieldUtil.getFormItemForSelect("goodsType", "货物类型", "", 3, 2, goodsTypeOptions);
 		editTableBean.setCell(goodsTypeMap);
@@ -126,8 +145,11 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 
 		retMap.put("editcolumns",editTableBeanList);
 
-		List editTableDatasList = new ArrayList();
-		retMap.put("editdatas",editTableDatasList);
+//		List editTableDatasList = new ArrayList();
+		TruckGoodsOrderDetailEntity searchForOrderDetail = new TruckGoodsOrderDetailEntity();
+		searchForOrderDetail.setReportId(id);
+		List<TruckGoodsOrderDetailEntity> truckGoodsOrderDetailEntities = truckGoodsOrderDao.getTruckGoodsOrderDetail(searchForOrderDetail);
+		retMap.put("editdatas",truckGoodsOrderDetailEntities);
 
 		return retMap;
 	}
@@ -178,16 +200,19 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		retMap.put("status",true);
 		String orderTakerInfo = Utils.null2String(params.get("orderTakerInfo"));
 		String mainInfo = Utils.null2String(params.get("mainInfo"));
-		String deleteIds = Utils.null2String(params.get("deleteIds"));
+		int orderId =Utils.getIntValue(Utils.null2String(params.get("id")));
 		if(!mainInfo.equals("")){
 			JSONObject orderTakerInfoJson = JSONObject.parseObject(mainInfo);
-			int orderId =Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("id")));
+
 			TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
 			truckGoodsOrderTakerEntity.setClient(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("client"))));
 			truckGoodsOrderTakerEntity.setBeginDate(Utils.null2String(orderTakerInfoJson.get("beginDate")));
 			truckGoodsOrderTakerEntity.setPackageFlg(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("packageFlg"))));
 			truckGoodsOrderTakerEntity.setId(orderId);
 			truckGoodsOrderDao.updateTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
+			TruckGoodsOrderDetailEntity forDel = new TruckGoodsOrderDetailEntity();
+			forDel.setReportId(orderId);
+			truckGoodsOrderDao.deleteTruckGoodsOrderDetail(forDel);
 			if(!orderTakerInfo.equals("")){
 				JSONArray orderTakerInfoArr = JSONArray.parseArray(orderTakerInfo);
 				Iterator iterator = orderTakerInfoArr.iterator();
@@ -198,36 +223,18 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 					String endPlace = Utils.null2String(jsonObject.get("endPlace"));
 					int invoiceFlg = Utils.getIntValue(Utils.null2String(jsonObject.get("invoiceFlg")),0);
 					BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
-					int id =  Utils.getIntValue(Utils.null2String(jsonObject.get("id")),0);
-					if(id>0){
-						TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
-						truckGoodsOrderDetailEntity.setGoodsType(goodsType);
-						truckGoodsOrderDetailEntity.setEndPlace(endPlace);
-						truckGoodsOrderDetailEntity.setStartPlace(startPlace);
-						truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);
-						truckGoodsOrderDetailEntity.setRealCarry(realCarry);
-						truckGoodsOrderDetailEntity.setReportId(orderId);
-						truckGoodsOrderDetailEntity.setId(id);
-						truckGoodsOrderDao.updateTruckGoodsOrderDetail(truckGoodsOrderDetailEntity);
-					}else{
-						TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
-						truckGoodsOrderDetailEntity.setGoodsType(goodsType);
-						truckGoodsOrderDetailEntity.setEndPlace(endPlace);
-						truckGoodsOrderDetailEntity.setStartPlace(startPlace);
-						truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);
-						truckGoodsOrderDetailEntity.setRealCarry(realCarry);
-						truckGoodsOrderDetailEntity.setReportId(orderId);
-						truckGoodsOrderDetailEntity.setId(id);
-						truckGoodsOrderDao.insertTruckGoodsOrderDetail(truckGoodsOrderDetailEntity);
-					}
+					TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
+					truckGoodsOrderDetailEntity.setGoodsType(goodsType);
+					truckGoodsOrderDetailEntity.setEndPlace(endPlace);
+					truckGoodsOrderDetailEntity.setStartPlace(startPlace);
+					truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);
+					truckGoodsOrderDetailEntity.setRealCarry(realCarry);
+					truckGoodsOrderDetailEntity.setReportId(orderId);
+					truckGoodsOrderDao.insertTruckGoodsOrderDetail(truckGoodsOrderDetailEntity);
 
 				}
 			}
-			if(!deleteIds.equals("")){
-				Arrays.asList(deleteIds.split(",")).stream().filter(item->!item.equals("")).forEach(item->{
-					truckGoodsOrderDao.deleteTruckGoodsOrderDetail(item);
-				});
-			}
+
 		}else{
 			retMap.put("ret",false);
 			retMap.put("errorMsg","车辆信息为空！");

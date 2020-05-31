@@ -21,20 +21,20 @@
 		) 
 		values 
 		(
-			#goodsType#,
-			#beginDate#,
-			#client#,
-			#deleteFlg#,
-			#packageFlg#,
-			#packagePrice#,
-			#startPlace#,
-			#endPlace#,
-			#orderStatus#,
-			#workPlace#,
-			#createDate#,
-			#createTime#,
-			#editDate#,
-			#editTime#
+			#{goodsType},
+			#{beginDate},
+			#{client},
+			#{deleteFlg},
+			#{packageFlg},
+			#{packagePrice},
+			#{startPlace},
+			#{endPlace},
+			#{orderStatus},
+			#{workPlace},
+			#{createDate},
+			#{createTime},
+			#{editDate},
+			#{editTime}
 		)
 		<selectKey resultType="int" keyProperty="id" order="AFTER">
 			SELECT max(id) as id from truckGoodsOrderTaker
@@ -59,18 +59,18 @@
 		) 
 		values 
 		(
-			#reportId#,
-			#goodsType#,
-			#deleteFlg#,
-			#price#,
-			#realCarry#,
-			#invoiceFlg#,
-			#startPlace#,
-			#endPlace#,
-			#createDate#,
-			#createTime#,
-			#editDate#,
-			#editTime#
+			#{reportId},
+			#{goodsType},
+			#{deleteFlg},
+			#{price},
+			#{realCarry},
+			#{invoiceFlg},
+			#{startPlace},
+			#{endPlace},
+			#{createDate},
+			#{createTime},
+			#{editDate},
+			#{editTime}
 		)
 		<selectKey resultType="int" keyProperty="id" order="AFTER">
 			SELECT max(id) as id from truckGoodsOrderDetail
@@ -82,13 +82,13 @@
 	<select id="getTruckGoodsOrderTaker" resultType="truckGoodsOrderTakerEntity" parameterType="truckGoodsOrderTakerEntity">
 		select * from truckGoodsOrderTaker
 		<where>
-			<if test="id != null and id != ''">
+			<if test="id > 0">
 				id = #{id}
 			</if>
-			<if test="client != null and client != ''">
+			<if test="client > 0">
 				client = #{client}
 			</if>
-			<if test="orderStatus > 0">
+			<if test="orderStatus > -1">
 				orderStatus = #{orderStatus}
 			</if>
 		</where>
@@ -96,13 +96,15 @@
 	
 	<!-- 根据条件查询出车预录详细信息 -->
 	<select id="getTruckGoodsOrderDetail" resultType="truckGoodsOrderDetailEntity" parameterType="truckGoodsOrderDetailEntity">
-		select * from truckGoodsOrderDetail 
-
-	</select>
-	
-	<!-- 根据reportID获得预录出车信息-->
-	<select id="getTruckGoodsOrderDetailByReprotId" resultType="truckGoodsOrderDetailEntity">
-		select * from truckGoodsOrderDetail where reportId in ($reportId$) and deleteFlg = 0 order by createdate desc,createtime desc
+		select * from truckGoodsOrderDetail
+		<where>
+			<if test="id > 0">
+				id = #{id}
+			</if>
+			<if test="reportId > 0">
+				reportId = #{reportId}
+			</if>
+		</where>
 	</select>
 	
    <!-- 删除预录信息 -->
@@ -112,45 +114,40 @@
 	
 	<!-- 删除预录详细信息 -->
 	<update id="deleteTruckGoodsOrderDetail" parameterType="string">
-		update truckGoodsOrderDetail set deleteFlg = 1  where id = #{id}
+		delete from truckGoodsOrderDetail
+		<where>
+			<if test="id > 0">
+				id = #{id}
+			</if>
+			<if test="reportId > 0">
+				reportId = #{reportId}
+			</if>
+		</where>
 	</update>
    
    <!-- 更新预录出车信息 -->
    <update id="updateTruckGoodsOrderTaker" parameterType="truckGoodsOrderTakerEntity">
-		update truckGoodsOrderTaker set 
-			goodsType='$goodsType$',
-			beginDate=#beginDate#,
-			client=#client#,
-			packageFlg=#packageFlg#,
-			packagePrice=#packagePrice#,
-			startPlace=#startPlace#,
-			endPlace=#endPlace#,
-			workPlace=#workPlace#,
-			editDate=#editDate#,
-			editTime=#editTime#
-		 where id=#id#
+		update truckGoodsOrderTaker set
+			beginDate=#{beginDate},
+			client=#{client},
+			packageFlg=#{packageFlg},
+			packagePrice=#{packagePrice},
+			editDate=#{editDate},
+			editTime=#{editTime}
+		 where id=#{id}
    </update>
    
    <!-- 更新预录出车详细信息 -->
    <update id="updateTruckGoodsOrderDetail" parameterType="truckGoodsOrderDetailEntity">
 		update truckGoodsOrderDetail set 
-			goodsType=#goodsType#,
-			price=#price#,
-			realCarry=#realCarry#,
-			invoiceFlg=#invoiceFlg#,
-			startPlace=#startPlace#,
-			endPlace=#endPlace#,
-			editDate=#editDate#,
-			editTime=#editTime#
-		 where id=#id#
-   </update>
-   
-   <!-- 更新预录出车详细信息 -->
-   <update id="updateTruckGoodsOrderStatus" parameterType="truckGoodsOrderTakerEntity">
-		update truckGoodsOrderTaker set 
-			orderStatus=#orderStatus#,
-			editDate=#editDate#,
-			editTime=#editTime#
-		 where id=#id#
+			goodsType=#{goodsType},
+			price=#{price},
+			realCarry=#{realCarry},
+			invoiceFlg=#{invoiceFlg},
+			startPlace=#{startPlace},
+			endPlace=#{endPlace},
+			editDate=#{editDate},
+			editTime=#{editTime}
+		 where id=#{id}
    </update>
 </mapper>

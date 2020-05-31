@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cache.Cache;
 import com.cache.CacheManager;
 import com.javabean.ClientBean;
 import com.javabean.DriverInfoBean;
@@ -147,32 +148,90 @@ public class CommonTransMethod {
 		return allTruck;
 	}
 
+	/**
+	 * @param ids 客户ID
+	 * @return 客户名称
+	 */
+	public static String getClientName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
+		String clientNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(key.equals(ids+"")){
+				ClientEntity clientEntity = (ClientEntity) cacheList.get(i).getValue();
+				clientNameTemp = clientEntity.getClientName();
+			}
+		}
+		return clientNameTemp;
+	}
+
 
 	/**
-	 * @param id 司机ID
+	 * @param ids 司机ID
 	 * @return 司机姓名
 	 */
-	public  String getDriverName(String id){
-		if("".equals(id) || id == null){
-			return "";
-		}
-
-		String retStr = "";
-		List<DriverInfoBean> beanLst = null;
-		try{
-//			beanLst= driverService.getAllDriverInfo();
-			for(int i = 0;i<beanLst.size();i++){
-				if(beanLst.get(i).getId() == Integer.parseInt(id)){
-					retStr = beanLst.get(i).getName();
-				}
+	public  String getDriverName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("driverEntity_CACHE");
+		String driverNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(key.equals(ids+"")){
+				DriverInfoEntity driverInfoEntity = (DriverInfoEntity) cacheList.get(i).getValue();
+				driverNameTemp = driverInfoEntity.getName();
 			}
-			return retStr;
-		}catch(Exception e){
-			e.printStackTrace();
+		}
+		return driverNameTemp;
+	}
+
+	/**
+	 * @param ids 货物类型ID
+	 * @return 货物名称
+	 */
+	public static String getGoodsTypeName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("goodsTypeEntity_CACHE");
+		String goodsTypeNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(key.equals(ids+"")){
+				GoodsTypeEntity goodsTypeEntity = (GoodsTypeEntity) cacheList.get(i).getValue();
+				goodsTypeNameTemp = goodsTypeEntity.getGoodsName();
+			}
+		}
+		return goodsTypeNameTemp;
+	}
+
+	/**
+	 * @param str
+	 * @return 是/否
+	 */
+	public static String getIsOrNotString(String str){
+		String retStr = "";
+		if(str.equals("1")){
+			retStr = "是";
+		}else{
+			retStr = "否";
 		}
 		return retStr;
-
 	}
+
+	/**
+	 * @param str
+	 * @return 是/否
+	 */
+	public static String getOrderStatusName(String str){
+		String retStr = "";
+		if(str.equals("0")){
+			retStr = "未分配";
+		}else if(str.equals("1")){
+			retStr = "已分配";
+		}else{
+			retStr = "已删除";
+		}
+
+		return retStr;
+	}
+
+
 
 	/**
 	 * @param driverName 司机姓名
@@ -204,29 +263,6 @@ public class CommonTransMethod {
 		CacheManager.clearOnly("driverEntity_CACHE");
 		return maxId;
 	}
-
-	/**
-	 * @param id 客户ID
-	 * @return 客户名称
-	 */
-	public  String getClientName(String id){
-		if("".equals(id) || id == null || id.equals("0")){
-			return "";
-		}
-		String retStr = "";
-		Map beanLst = null;
-		try{
-			beanLst= clientService.getAllClient();
-			for(int i = 0;i<beanLst.size();i++){
-
-			}
-			return retStr;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return retStr;
-	}
-
 
 
 	public  int createClient(String clientName){
@@ -262,34 +298,6 @@ public class CommonTransMethod {
 		return retStr;
 	}
 
-
-	/**
-	 * @param id 货物类型ID
-	 * @return 货物名称
-	 */
-	public  String getGoodsTypeName(String id){
-		if("".equals(id) || id == null || id.equals("0")){
-			return "";
-		}
-		String retStr = "";
-		try{
-//			List<GoodsTypeBean> beanLst= goodsTypeService.getAllGoodsType();
-//			String idArr[] = id.split(",");
-//			for(int i=0;i<idArr.length;i++){
-//				if(!idArr[i].equals("")){
-//					for(int k = 0;k<beanLst.size();k++){
-//						if(beanLst.get(k).getId() == Integer.parseInt(idArr[i])){
-//							retStr += retStr.equals("")?beanLst.get(k).getGoodsName():","+beanLst.get(k).getGoodsName();
-//						}
-//					}
-//				}
-//			}
-
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return retStr;
-	}
 
 	/**
 	 * @param goodsTypeName 货物名称
