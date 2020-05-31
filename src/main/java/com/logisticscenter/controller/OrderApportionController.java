@@ -1,15 +1,7 @@
 package com.logisticscenter.controller;
 
 import com.common.CommonTransMethod;
-import com.common.ConvertService;
-import com.javabean.TruckGoodsOrderDetailBean;
-import com.javabean.TruckGoodsOrderTakerBean;
-import com.javabean.TruckGoodsReportBean;
-import com.javabean.TruckGoodsReportDetailBean;
-import com.logisticscenter.model.LoginInfoEntity;
 import com.logisticscenter.service.TruckGoodsOrderService;
-import com.logisticscenter.service.TruckGoodsReportService;
-import com.util.ConstantUtils;
 import com.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,29 +11,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 @RestController
-@RequestMapping(value = "/api/orderTaker")
-public class OrderTakerController implements Serializable{
-	
+@RequestMapping(value = "/api/orderApportion")
+public class OrderApportionController implements Serializable{
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public OrderTakerController(){
+	public OrderApportionController(){
 		
 	}
 
-	
 	/**
 	 * 出车预录信息service
 	 */
@@ -82,7 +69,7 @@ public class OrderTakerController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/getOrderTakersInfoFields")
+	@PostMapping("/getOrderApportionFields")
 	public Map getOrderTakersInfoFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -97,7 +84,7 @@ public class OrderTakerController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/addOrderTaker")
+	@PostMapping("/addOrderApportion")
 	public Map addOrderTaker(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -112,7 +99,7 @@ public class OrderTakerController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/updateOrderTaker")
+	@PostMapping("/updateOrderApportion")
 	public Map updateOrderTaker(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
@@ -127,7 +114,7 @@ public class OrderTakerController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/deleteOrderTaker")
+	@PostMapping("/deleteOrderApportion")
 	public Map deleteOrderTaker(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {

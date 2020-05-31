@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.logisticscenter.mapper.TruckGoodsOrderDao">
 	<!-- 新增预录出车信息 -->
-	<insert id="insertTruckGoodsOrderTaker" parameterType="truckGoodsOrderTakerEntity">
+	<insert id="insertTruckGoodsOrderTaker" parameterType="truckGoodsOrderTakerEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into truckGoodsOrderTaker (
 			goodsType,
 			beginDate,
@@ -36,13 +36,10 @@
 			#{editDate},
 			#{editTime}
 		)
-		<selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from truckGoodsOrderTaker
-		</selectKey>
 	</insert>
 	
 	<!-- 新增预录出车详细信息 -->
-	<insert id="insertTruckGoodsOrderDetail" parameterType="truckGoodsOrderDetailEntity">
+	<insert id="insertTruckGoodsOrderDetail" parameterType="truckGoodsOrderDetailEntity" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		insert into truckGoodsOrderDetail (
 			reportId,
 			goodsType,
@@ -72,9 +69,9 @@
 			#{editDate},
 			#{editTime}
 		)
-		<selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from truckGoodsOrderDetail
-		</selectKey>
+		<!--<selectKey resultType="int" keyProperty="id" order="AFTER">-->
+			<!--SELECT max(id) as id from truckGoodsOrderDetail-->
+		<!--</selectKey>-->
 	</insert>
 	
 	

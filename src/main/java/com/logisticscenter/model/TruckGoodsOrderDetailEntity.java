@@ -20,6 +20,10 @@ public class TruckGoodsOrderDetailEntity {
 	
 	//标识ID
 	private int id;
+
+	//标识ID
+	private int key;
+
 	//对应预录车辆信息中的reportId
 	private int reportId;
 	//客户货物类型
@@ -51,19 +55,23 @@ public class TruckGoodsOrderDetailEntity {
 	
 	//检索用货物类型
 	private String goodsTypes;
-	
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
 
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.setKey(id);
 	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
+	}
+
 	public int getReportId() {
 		return reportId;
 	}
@@ -136,31 +144,12 @@ public class TruckGoodsOrderDetailEntity {
 	public void setEditTime(String editTime) {
 		this.editTime = editTime;
 	}
-	public String getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-	public String getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
-	}
 	public int getDeleteFlg() {
 		return deleteFlg;
 	}
 	public void setDeleteFlg(int deleteFlg) {
 		this.deleteFlg = deleteFlg;
 	}
-	
-	public String getGoodsTypes() {
-		return goodsTypes;
-	}
 
-	public void setGoodsTypes(String goodsTypes) {
-		this.goodsTypes = goodsTypes;
-	}
 
 }

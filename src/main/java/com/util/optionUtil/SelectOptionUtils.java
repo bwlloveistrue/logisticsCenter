@@ -105,6 +105,26 @@ public class SelectOptionUtils {
      * 获取客户选择框
      * @return
      */
+    public List<SearchConditionOption> getClientOptions(boolean isSearch){
+        List<ClientEntity> allClient =  commonTransMethod.getAllClient();
+        List<SearchConditionOption> clientOptions = new ArrayList<SearchConditionOption>();
+        if(isSearch){
+            SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+            clientOptions.add(searchConditionOption);
+        }
+
+        allClient.stream().forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getClientName(),false,true);
+            clientOptions.add(childOption);
+        });
+
+        return clientOptions;
+    }
+
+    /**
+     * 获取客户选择框
+     * @return
+     */
     public List<SearchConditionOption> getDriverOptions(){
         List<DriverInfoEntity> allDriverMap =  commonTransMethod.getAllDriver();
         List<SearchConditionOption> clientOptions = new ArrayList<SearchConditionOption>();
@@ -138,10 +158,21 @@ public class SelectOptionUtils {
      * @return
      */
     public List<SearchConditionOption> getGoodsTypeOptions(){
+        return getGoodsTypeOptions(true);
+    }
+
+    /**
+     * 获取客户选择框
+     * @return
+     */
+    public List<SearchConditionOption> getGoodsTypeOptions(boolean isSearch){
         List<GoodsTypeEntity> allDriverMap =  commonTransMethod.getAllGoodsType();
         List<SearchConditionOption> clientOptions = new ArrayList<SearchConditionOption>();
-        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
-        clientOptions.add(searchConditionOption);
+        if(isSearch){
+            SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+            clientOptions.add(searchConditionOption);
+        }
+
         allDriverMap.forEach((_v)->{
             SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getGoodsName(),false,true);
             clientOptions.add(childOption);
