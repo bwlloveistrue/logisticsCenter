@@ -38,18 +38,14 @@ public class TruckGoodsOrderTakerEntity {
 	//客户货物类型
 	private String goodsTypeName;
 
-	//区域
-	private String workPlace;
-
 	//创建日期
 	private String createDate;
 	//创建时间
 	private String createTime;
-	
-	private String startPlace;
-	private String endPlace;
 	//预录状态
 	private int orderStatus = -1;
+
+	private List<TruckGoodsOrderDetailEntity> children;
 
 	//预录状态
 	private String orderStatusName;
@@ -57,12 +53,7 @@ public class TruckGoodsOrderTakerEntity {
 	private String editDate;
 	//修改时间
 	private String editTime;
-	
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
+
 	
 	public int getId() {
 		return id;
@@ -149,15 +140,6 @@ public class TruckGoodsOrderTakerEntity {
 		this.goodsTypeName = CommonTransMethod.getGoodsTypeName(goodsTypeName);
 	}
 
-
-	public String getWorkPlace() {
-		return workPlace;
-	}
-
-	public void setWorkPlace(String workPlace) {
-		this.workPlace = workPlace;
-	}
-
 	public String getCreateDate() {
 		return createDate;
 	}
@@ -185,18 +167,6 @@ public class TruckGoodsOrderTakerEntity {
 	public void setEditTime(String editTime) {
 		this.editTime = editTime;
 	}
-	public String getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-	public String getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
-	}
 	public int getDeleteFlg() {
 		return deleteFlg;
 	}
@@ -205,24 +175,16 @@ public class TruckGoodsOrderTakerEntity {
 		this.deleteFlg = deleteFlg;
 	}
 
-	public String getStartPlace() {
-		return startPlace;
-	}
-
-	public void setStartPlace(String startPlace) {
-		this.startPlace = startPlace;
-	}
-
-	public String getEndPlace() {
-		return endPlace;
-	}
-
-	public void setEndPlace(String endPlace) {
-		this.endPlace = endPlace;
-	}
-
 	public int getOrderStatus() {
 		return orderStatus;
+	}
+
+	public List<TruckGoodsOrderDetailEntity> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<TruckGoodsOrderDetailEntity> children) {
+		this.children = children;
 	}
 
 	public void setOrderStatus(int orderStatus) {

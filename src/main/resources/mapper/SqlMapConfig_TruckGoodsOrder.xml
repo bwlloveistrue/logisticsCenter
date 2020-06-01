@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.logisticscenter.mapper.TruckGoodsOrderDao">
+	<resultMap type="truckGoodsOrderTakerEntity" id="orderTakerForSplit">
+		<id property="id" column="id"/>
+		<result property="packageFlg" column="packageFlg"/>
+		<result property="packagePrice" column="packagePrice"/>
+		<result property="beginDate" column="beginDate"/>
+		<result property="client" column="client"/>
+		<result property="deleteFlg" column="deleteFlg"/>
+		<result property="goodsType" column="goodsType"/>
+		<result property="workPlace" column="workPlace"/>
+		<result property="createDate" column="createDate"/>
+		<result property="createTime" column="createTime"/>
+		<result property="startPlace" column="startPlace"/>
+		<result property="endPlace" column="endPlace"/>
+		<result property="orderStatus" column="orderStatus"/>
+		<result property="editDate" column="editDate"/>
+		<result property="editTime" column="editTime"/>
+		<collection property="children" ofType="truckGoodsOrderDetailEntity" column="id" select="getOrderDetailByReportId"></collection>
+	</resultMap>
 	<!-- 新增预录出车信息 -->
 	<insert id="insertTruckGoodsOrderTaker" parameterType="truckGoodsOrderTakerEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into truckGoodsOrderTaker (
@@ -69,14 +87,11 @@
 			#{editDate},
 			#{editTime}
 		)
-		<!--<selectKey resultType="int" keyProperty="id" order="AFTER">-->
-			<!--SELECT max(id) as id from truckGoodsOrderDetail-->
-		<!--</selectKey>-->
 	</insert>
 	
 	
 	<!-- 根据条件查询出车预录信息 -->
-	<select id="getTruckGoodsOrderTaker" resultType="truckGoodsOrderTakerEntity" parameterType="truckGoodsOrderTakerEntity">
+	<select id="getTruckGoodsOrderTaker" resultMap="orderTakerForSplit" parameterType="truckGoodsOrderTakerEntity">
 		select * from truckGoodsOrderTaker
 		<where>
 			<if test="id > 0">
@@ -89,6 +104,11 @@
 				orderStatus = #{orderStatus}
 			</if>
 		</where>
+	</select>
+
+	<!-- 根据条件查询出车预录详细信息 -->
+	<select id="getOrderDetailByReportId" resultType="truckGoodsOrderDetailEntity" parameterType="int">
+		select * from truckGoodsOrderDetail where reportId = #{id}
 	</select>
 	
 	<!-- 根据条件查询出车预录详细信息 -->
