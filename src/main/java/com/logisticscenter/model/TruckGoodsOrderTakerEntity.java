@@ -42,6 +42,9 @@ public class TruckGoodsOrderTakerEntity {
 	private String createDate;
 	//创建时间
 	private String createTime;
+
+	private String startPlace;
+	private String endPlace;
 	//预录状态
 	private int orderStatus = -1;
 
@@ -173,6 +176,22 @@ public class TruckGoodsOrderTakerEntity {
 
 	public void setDeleteFlg(int deleteFlg) {
 		this.deleteFlg = deleteFlg;
+	}
+
+	public String getStartPlace() {
+		return startPlace;
+	}
+
+	public void setStartPlace(String startPlace) {
+		this.startPlace = startPlace;
+	}
+
+	public String getEndPlace() {
+		return endPlace;
+	}
+
+	public void setEndPlace(String endPlace) {
+		this.endPlace = endPlace;
 	}
 
 	public int getOrderStatus() {

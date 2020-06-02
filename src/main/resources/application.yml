@@ -16,7 +16,7 @@ spring:
           filters: stat
           driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
           #基本属性
-          url: jdbc:sqlserver://120.55.166.247:1433;DatabaseName=truckManager
+          url: jdbc:sqlserver://120.55.166.247:1433;DatabaseName=logisticsCenter
           username: sa
           password: Bwl317225
           #配置初始化大小/最小/最大
