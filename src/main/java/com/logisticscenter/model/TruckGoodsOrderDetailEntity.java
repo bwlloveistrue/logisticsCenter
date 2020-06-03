@@ -1,5 +1,6 @@
 package com.logisticscenter.model;
 
+import com.common.CommonTransMethod;
 import com.util.Utils;
 
 import java.math.BigDecimal;
@@ -28,6 +29,8 @@ public class TruckGoodsOrderDetailEntity {
 	private int reportId;
 	//客户货物类型
 	private int goodsType;
+	//客户货物类型
+	private String goodsTypeName;
 	//单价
 	private BigDecimal price;
 	//是否删除
@@ -83,7 +86,17 @@ public class TruckGoodsOrderDetailEntity {
 	}
 	public void setGoodsType(int goodsType) {
 		this.goodsType = goodsType;
+		this.setGoodsTypeName(goodsType+"");
 	}
+
+	public String getGoodsTypeName() {
+		return goodsTypeName;
+	}
+
+	public void setGoodsTypeName(String goodsTypeName) {
+		this.goodsTypeName = CommonTransMethod.getGoodsTypeName(goodsTypeName);
+	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}

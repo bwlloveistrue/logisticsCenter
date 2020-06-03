@@ -9,7 +9,6 @@
 		<result property="client" column="client"/>
 		<result property="deleteFlg" column="deleteFlg"/>
 		<result property="goodsType" column="goodsType"/>
-		<result property="workPlace" column="workPlace"/>
 		<result property="createDate" column="createDate"/>
 		<result property="createTime" column="createTime"/>
 		<result property="startPlace" column="startPlace"/>
@@ -31,7 +30,6 @@
 			startPlace,
 			endPlace,
 			orderStatus,
-			workPlace,
 			createDate,
 			createTime,
 			editDate,
@@ -48,7 +46,6 @@
 			#{startPlace},
 			#{endPlace},
 			#{orderStatus},
-			#{workPlace},
 			#{createDate},
 			#{createTime},
 			#{editDate},

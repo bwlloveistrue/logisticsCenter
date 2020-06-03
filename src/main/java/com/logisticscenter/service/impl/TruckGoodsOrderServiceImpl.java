@@ -74,6 +74,19 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
 		splitPageInterface.init(pageInfo);
 		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
+		Map<String,Object> dataMap =(Map)splitPageInterface.splitPageBean.getData();
+
+		List<TruckGoodsOrderTakerEntity> datas = (List<TruckGoodsOrderTakerEntity>)dataMap.get("list");
+		datas.stream().forEach(_item->{
+			List<TruckGoodsOrderDetailEntity> children = _item.getChildren();
+			if(children.size() == 0){
+				_item.setChildren(null);
+			}
+			children.stream().forEach(_childItem->{
+				int id = _childItem.getId();
+				_childItem.setKey(99999999+id);
+			});
+		});
 		retMap.put("data",splitPageInterface.splitPageBean.getData());
 		return retMap;
 	}

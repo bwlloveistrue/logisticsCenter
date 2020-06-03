@@ -18,7 +18,7 @@ public class OrderTakerSplitPage extends SplitPageInterface {
     public List<PageCell> createColumn() {
         List<PageCell> pageCellList = new ArrayList<PageCell>();
         PageCell pageCell = new PageCell("","","","",false,false);
-        pageCellList.add(pageCell);
+//        pageCellList.add(pageCell);
 
 //        pageCell = new PageCell("客户","client","client","10%",false,false);
 //        pageCellList.add(pageCell);
@@ -26,7 +26,7 @@ public class OrderTakerSplitPage extends SplitPageInterface {
         pageCell = new PageCell("客户","clientName","clientName","15%",false,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("货物类型","goodsTypeShow","goodsTypeShow","15%",false,false);
+        pageCell = new PageCell("货物类型","goodsTypeName","goodsTypeShow","15%",false,false);
         pageCellList.add(pageCell);
 
         pageCell = new PageCell("始发地","startPlace","startPlace","10%",false,false);
