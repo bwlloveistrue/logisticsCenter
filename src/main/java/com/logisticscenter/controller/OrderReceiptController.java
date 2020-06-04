@@ -3,6 +3,7 @@ package com.logisticscenter.controller;
 import com.common.CommonTransMethod;
 import com.logisticscenter.model.LoginInfoEntity;
 import com.logisticscenter.service.TruckGoodsOrderService;
+import com.logisticscenter.service.TruckOrderReceiptService;
 import com.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,13 @@ public class OrderReceiptController implements Serializable{
 	@Autowired
 	private TruckGoodsOrderService truckGoodsOrderService;
 
+	/**
+	 * 出车回执信息service
+	 */
+	@Autowired
+	private TruckOrderReceiptService truckOrderReceiptService;
+
+	@Autowired
 	private CommonTransMethod commonTransMethod;
 
 
@@ -44,7 +52,7 @@ public class OrderReceiptController implements Serializable{
 	public Map getCondition(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckGoodsOrderService.getCondition(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.getCondition(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,7 +67,7 @@ public class OrderReceiptController implements Serializable{
 	public Map getTableInfoList(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckGoodsOrderService.getTableInfoList(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.getTableInfoList(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +82,7 @@ public class OrderReceiptController implements Serializable{
 	public Map getOrderTakersInfoFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckGoodsOrderService.getOrderTakersInfoFields(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.getOrderTakersInfoFields(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,7 +97,7 @@ public class OrderReceiptController implements Serializable{
 	public Map addOrderTaker(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckGoodsOrderService.addOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.addOrderTaker(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,7 +112,7 @@ public class OrderReceiptController implements Serializable{
 	public Map updateOrderTaker(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckGoodsOrderService.updateOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.updateOrderTaker(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +127,7 @@ public class OrderReceiptController implements Serializable{
 	public Map deleteOrderTaker(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckGoodsOrderService.deleteOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.deleteOrderTaker(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();

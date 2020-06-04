@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logisticscenter.mapper.OrderApportionDao">
+
+    <!-- 获得全查询列表 -->
+    <select id="getAllTruckGoodsReport" resultType="truckGoodsReportEntity">
+        select * from truckGoodsReport
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotNull property="value" prepend="AND">-->
+                <!--reportStatus = $value$-->
+            <!--</isNotNull>-->
+        <!--</dynamic>-->
+    </select>
+
+    <!-- 根据条件专门费用 -->
+    <select id="getTruckGoodsReportBy" resultType="truckGoodsReportEntity" parameterType="truckGoodsReportEntity">
+        <!--<isNotEmpty property="getFeeTypecolumn">-->
+            <!--select top $pageSize$ * from ( select row_number() over(order by id desc) as rownumber,*,$getFeeTypecolumn$-->
+            <!--feeTypeValue from truckGoodsReport-->
+        <!--</isNotEmpty>-->
+        <!--<isEmpty property="getFeeTypecolumn">-->
+            <!--select top $pageSize$ * from ( select row_number() over(order by id desc) as rownumber,*,id feeTypeValue-->
+            <!--from truckGoodsReport-->
+        <!--</isEmpty>-->
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="truckNumber">-->
+                <!--truckNumber=#truckNumber#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="startPlace">-->
+                <!--startPlace like '%' + #startPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endPlace">-->
+                <!--endPlace like '%' + #endPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="beginDate">-->
+                <!--beginDate &gt;= #beginDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endDate">-->
+                <!--endDate &lt; #endDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="carryNumber">-->
+                <!--carryNumber like '%' + #carryNumber# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isLessThan prepend="AND" property="reportStatus" compareValue="3">-->
+                <!--reportStatus=#reportStatus#-->
+            <!--</isLessThan>-->
+            <!--<isGreaterThan prepend="AND" property="driver" compareValue="-1">-->
+                <!--driver=#driver#-->
+            <!--</isGreaterThan>-->
+            <!--<isGreaterThan prepend="AND" property="client" compareValue="-1">-->
+                <!--client=#client#-->
+            <!--</isGreaterThan>-->
+            <!--<isNotEmpty prepend="AND" property="goodsType">-->
+                <!--','+goodsType+',' like '%,'+#goodsType#+',%'-->
+            <!--</isNotEmpty>-->
+        <!--</dynamic>-->
+        <!--) A-->
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="currentPage">-->
+                <!--rownumber > $currentPage$-->
+            <!--</isNotEmpty>-->
+        <!--</dynamic>-->
+    </select>
+
+
+    <!-- 根据条件查询出车信息 -->
+    <select id="gettruckGoodsReportEntityxcelBy" resultType="truckGoodsReportEntity" parameterType="truckGoodsReportEntity" >
+        select * from truckGoodsReport
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="truckNumber">-->
+                <!--truckNumber=#truckNumber#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="startPlace">-->
+                <!--startPlace like '%' + #startPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endPlace">-->
+                <!--endPlace like '%' + #endPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="beginDate">-->
+                <!--beginDate &gt;= #beginDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endDate">-->
+                <!--endDate &lt; #endDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="carryNumber">-->
+                <!--carryNumber like '%' + #carryNumber# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isLessThan prepend="AND" property="reportStatus" compareValue="3">-->
+                <!--reportStatus=#reportStatus#-->
+            <!--</isLessThan>-->
+            <!--<isGreaterThan prepend="AND" property="driver" compareValue="-1">-->
+                <!--driver=#driver#-->
+            <!--</isGreaterThan>-->
+            <!--<isGreaterThan prepend="AND" property="client" compareValue="-1">-->
+                <!--client=#client#-->
+            <!--</isGreaterThan>-->
+            <!--<isNotEmpty prepend="AND" property="goodsType">-->
+                <!--','+goodsType+',' like '%,'+#goodsType#+',%'-->
+            <!--</isNotEmpty>-->
+        <!--</dynamic>-->
+
+    </select>
+
+
+    <!-- 根据条件查询出车分页pageTotal -->
+    <select id="getTruckGoodsReportByCount" resultType="String" parameterType="truckGoodsReportEntity">
+        select count(*) from ( select row_number() over(order by id) as rownumber,* from truckGoodsReport ) A
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="truckNumber">-->
+                <!--truckNumber=#truckNumber#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="startPlace">-->
+                <!--startPlace like '%' + #startPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endPlace">-->
+                <!--endPlace like '%' + #endPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="beginDate">-->
+                <!--beginDate &gt;= #beginDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endDate">-->
+                <!--endDate &lt; #endDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="carryNumber">-->
+                <!--carryNumber like '%' + #carryNumber# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isLessThan prepend="AND" property="reportStatus" compareValue="3">-->
+                <!--reportStatus=#reportStatus#-->
+            <!--</isLessThan>-->
+            <!--<isGreaterThan prepend="AND" property="driver" compareValue="-1">-->
+                <!--driver=#driver#-->
+            <!--</isGreaterThan>-->
+            <!--<isGreaterThan prepend="AND" property="client" compareValue="-1">-->
+                <!--client=#client#-->
+            <!--</isGreaterThan>-->
+            <!--<isNotEmpty prepend="AND" property="goodsType">-->
+                <!--goodsType=#goodsType#-->
+            <!--</isNotEmpty>-->
+
+        <!--</dynamic>-->
+
+    </select>
+
+    <!-- 根据id获得用户对象 -->
+    <select id="getTruckGoodsReportById" resultType="truckGoodsReportEntity">
+     select * from truckGoodsReport where id=#id#
+  </select>
+
+    <!-- 根据查询条件计算费用/盈利/运费的合计 -->
+    <select id="getTruckGoodsReportSum" resultType="truckGoodsReportEntity" parameterType="truckGoodsReportEntity" >
+        select sum(expensens) expensens,sum(cost) cost ,sum(profit) profit from truckgoodsreport
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="truckNumber">-->
+                <!--truckNumber=#truckNumber#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="startPlace">-->
+                <!--startPlace like '%' + #startPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endPlace">-->
+                <!--endPlace like '%' + #endPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="beginDate">-->
+                <!--beginDate &gt;= #beginDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endDate">-->
+                <!--endDate &lt; #endDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="carryNumber">-->
+                <!--carryNumber like '%' + #carryNumber# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isLessThan prepend="AND" property="reportStatus" compareValue="3">-->
+                <!--reportStatus=#reportStatus#-->
+            <!--</isLessThan>-->
+            <!--<isGreaterThan prepend="AND" property="driver" compareValue="-1">-->
+                <!--driver=#driver#-->
+            <!--</isGreaterThan>-->
+            <!--<isGreaterThan prepend="AND" property="client" compareValue="-1">-->
+                <!--client=#client#-->
+            <!--</isGreaterThan>-->
+            <!--<isNotEmpty prepend="AND" property="goodsType">-->
+                <!--','+goodsType+',' like '%,'+#goodsType#+',%'-->
+            <!--</isNotEmpty>-->
+        <!--</dynamic>-->
+
+    </select>
+
+    <!-- 新增用户对象 -->
+    <insert id="insertTruckGoodsReport" parameterType="truckGoodsReportEntity">
+        insert into truckGoodsReport (
+        packageFlg,
+        packagePrice,
+        invoiceFlg,
+        truckPart,
+        partner,
+        partnerPrice,
+        partnerCarry,
+        reportNumber,
+        truckNumber,
+        reportId,
+        startPlace,
+        endPlace,
+        beginDate,
+        expectedDate,
+        endDate,
+        driver,
+        client,
+        prepaidFlg,
+        prepaidExpress,
+        prepaidDesc,
+        goodsType,
+        reportStatus,
+        isLater,
+        laterReason,
+        realCarry,
+        price,
+        expensens,
+        carryNumber,
+        workPlace,
+        remark,
+        customerOrder,
+        settlement,
+        createDate,
+        createTime,
+        editDate,
+        editTime)
+        values (
+        #packageFlg#,
+        #packagePrice#,
+        #invoiceFlg#,
+        #truckPart#,
+        #partner#,
+        #partnerPrice#,
+        #partnerCarry#,
+        #reportNumber#,
+        #truckNumber#,
+        #reportId#,
+        #startPlace#,
+        #endPlace#,
+        #beginDate#,
+        #expectedDate#,
+        #endDate#,
+        #driver#,
+        #client#,
+        #prepaidFlg#,
+        #prepaidExpress#,
+        #prepaidDesc#,
+        #goodsType#,
+        #reportStatus#,
+        #isLater#,
+        #laterReason#,
+        #realCarry#,
+        #price#,
+        #expensens#,
+        #carryNumber#,
+        #workPlace#,
+        #remark#,
+        #customerOrder#,
+        #settlement#,
+        #createDate#,
+        #createTime#,
+        #editDate#,
+        #editTime#)
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            SELECT max(id) as id from truckGoodsReport
+        </selectKey>
+    </insert>
+
+    <!-- 删除用户对象 -->
+    <delete id="deleteTruckGoodsReport" parameterType="java.util.List">
+        delete from truckGoodsReport WHERE ID in
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 更新出车信息 -->
+    <update id="updateTruckGoodsReport" parameterType="truckGoodsReportEntity">
+		update truckGoodsReport set 
+			truckNumber=#truckNumber#,
+			startPlace=#startPlace#,
+			endPlace=#endPlace#,
+			beginDate=#beginDate#,
+			expectedDate=#expectedDate#,
+			endDate=#endDate#,
+			driver=#driver#,
+			client=#client#,
+			prepaidFlg=#prepaidFlg#,
+			prepaidExpress=#prepaidExpress#,
+			prepaidDesc=#prepaidDesc#,
+			goodsType=#goodsType#,
+			reportStatus=#reportStatus#,
+			isLater=#isLater#,
+			laterReason=#laterReason#,
+			realCarry=#realCarry#,
+			price=#price#,
+			remark=#remark#,
+			customerOrder=#customerOrder#,
+			carryNumber=#carryNumber#,
+			settlement=#settlement#,
+			accessorys=#accessorys#
+		 where id=#id#
+   </update>
+
+    <!-- 更新出车费用信息 -->
+    <update id="updatetruckGoodsReportEntityxpense" parameterType="truckGoodsReportEntity">
+		update truckGoodsReport set 
+			expensens=#expensens#,
+			cost=#cost#,
+			profit=#profit#
+		where id=#id#
+   </update>
+
+    <!-- 更新出车费用信息 -->
+    <update id="updateFeeTypeColumns" parameterType="java.util.Map">
+		update truckGoodsReport set 
+			$updSqlColumn$
+		 where id=$reportId$
+   </update>
+
+    <!-- 获得全查询列表 -->
+    <select id="getColumnValue" parameterType="java.util.Map" resultType="feeTypeEntity" >
+    SELECT feeType=attribute,feeTypeValue=value
+		FROM (select * from truckgoodsreport where id = $reportId$)a
+		  UNPIVOT
+		  (
+		    value FOR attribute IN($columnName$)
+		  ) AS UPV
+  </select>
+
+    <!-- 根据条件查询出车信息 -->
+    <select id="getTruckGoodsReportByImport" resultType="truckGoodsReportEntity" parameterType="truckGoodsReportEntity" >
+        select * from truckGoodsReport
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="truckNumber">-->
+                <!--truckNumber=#truckNumber#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="startPlace">-->
+                <!--startPlace like '%' + #startPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endPlace">-->
+                <!--endPlace like '%' + #endPlace# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="beginDate">-->
+                <!--beginDate &gt;= #beginDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="endDate">-->
+                <!--endDate &lt; #endDate#-->
+            <!--</isNotEmpty>-->
+            <!--<isNotEmpty prepend="AND" property="carryNumber">-->
+                <!--carryNumber like '%' + #carryNumber# + '%'-->
+            <!--</isNotEmpty>-->
+            <!--<isLessThan prepend="AND" property="reportStatus" compareValue="3">-->
+                <!--reportStatus=#reportStatus#-->
+            <!--</isLessThan>-->
+            <!--<isGreaterThan prepend="AND" property="driver" compareValue="-1">-->
+                <!--driver=#driver#-->
+            <!--</isGreaterThan>-->
+            <!--<isGreaterThan prepend="AND" property="client" compareValue="-1">-->
+                <!--client=#client#-->
+            <!--</isGreaterThan>-->
+            <!--<isNotEmpty prepend="AND" property="goodsType">-->
+                <!--','+goodsType+',' like '%,'+#goodsType#+',%'-->
+            <!--</isNotEmpty>-->
+        <!--</dynamic>-->
+    </select>
+
+
+    <!-- 新增预录出车详细信息 -->
+    <insert id="insertTruckGoodsReportDetail" parameterType="truckGoodsReportDetailEntity">
+        insert into truckGoodsReportDetail (
+        truckOrder,
+        goodsType,
+        deleteFlg,
+        price,
+        realCarry,
+        invoiceFlg,
+        liftingCost,
+        startPlace,
+        endPlace,
+        createDate,
+        createTime,
+        editDate,
+        editTime
+        )
+        values
+        (
+        #truckOrder#,
+        #goodsType#,
+        #deleteFlg#,
+        #price#,
+        #realCarry#,
+        #invoiceFlg#,
+        #liftingCost#,
+        #startPlace#,
+        #endPlace#,
+        #createDate#,
+        #createTime#,
+        #editDate#,
+        #editTime#
+        )
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            SELECT max(id) as id from truckGoodsOrderDetail
+        </selectKey>
+    </insert>
+
+    <!-- 新增预录出车详细信息 -->
+    <select id="getTruckGoodsReportDetail" parameterType="truckGoodsReportDetailEntity"
+            resultType="truckGoodsReportDetailEntity" >
+        select * from truckGoodsReportDetail
+        <!--<dynamic prepend="WHERE ">-->
+            <!--<isNotEmpty prepend="AND" property="truckOrder">-->
+                <!--truckOrder = #truckOrder#-->
+            <!--</isNotEmpty>-->
+
+        <!--</dynamic>-->
+    </select>
+
+    <!-- 新增预录出车详细信息 -->
+    <select id="getTruckGoodsReportDetailByOrders" resultType="truckGoodsReportDetailEntity">
+		select * from truckGoodsReportDetail where truckOrder in ($truckOrders$)
+	</select>
+
+    <!-- 更新预录出车详细信息 -->
+    <update id="updateTruckGoodsReportDetail" parameterType="truckGoodsReportDetailEntity">
+		update truckGoodsReportDetail set realCarry = #realCarry#,liftingCost=#liftingCost# where id=#id#
+	</update>
+
+    <!-- 获得最大订单编号 -->
+    <select id="getMaxReportNumber" resultType="String">
+		select max(reportNumber) from truckGoodsReport where reportNumber like '%$date$%'
+	</select>
+
+</mapper>

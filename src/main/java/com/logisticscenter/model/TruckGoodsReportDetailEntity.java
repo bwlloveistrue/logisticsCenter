@@ -28,7 +28,12 @@ public class TruckGoodsReportDetailEntity {
 	private String endPlace;
 	//区域
 	private String workPlace;
-
+	//备注
+	private String remark;
+	//客户订单编号
+	private String customerOrder;
+	//是否结算运费
+	private String settlement;
 	//创建日期
 	private String createDate;
 	//创建时间
@@ -38,15 +43,6 @@ public class TruckGoodsReportDetailEntity {
 	private String editDate;
 	//修改时间
 	private String editTime;
-	
-	//检索用货物类型
-	private String goodsTypes;
-	
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
 
 	public int getId() {
 		return id;
@@ -109,6 +105,31 @@ public class TruckGoodsReportDetailEntity {
 	public void setWorkPlace(String workPlace) {
 		this.workPlace = workPlace;
 	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getCustomerOrder() {
+		return customerOrder;
+	}
+
+	public void setCustomerOrder(String customerOrder) {
+		this.customerOrder = customerOrder;
+	}
+
+	public String getSettlement() {
+		return settlement;
+	}
+
+	public void setSettlement(String settlement) {
+		this.settlement = settlement;
+	}
+
 	public String getCreateDate() {
 		return createDate;
 	}
@@ -133,31 +154,11 @@ public class TruckGoodsReportDetailEntity {
 	public void setEditTime(String editTime) {
 		this.editTime = editTime;
 	}
-	public String getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-	public String getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
-	}
 	public int getDeleteFlg() {
 		return deleteFlg;
 	}
 	public void setDeleteFlg(int deleteFlg) {
 		this.deleteFlg = deleteFlg;
-	}
-	
-	public String getGoodsTypes() {
-		return goodsTypes;
-	}
-
-	public void setGoodsTypes(String goodsTypes) {
-		this.goodsTypes = goodsTypes;
 	}
 
 }
