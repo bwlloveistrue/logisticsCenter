@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logisticscenter.mapper.MessageDao">
+
+  <select id="getAllMessageInfo" resultType="messageEntity">
+    select * from messageInfo order by id
+  </select>
+
+    <select id="getAllWorkflowType" resultType="workflowTypeEntity">
+        select * from workflowType order by id
+    </select>
+
+    <select id="getAllSendType" resultType="sendTypeEntity">
+        select * from sendType order by id
+    </select>
+
+   <!-- 模糊查询客户信息 -->
+   <select id="getMessageInfo" resultType="messageEntity" parameterType="messageEntity">
+	select* from messageInfo
+	   <where>
+		   <if test="id != null and id != ''">
+			   id = #{id}
+		   </if>
+		   <if test="sendType != null and sendType != ''">
+               sendType like '%' + #{sendType} +  '%'
+		   </if>
+		   <if test="workflowType != null and workflowType != ''">
+               workflowType like '%' + #{workflowType} +  '%'
+		   </if>
+		   <if test="mouldId != null and mouldId != ''">
+               mouldId like '%' + #{mouldId} +  '%'
+		   </if>
+	   </where>
+       order by id desc
+  </select>
+
+   <!-- 新增用户对象 -->
+   <insert id="insertMessageInfo" parameterType="messageEntity">
+      insert into messageInfo (sendType,workflowType,mouldId)
+      values ( #{sendType}, #{workflowType}, #{mouldId})
+      <selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT max(id) as id from clientInfo
+		</selectKey>
+   </insert>
+
+   <!-- 删除用户对象 -->
+   <delete id="deleteMessageInfo" parameterType="string">
+	delete from messageInfo WHERE ID =#{id}
+   </delete>
+
+   <!-- 更新用户对象 -->
+   <update id="updateMessageInfo" parameterType="messageEntity">
+      update messageInfo set
+      sendType= #{sendType},
+      workflowType= #{workflowType},
+      mouldId= #{mouldId},
+      where id= #{id}
+   </update>
+</mapper>

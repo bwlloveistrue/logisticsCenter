@@ -66,6 +66,9 @@ public class InitServlet {
 	//车辆服务类
 	@Autowired
 	private TruckService truckService;
+	//推送消息服务类
+	@Autowired
+	private MessageService messageService;
 
 
 	/**
@@ -106,6 +109,11 @@ public class InitServlet {
 
 		clientService = applicationContext.getBean(ClientService.class);
 		clientService.getAllClient();
+
+		messageService = applicationContext.getBean(MessageService.class);
+		messageService.getAllMessage();
+		messageService.getAllSendType();
+		messageService.getAllWorkflowType();
 		/*  ---升级操作end---  */
 		
 	}

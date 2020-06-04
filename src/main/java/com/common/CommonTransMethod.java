@@ -64,6 +64,8 @@ public class CommonTransMethod {
 	public  ImageFileService imageFileService;
 	@Autowired
 	public  TruckSetService truckSetService;
+	@Autowired
+	public  MessageService messageService;
 
 	/**
 	 * @return 客户名称
@@ -146,6 +148,38 @@ public class CommonTransMethod {
 			e.printStackTrace();
 		}
 		return allTruck;
+	}
+
+	/**
+	 * @return 货物类型ID
+	 */
+	public  List<SendTypeEntity> getAllSendType(){
+		List<SendTypeEntity> allSendType = new ArrayList<SendTypeEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= messageService.getAllSendType();
+			allSendType = (List<SendTypeEntity>)beanMap.get("sendTypeInfo");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return allSendType;
+	}
+
+	/**
+	 * @return 货物类型ID
+	 */
+	public  List<WorkflowTypeEntity> getAllWorkflowType(){
+		List<WorkflowTypeEntity> allWorkflowType = new ArrayList<WorkflowTypeEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= messageService.getAllWorkflowType();
+			allWorkflowType = (List<WorkflowTypeEntity>)beanMap.get("workflowTypeInfo");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return allWorkflowType;
 	}
 
 	/**

@@ -196,4 +196,36 @@ public class SelectOptionUtils {
         return truckOptions;
     }
 
+    /**
+     * 获取发送对象选择框
+     * @return
+     */
+    public List<SearchConditionOption> getSendTypeOptions(){
+        List<SendTypeEntity> allDriverMap =  commonTransMethod.getAllSendType();
+        List<SearchConditionOption> sendTypeOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption();
+        sendTypeOptions.add(searchConditionOption);
+        allDriverMap.forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getDescription(),false,true);
+            sendTypeOptions.add(childOption);
+        });
+        return sendTypeOptions;
+    }
+
+    /**
+     * 获取工作流选择框
+     * @return
+     */
+    public List<SearchConditionOption> getWorkflowTypeOptions(){
+        List<WorkflowTypeEntity> allWorkFLowTypeMap =  commonTransMethod.getAllWorkflowType();
+        List<SearchConditionOption> sendTypeOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption();
+        sendTypeOptions.add(searchConditionOption);
+        allWorkFLowTypeMap.forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getDescription(),false,true);
+            sendTypeOptions.add(childOption);
+        });
+        return sendTypeOptions;
+    }
+
 }
