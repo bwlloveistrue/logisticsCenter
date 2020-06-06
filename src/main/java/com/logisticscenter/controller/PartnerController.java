@@ -1,11 +1,9 @@
 package com.logisticscenter.controller;
 
-import com.common.CommonTransMethod;
-import com.logisticscenter.service.TruckGoodsOrderService;
-import com.logisticscenter.service.TruckOrderApportionService;
+import com.logisticscenter.service.MessageService;
+import com.logisticscenter.service.PartnerService;
 import com.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,42 +14,33 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+/**
+ * @卜伟领 2017
+ *
+ */
 @RestController
-@RequestMapping(value = "/api/orderApportion")
-public class OrderApportionController implements Serializable{
+@RequestMapping(value = "/api/partnerInfo")
+public class PartnerController implements Serializable{
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public OrderApportionController(){
+	public PartnerController(){
 		
 	}
 
-	/**
-	 * 出车预录信息service
-	 */
 	@Autowired
-	private TruckGoodsOrderService truckGoodsOrderService;
-
-	/**
-	 * 出车分配信息service
-	 */
-	@Autowired
-	private TruckOrderApportionService truckOrderApportionService;
-
-	@Autowired
-	private CommonTransMethod commonTransMethod;
-
+	private PartnerService partnerService;
 
 	@ResponseBody
 	@PostMapping("/getCondition")
 	public Map getCondition(HttpServletRequest request){
+
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderApportionService.getCondition(ParamUtil.request2Map(request)));
+			apidatas.putAll(partnerService.getCondition(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,13 +49,16 @@ public class OrderApportionController implements Serializable{
 		}
 		return apidatas;
 	}
+
+
 
 	@ResponseBody
 	@PostMapping("/getTableInfoList")
 	public Map getTableInfoList(HttpServletRequest request){
+
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderApportionService.getTableInfoList(ParamUtil.request2Map(request)));
+			apidatas.putAll(partnerService.getTableInfoList(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,11 +69,11 @@ public class OrderApportionController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/getOrderApportionFields")
-	public Map getOrderTakersInfoFields(HttpServletRequest request){
+	@PostMapping("/getPartnerInfoFields")
+	public Map getPartnerInfoFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderApportionService.getOrderApportionFields(ParamUtil.request2Map(request)));
+			apidatas.putAll(partnerService.getPartnerInfoFields(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,11 +84,11 @@ public class OrderApportionController implements Serializable{
 	}
 
 	@ResponseBody
-	@PostMapping("/saveOrderApportion")
-	public Map saveOrderApportion(HttpServletRequest request){
+	@PostMapping("/addPartnerInfo")
+	public Map addPartnerInfo(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderApportionService.saveOrderApportion(ParamUtil.request2Map(request)));
+			apidatas.putAll(partnerService.insertPartner(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,12 +98,13 @@ public class OrderApportionController implements Serializable{
 		return apidatas;
 	}
 
+
 	@ResponseBody
-	@PostMapping("/dispatchOrderApportion")
-	public Map dispatchOrderApportion(HttpServletRequest request){
+	@PostMapping("/updatePartnerInfo")
+	public Map updateMessage(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderApportionService.dispatchOrderApportion(ParamUtil.request2Map(request)));
+			apidatas.putAll(partnerService.updatePartner(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,12 +114,13 @@ public class OrderApportionController implements Serializable{
 		return apidatas;
 	}
 
+
 	@ResponseBody
-	@PostMapping("/deleteOrderApportion")
-	public Map deleteOrderApportion(HttpServletRequest request){
+	@PostMapping("/deletePartnerInfo")
+	public Map deleteMessage(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderApportionService.deleteOrderApportion(ParamUtil.request2Map(request)));
+			apidatas.putAll(partnerService.deletePartner(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,4 +129,6 @@ public class OrderApportionController implements Serializable{
 		}
 		return apidatas;
 	}
+	
+
 }

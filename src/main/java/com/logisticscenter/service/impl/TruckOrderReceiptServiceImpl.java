@@ -8,9 +8,11 @@ import com.logisticscenter.mapper.OrderReceiptDao;
 import com.logisticscenter.mapper.TruckGoodsOrderDao;
 import com.logisticscenter.model.TruckGoodsOrderDetailEntity;
 import com.logisticscenter.model.TruckGoodsOrderTakerEntity;
+import com.logisticscenter.model.TruckGoodsReportEntity;
 import com.logisticscenter.service.TruckGoodsOrderService;
 import com.logisticscenter.service.TruckOrderReceiptService;
 import com.splitPage.EditTableBean;
+import com.splitPage.OrderReceiptSplitPage;
 import com.splitPage.OrderTakerSplitPage;
 import com.splitPage.pageInterface.SplitPageInterface;
 import com.util.FileldsUtil.FieldUtil;
@@ -42,13 +44,13 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
 		Map<String,Object> groupitem = new HashMap<String,Object>();
 		List itemlist = new ArrayList();
-		List<SearchConditionOption> orderStatusOptions = selectOptionUtils.getOrderStatusOptions();
-		itemlist.add(FieldUtil.getFormItemForSelect("orderStatus", "状态", "0", 2, 2, orderStatusOptions));
+		List<SearchConditionOption> reportStatusOptions = selectOptionUtils.getReportStatusOptions();
+		itemlist.add(FieldUtil.getFormItemForSelect("reportStatus", "回执状态", "0", 2, 2, reportStatusOptions));
 		List<SearchConditionOption> clientOptions = selectOptionUtils.getClientOptions();
 		itemlist.add(FieldUtil.getFormItemForSelect("client", "客户", "", 2, 2, clientOptions));
 		List<SearchConditionOption> driverOptions = selectOptionUtils.getDriverOptions();
 		itemlist.add(FieldUtil.getFormItemForSelect("driver", "司机", "", 2, 2, driverOptions));
-		List<SearchConditionOption> goodsTypeOptions = selectOptionUtils.getGoodsTypeOptions();
+		List<SearchConditionOption> goodsTypeOptions = selectOptionUtils.getGoodsTypeOptions(false);
 		itemlist.add(FieldUtil.getFormItemForSelect("goodsType", "货物类型", "", 2, 2, goodsTypeOptions));
 		itemlist.add(FieldUtil.getFormItemForSelectDate("timeSag,beginDate", "出发时间", "", 2));
 		groupitem.put("title", "基本信息");
@@ -67,30 +69,21 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 		int pageSize = Utils.getIntValue(Utils.null2String(params.get("pageSize")) ,10) ;
 		PageHelper.startPage(page,pageSize);
 
-		TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
-		int client = Utils.getIntValue(Utils.null2String(params.get("client")),0);
-		int orderStatus = Utils.getIntValue(Utils.null2String(params.get("orderStatus")),-1) ;
-		truckGoodsOrderTakerEntity.setClient(client);
-		truckGoodsOrderTakerEntity.setOrderStatus(orderStatus);
-		List<TruckGoodsOrderTakerEntity> truckGoodsOrderTakerEntityList = truckGoodsOrderDao.getTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
+		TruckGoodsReportEntity truckGoodsReportEntity = new TruckGoodsReportEntity();
+		String client = Utils.null2String(params.get("client"));
+		String driver = Utils.null2String(params.get("driver"));
+		String goodsType = Utils.null2String(params.get("goodsType"));
+
+		truckGoodsReportEntity.setClient(client);
+		truckGoodsReportEntity.setDriver(driver);
+		truckGoodsReportEntity.setGoodsType(goodsType);
+		List<TruckGoodsReportEntity> truckGoodsOrderTakerEntityList = orderReceiptDao.getTruckGoodsReport(truckGoodsReportEntity);
 		PageInfo pageInfo = new PageInfo(truckGoodsOrderTakerEntityList);
-		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
+		SplitPageInterface splitPageInterface = new OrderReceiptSplitPage();
 		splitPageInterface.init(pageInfo);
 		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
-		Map<String,Object> dataMap =(Map)splitPageInterface.splitPageBean.getData();
-
-		List<TruckGoodsOrderTakerEntity> datas = (List<TruckGoodsOrderTakerEntity>)dataMap.get("list");
-		datas.stream().forEach(_item->{
-			List<TruckGoodsOrderDetailEntity> children = _item.getChildren();
-			if(children.size() == 0){
-				_item.setChildren(null);
-			}
-			children.stream().forEach(_childItem->{
-				int id = _childItem.getId();
-				_childItem.setKey(99999999+id);
-			});
-		});
 		retMap.put("data",splitPageInterface.splitPageBean.getData());
+
 		return retMap;
 	}
 
@@ -182,7 +175,7 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 		if(!mainInfo.equals("")){
 			JSONObject orderTakerInfoJson = JSONObject.parseObject(mainInfo);
 			TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
-			truckGoodsOrderTakerEntity.setClient(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("client"))));
+			truckGoodsOrderTakerEntity.setClient(Utils.null2String(orderTakerInfoJson.get("client")));
 			truckGoodsOrderTakerEntity.setBeginDate(Utils.null2String(orderTakerInfoJson.get("beginDate")));
 			truckGoodsOrderTakerEntity.setPackageFlg(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("packageFlg"))));
 			truckGoodsOrderTakerEntity.setPackagePrice(Utils.toDecimal(Utils.null2String(orderTakerInfoJson.get("packagePrice")),2));
@@ -202,7 +195,7 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 						BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
 						BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),0);
 						TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
-						truckGoodsOrderDetailEntity.setGoodsType(goodsType);
+						truckGoodsOrderDetailEntity.setGoodsType(goodsType+"");
 						truckGoodsOrderDetailEntity.setEndPlace(endPlace);
 						truckGoodsOrderDetailEntity.setStartPlace(startPlace);
 						truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);
@@ -232,7 +225,7 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 			JSONObject orderTakerInfoJson = JSONObject.parseObject(mainInfo);
 
 			TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
-			truckGoodsOrderTakerEntity.setClient(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("client"))));
+			truckGoodsOrderTakerEntity.setClient(Utils.null2String(orderTakerInfoJson.get("client")));
 			truckGoodsOrderTakerEntity.setBeginDate(Utils.null2String(orderTakerInfoJson.get("beginDate")));
 			truckGoodsOrderTakerEntity.setPackageFlg(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("packageFlg"))));
 			truckGoodsOrderTakerEntity.setPackagePrice(Utils.toDecimal(Utils.null2String(orderTakerInfoJson.get("packagePrice")),2));
@@ -253,7 +246,7 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 					BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
 					BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),0);
 					TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
-					truckGoodsOrderDetailEntity.setGoodsType(goodsType);
+					truckGoodsOrderDetailEntity.setGoodsType(goodsType+"");
 					truckGoodsOrderDetailEntity.setEndPlace(endPlace);
 					truckGoodsOrderDetailEntity.setStartPlace(startPlace);
 					truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);

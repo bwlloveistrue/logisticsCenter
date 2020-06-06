@@ -38,6 +38,23 @@ public class SelectOptionUtils {
     }
 
     /**
+     * 获取分配状态选择框
+     * @return
+     */
+    public List<SearchConditionOption> getReportStatusOptions(){
+        List<SearchConditionOption> orderStatusOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("0","待回执",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("1","回执中",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("2","回执完成",false,true);
+        orderStatusOptions.add(searchConditionOption);
+        return orderStatusOptions;
+    }
+
+    /**
      * 获取性别状态选择框
      * @return
      */
@@ -89,16 +106,7 @@ public class SelectOptionUtils {
      * @return
      */
     public List<SearchConditionOption> getClientOptions(){
-        List<ClientEntity> allClient =  commonTransMethod.getAllClient();
-        List<SearchConditionOption> clientOptions = new ArrayList<SearchConditionOption>();
-        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
-        clientOptions.add(searchConditionOption);
-        allClient.stream().forEach((_v)->{
-            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getClientName(),false,true);
-            clientOptions.add(childOption);
-        });
-
-        return clientOptions;
+        return getClientOptions(true);
     }
 
     /**
@@ -126,15 +134,25 @@ public class SelectOptionUtils {
      * @return
      */
     public List<SearchConditionOption> getDriverOptions(){
+        return getDriverOptions(true);
+    }
+
+    /**
+     * 获取客户选择框
+     * @return
+     */
+    public List<SearchConditionOption> getDriverOptions(boolean isSearch){
         List<DriverInfoEntity> allDriverMap =  commonTransMethod.getAllDriver();
-        List<SearchConditionOption> clientOptions = new ArrayList<SearchConditionOption>();
-        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
-        clientOptions.add(searchConditionOption);
+        List<SearchConditionOption> driverOptions = new ArrayList<SearchConditionOption>();
+        if(isSearch){
+            SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+            driverOptions.add(searchConditionOption);
+        }
         allDriverMap.forEach((_v)->{
             SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getName(),false,true);
-            clientOptions.add(childOption);
+            driverOptions.add(childOption);
         });
-        return clientOptions;
+        return driverOptions;
     }
 
     /**
@@ -166,18 +184,35 @@ public class SelectOptionUtils {
      * @return
      */
     public List<SearchConditionOption> getGoodsTypeOptions(boolean isSearch){
-        List<GoodsTypeEntity> allDriverMap =  commonTransMethod.getAllGoodsType();
-        List<SearchConditionOption> clientOptions = new ArrayList<SearchConditionOption>();
+        return getGoodsTypeOptions(isSearch,"");
+    }
+
+    /**
+     * 获取客户选择框
+     * @return
+     */
+    public List<SearchConditionOption> getGoodsTypeOptions(boolean isSearch, String goods){
+        List<GoodsTypeEntity> allGoodsTypeMap =  commonTransMethod.getAllGoodsType();
+        List<SearchConditionOption> goodsOptions = new ArrayList<SearchConditionOption>();
         if(isSearch){
             SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
-            clientOptions.add(searchConditionOption);
+            goodsOptions.add(searchConditionOption);
         }
 
-        allDriverMap.forEach((_v)->{
-            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getGoodsName(),false,true);
-            clientOptions.add(childOption);
+        allGoodsTypeMap.forEach((_v)->{
+            if(goods!=null && !goods.equals("")){
+                if((","+goods+",").indexOf(","+_v.getId()+",") > -1){
+                    SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getGoodsName(),false,true);
+                    goodsOptions.add(childOption);
+                }
+
+            }else{
+                SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getGoodsName(),false,true);
+                goodsOptions.add(childOption);
+            }
+
         });
-        return clientOptions;
+        return goodsOptions;
     }
 
     /**
@@ -185,12 +220,40 @@ public class SelectOptionUtils {
      * @return
      */
     public List<SearchConditionOption> getTruckOptions(){
-        List<TruckEntity> allDriverMap =  commonTransMethod.getAllTruck();
+        return getTruckOptions(true);
+    }
+
+    /**
+     * 获取车辆选择框
+     * @return
+     */
+    public List<SearchConditionOption> getTruckOptions(boolean isSearch){
+        List<TruckEntity> alltruckMap =  commonTransMethod.getAllTruck();
         List<SearchConditionOption> truckOptions = new ArrayList<SearchConditionOption>();
-        SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
-        truckOptions.add(searchConditionOption);
-        allDriverMap.forEach((_v)->{
-            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getTruckName(),false,true);
+        if(isSearch){
+            SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+            truckOptions.add(searchConditionOption);
+        }
+        alltruckMap.forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getTruckNumber(),false,true);
+            truckOptions.add(childOption);
+        });
+        return truckOptions;
+    }
+
+    /**
+     * 获取车辆选择框
+     * @return
+     */
+    public List<SearchConditionOption> getPartnerOptions(boolean isSearch){
+        List<PartnerEntity> alltruckMap =  commonTransMethod.getAllPartner();
+        List<SearchConditionOption> truckOptions = new ArrayList<SearchConditionOption>();
+        if(isSearch){
+            SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
+            truckOptions.add(searchConditionOption);
+        }
+        alltruckMap.forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getPartner(),false,true);
             truckOptions.add(childOption);
         });
         return truckOptions;
@@ -226,6 +289,19 @@ public class SelectOptionUtils {
             sendTypeOptions.add(childOption);
         });
         return sendTypeOptions;
+    }
+
+    /**
+     * 获取工作流选择框
+     * @return
+     */
+    public List<SearchConditionOption> getTruckPartOptions(){
+        List<SearchConditionOption> truckPartOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption("0","个人",true,true);
+        truckPartOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("1","伙伴",true,true);
+        truckPartOptions.add(searchConditionOption);
+        return truckPartOptions;
     }
 
 }

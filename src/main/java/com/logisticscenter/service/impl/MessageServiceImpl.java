@@ -250,7 +250,9 @@ public class MessageServiceImpl implements MessageService {
 			}
 			CacheManager.putCacheList("workflowTypeEntity_CACHE", beanCacheLst);
 		}
-
+		if(entityList == null){
+			entityList = new ArrayList<WorkflowTypeEntity>();
+		}
 		retResult.put("workflowTypeInfo",entityList);
 		retResult.put("status",true);
 		retResult.put("ret",true);

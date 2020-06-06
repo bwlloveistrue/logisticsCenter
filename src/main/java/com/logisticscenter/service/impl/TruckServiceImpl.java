@@ -54,7 +54,7 @@ public class TruckServiceImpl implements TruckService {
             }
             CacheManager.putCacheList("truckEntity_CACHE", beanCacheLst);
         }
-        retResult.put("driverInfo", entityList);
+        retResult.put("truckInfo", entityList);
         return retResult;
     }
 

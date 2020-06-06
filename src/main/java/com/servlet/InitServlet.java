@@ -70,6 +70,9 @@ public class InitServlet {
 	@Autowired
 	private MessageService messageService;
 
+	@Autowired
+	private PartnerService partnerService;
+
 
 	/**
 	 * Constructor of the object.
@@ -114,6 +117,12 @@ public class InitServlet {
 		messageService.getAllMessage();
 		messageService.getAllSendType();
 		messageService.getAllWorkflowType();
+
+		truckService = applicationContext.getBean(TruckService.class);
+		truckService.getAllTruck();
+
+		partnerService = applicationContext.getBean(PartnerService.class);
+		partnerService.getAllPartner();
 		/*  ---升级操作end---  */
 		
 	}

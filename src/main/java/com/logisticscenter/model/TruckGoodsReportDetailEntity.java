@@ -1,39 +1,56 @@
 package com.logisticscenter.model;
 
+import com.util.Utils;
+
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 public class TruckGoodsReportDetailEntity {
 	
-	public TruckGoodsReportDetailEntity(){}
+	public TruckGoodsReportDetailEntity(){
+		Calendar today = Calendar.getInstance();
+		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
+		this.editDate = currentdate;
+		this.editTime = currenttime;
+		this.createDate = currentdate;
+		this.createTime = currenttime;
+	}
 	
 	//标识ID
 	private int id;
-	//对应预录车辆信息中的reportId
+	//标识ID
+	private int key;
+	//对应预录车辆信息中的id
 	private int truckOrder;
+	//对应回执中的id
+	private int reportId;
 	//客户货物类型
 	private String goodsType;
-	//单价
-	private BigDecimal price;
+
+	private String truckNumber;
+
+	//司机
+	private String driver;
+
+	// 伙伴总重
+	private BigDecimal partnerCarry;
+
+	// 伙伴价格
+	private BigDecimal partnerPrice;
+
+	//伙伴
+	private int partner;
+
+	// 分配状态
+	private int truckPart;
+
 	//是否删除
 	private int deleteFlg;
-	//载重
-	private BigDecimal realCarry;
-	//是否开票
-	private int invoiceFlg;
-	//吊费
-	private BigDecimal liftingCost;
-	//始发地
-	private String startPlace;
-	//目的地
-	private String endPlace;
-	//区域
-	private String workPlace;
-	//备注
-	private String remark;
-	//客户订单编号
-	private String customerOrder;
-	//是否结算运费
-	private String settlement;
+
+
+
 	//创建日期
 	private String createDate;
 	//创建时间
@@ -47,8 +64,18 @@ public class TruckGoodsReportDetailEntity {
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
+	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
 	}
 	
 	public int getTruckOrder() {
@@ -57,77 +84,60 @@ public class TruckGoodsReportDetailEntity {
 	public void setTruckOrder(int truckOrder) {
 		this.truckOrder = truckOrder;
 	}
+
+	public int getReportId() {
+		return reportId;
+	}
+
+	public void setReportId(int reportId) {
+		this.reportId = reportId;
+	}
+
 	public String getGoodsType() {
 		return goodsType;
 	}
 	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType;
 	}
-	public BigDecimal getPrice() {
-		return price;
-	}
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-	public BigDecimal getRealCarry() {
-		return realCarry;
-	}
-	public void setRealCarry(BigDecimal realCarry) {
-		this.realCarry = realCarry;
-	}
-	public int getInvoiceFlg() {
-		return invoiceFlg;
-	}
-	public void setInvoiceFlg(int invoiceFlg) {
-		this.invoiceFlg = invoiceFlg;
-	}
-	public BigDecimal getLiftingCost() {
-		return liftingCost;
-	}
-	public void setLiftingCost(BigDecimal liftingCost) {
-		this.liftingCost = liftingCost;
-	}
-	public String getStartPlace() {
-		return startPlace;
-	}
-	public void setStartPlace(String startPlace) {
-		this.startPlace = startPlace;
-	}
-	public String getEndPlace() {
-		return endPlace;
-	}
-	public void setEndPlace(String endPlace) {
-		this.endPlace = endPlace;
-	}
-	public String getWorkPlace() {
-		return workPlace;
-	}
-	public void setWorkPlace(String workPlace) {
-		this.workPlace = workPlace;
+
+	public String getTruckNumber() {
+		return truckNumber;
 	}
 
-	public String getRemark() {
-		return remark;
+	public void setTruckNumber(String truckNumber) {
+		this.truckNumber = truckNumber;
 	}
 
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public String getDriver() {
+		return driver;
 	}
 
-	public String getCustomerOrder() {
-		return customerOrder;
+	public void setDriver(String driver) {
+		this.driver = driver;
 	}
 
-	public void setCustomerOrder(String customerOrder) {
-		this.customerOrder = customerOrder;
+	public BigDecimal getPartnerCarry() {
+		return partnerCarry;
 	}
 
-	public String getSettlement() {
-		return settlement;
+	public void setPartnerCarry(BigDecimal partnerCarry) {
+		this.partnerCarry = partnerCarry;
 	}
 
-	public void setSettlement(String settlement) {
-		this.settlement = settlement;
+	public BigDecimal getPartnerPrice() {
+		return partnerPrice;
+	}
+
+	public void setPartnerPrice(BigDecimal partnerPrice) {
+		this.partnerPrice = partnerPrice;
+	}
+
+	public int getPartner() {
+		return partner;
+	}
+
+	public void setPartner(int partner) {
+		this.partner = partner;
 	}
 
 	public String getCreateDate() {
@@ -161,4 +171,11 @@ public class TruckGoodsReportDetailEntity {
 		this.deleteFlg = deleteFlg;
 	}
 
+	public int getTruckPart() {
+		return truckPart;
+	}
+
+	public void setTruckPart(int truckPart) {
+		this.truckPart = truckPart;
+	}
 }

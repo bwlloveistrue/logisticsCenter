@@ -39,7 +39,8 @@ spring:
     devtools:
       restart:
         enabled: true
-
+    thymeleaf:
+        prefix: classpath:static/
 #    mvc:
 #      view:
 ##        prefix: classpath:/static/

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logisticscenter.mapper.PartnerDao">
+
+  <select id="getAllPartnerInfo" resultType="partnerEntity">
+    select * from partnerInfo order by id
+  </select>
+
+   <!-- 模糊查询客户信息 -->
+   <select id="getPartnerInfo" resultType="partnerEntity" parameterType="partnerEntity">
+	select * from partnerInfo
+	   <where>
+		   <if test="id > 0 ">
+			   id = #{id}
+		   </if>
+           <if test="partner != null and partner != ''">
+               partner like '%' + #{partner} +  '%'
+           </if>
+		   <if test="address != null and address != ''">
+               address like '%' + #{address} +  '%'
+		   </if>
+		   <if test="mobile != null and mobile != ''">
+               mobile like '%' + #{mobile} +  '%'
+		   </if>
+	   </where>
+       order by id desc
+  </select>
+
+   <!-- 新增用户对象 -->
+   <insert id="insertPartnerInfo" parameterType="partnerEntity" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+      insert into partnerInfo (partner,address,mobile)
+      values ( #{partner}, #{address}, #{mobile})
+   </insert>
+
+   <!-- 删除用户对象 -->
+   <delete id="deletePartnerInfo" parameterType="string">
+	delete from partnerInfo WHERE ID =#{id}
+   </delete>
+
+   <!-- 更新用户对象 -->
+   <update id="updatePartnerInfo" parameterType="partnerEntity">
+      update partnerInfo set
+      partner= #{partner},
+      address= #{address},
+      mobile= #{mobile},
+      where id= #{id}
+   </update>
+</mapper>

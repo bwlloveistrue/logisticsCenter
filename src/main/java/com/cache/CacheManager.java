@@ -112,7 +112,7 @@ public class CacheManager {
             List<Cache> cacheList = getCacheList(key);  
             return cacheList;  
         }else  
-            return null;  
+            return new ArrayList<Cache>();
     } 
   
     //获取缓存信息  

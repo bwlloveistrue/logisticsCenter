@@ -30,21 +30,21 @@ public interface TruckOrderApportionService {
 	 * @param params
 	 * @return
 	 */
-	public abstract Map addOrderTaker(Map params);
+	public abstract Map saveOrderApportion(Map params);
 
 	/**
-	 * 更新预录车辆详细信息
+	 * 分配车辆详细信息
 	 * @param params
 	 * @return
 	 */
-	public abstract Map updateOrderTaker(Map params);
+	public abstract Map dispatchOrderApportion(Map params);
 
 	/**
 	 * 删除预录车辆详细信息
 	 * @param params
 	 * @return
 	 */
-	public abstract Map deleteOrderTaker(Map params);
+	public abstract Map deleteOrderApportion(Map params);
 
 
 	

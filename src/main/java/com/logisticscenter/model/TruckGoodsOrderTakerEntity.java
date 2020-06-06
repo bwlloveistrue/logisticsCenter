@@ -3,13 +3,28 @@ package com.logisticscenter.model;
 import com.cache.Cache;
 import com.cache.CacheManager;
 import com.common.CommonTransMethod;
+import com.splitPage.OrderTakerDetailSplitPage;
+import com.splitPage.PageCell;
+import com.splitPage.pageInterface.SplitPageInterface;
+import com.util.Utils;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 public class TruckGoodsOrderTakerEntity {
-	
-	public TruckGoodsOrderTakerEntity(){}
+	public TruckGoodsOrderTakerEntity(){
+		Calendar today = Calendar.getInstance();
+		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
+		this.editDate = currentdate;
+		this.editTime = currenttime;
+		this.createDate = currentdate;
+		this.createTime = currenttime;
+	}
+
+	SplitPageInterface splitPageInterface = new OrderTakerDetailSplitPage();
 	
 	//标识ID
 	private int id;
@@ -27,7 +42,7 @@ public class TruckGoodsOrderTakerEntity {
 	private String beginDate;
 
 	//客户
-	private int client;
+	private String client;
 	//客户
 	private String clientName;
 	//是否删除
@@ -48,7 +63,9 @@ public class TruckGoodsOrderTakerEntity {
 	//预录状态
 	private int orderStatus = -1;
 
-	private List<TruckGoodsOrderDetailEntity> children;
+	private List<TruckGoodsOrderDetailEntity> childInfo;
+
+	private List<PageCell>  childColumns = splitPageInterface.createColumn() ;
 
 	//预录状态
 	private String orderStatusName;
@@ -108,11 +125,11 @@ public class TruckGoodsOrderTakerEntity {
 	}
 
 
-	public int getClient() {
+	public String getClient() {
 		return client;
 	}
 
-	public void setClient(int client) {
+	public void setClient(String client) {
 		this.client = client;
 		this.setClientName(client+"");
 	}
@@ -198,12 +215,12 @@ public class TruckGoodsOrderTakerEntity {
 		return orderStatus;
 	}
 
-	public List<TruckGoodsOrderDetailEntity> getChildren() {
-		return children;
+	public List<TruckGoodsOrderDetailEntity> getChildInfo() {
+		return childInfo;
 	}
 
-	public void setChildren(List<TruckGoodsOrderDetailEntity> children) {
-		this.children = children;
+	public void setChildInfo(List<TruckGoodsOrderDetailEntity> childInfo) {
+		this.childInfo = childInfo;
 	}
 
 	public void setOrderStatus(int orderStatus) {
@@ -217,5 +234,13 @@ public class TruckGoodsOrderTakerEntity {
 
 	public void setOrderStatusName(String orderStatusName) {
 		this.orderStatusName = CommonTransMethod.getOrderStatusName(orderStatusName);
+	}
+
+	public List<PageCell> getChildColumns() {
+		return childColumns;
+	}
+
+	public void setChildColumns(List<PageCell> childColumns) {
+		this.childColumns = childColumns;
 	}
 }

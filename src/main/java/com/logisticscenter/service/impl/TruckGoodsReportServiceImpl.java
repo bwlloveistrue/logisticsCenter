@@ -50,15 +50,15 @@ public class TruckGoodsReportServiceImpl implements TruckGoodsReportService {
 		TruckGoodsReportEntity truckGoodsReportE = (TruckGoodsReportEntity)ConvertService.convertBeanToEntity(selectInfo,new TruckGoodsReportEntity());
 		List<TruckGoodsReportEntity> entityList = new ArrayList<TruckGoodsReportEntity>();
 		List<TruckGoodsReportBean> beanList = new ArrayList<TruckGoodsReportBean>();
-		int pageSize =Integer.parseInt(truckGoodsReportE.getPageSize());
-		int currentPage =Integer.parseInt(truckGoodsReportE.getCurrentPage());
-		currentPage = (currentPage -1)*pageSize;
-		truckGoodsReportE.setCurrentPage(currentPage+"");
-		entityList = truckGoodsReportDao.getTruckGoodsReport(truckGoodsReportE);
-		for(int i=0;i<entityList.size(); i++){
-			TruckGoodsReportBean dirverBean = (TruckGoodsReportBean) ConvertService.convertEntityToBean(entityList.get(i), new TruckGoodsReportBean());
-			beanList.add(dirverBean);
-		}
+//		int pageSize =Integer.parseInt(truckGoodsReportE.getPageSize());
+//		int currentPage =Integer.parseInt(truckGoodsReportE.getCurrentPage());
+//		currentPage = (currentPage -1)*pageSize;
+//		truckGoodsReportE.setCurrentPage(currentPage+"");
+//		entityList = truckGoodsReportDao.getTruckGoodsReport(truckGoodsReportE);
+//		for(int i=0;i<entityList.size(); i++){
+//			TruckGoodsReportBean dirverBean = (TruckGoodsReportBean) ConvertService.convertEntityToBean(entityList.get(i), new TruckGoodsReportBean());
+//			beanList.add(dirverBean);
+//		}
 		return beanList;
 	}
 	
@@ -210,15 +210,15 @@ public class TruckGoodsReportServiceImpl implements TruckGoodsReportService {
 		TruckGoodsReportEntity truckGoodsReportE = (TruckGoodsReportEntity)ConvertService.convertBeanToEntity(selectInfo,new TruckGoodsReportEntity());
 		List<TruckGoodsReportEntity> entityList = new ArrayList<TruckGoodsReportEntity>();
 		List<TruckGoodsReportBean> beanList = new ArrayList<TruckGoodsReportBean>();
-		int pageSize =Integer.parseInt(truckGoodsReportE.getPageSize());
-		int currentPage =Integer.parseInt(truckGoodsReportE.getCurrentPage());
-		currentPage = (currentPage -1)*pageSize;
-		truckGoodsReportE.setCurrentPage(currentPage+"");
-		entityList = truckGoodsReportDao.getTruckGoodsReportImport(truckGoodsReportE);
-		for(int i=0;i<entityList.size(); i++){
-			TruckGoodsReportBean dirverBean = (TruckGoodsReportBean) ConvertService.convertEntityToBean(entityList.get(i), new TruckGoodsReportBean());
-			beanList.add(dirverBean);
-		}
+//		int pageSize =Integer.parseInt(truckGoodsReportE.getPageSize());
+//		int currentPage =Integer.parseInt(truckGoodsReportE.getCurrentPage());
+//		currentPage = (currentPage -1)*pageSize;
+//		truckGoodsReportE.setCurrentPage(currentPage+"");
+//		entityList = truckGoodsReportDao.getTruckGoodsReportImport(truckGoodsReportE);
+//		for(int i=0;i<entityList.size(); i++){
+//			TruckGoodsReportBean dirverBean = (TruckGoodsReportBean) ConvertService.convertEntityToBean(entityList.get(i), new TruckGoodsReportBean());
+//			beanList.add(dirverBean);
+//		}
 		return beanList;
 	}
 	

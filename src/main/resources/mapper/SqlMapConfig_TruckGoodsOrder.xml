@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
 <mapper namespace="com.logisticscenter.mapper.TruckGoodsOrderDao">
 	<resultMap type="truckGoodsOrderTakerEntity" id="orderTakerForSplit">
 		<id property="id" column="id"/>
@@ -16,7 +17,7 @@
 		<result property="orderStatus" column="orderStatus"/>
 		<result property="editDate" column="editDate"/>
 		<result property="editTime" column="editTime"/>
-		<collection property="children" ofType="truckGoodsOrderDetailEntity" column="id" select="getOrderDetailByReportId"></collection>
+		<collection property="childInfo" ofType="truckGoodsOrderDetailEntity" column="id" select="getOrderDetailByReportId"></collection>
 	</resultMap>
 	<!-- 新增预录出车信息 -->
 	<insert id="insertTruckGoodsOrderTaker" parameterType="truckGoodsOrderTakerEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -68,8 +69,8 @@
 			createTime,
 			editDate,
 			editTime
-		) 
-		values 
+		)
+		values
 		(
 			#{reportId},
 			#{goodsType},
@@ -85,8 +86,8 @@
 			#{editTime}
 		)
 	</insert>
-	
-	
+
+
 	<!-- 根据条件查询出车预录信息 -->
 	<select id="getTruckGoodsOrderTaker" resultMap="orderTakerForSplit" parameterType="truckGoodsOrderTakerEntity">
 		select * from truckGoodsOrderTaker
@@ -107,7 +108,7 @@
 	<select id="getOrderDetailByReportId" resultType="truckGoodsOrderDetailEntity" parameterType="int">
 		select * from truckGoodsOrderDetail where reportId = #{id}
 	</select>
-	
+
 	<!-- 根据条件查询出车预录详细信息 -->
 	<select id="getTruckGoodsOrderDetail" resultType="truckGoodsOrderDetailEntity" parameterType="truckGoodsOrderDetailEntity">
 		select * from truckGoodsOrderDetail
@@ -120,12 +121,12 @@
 			</if>
 		</where>
 	</select>
-	
+
    <!-- 删除预录信息 -->
 	<update id="deleteTruckGoodsOrderTaker" parameterType="string">
 		update truckGoodsOrderTaker set deleteFlg = 1 ,orderStatus =2 where id = #{id}
 	</update>
-	
+
 	<!-- 删除预录详细信息 -->
 	<update id="deleteTruckGoodsOrderDetail" parameterType="string">
 		delete from truckGoodsOrderDetail
@@ -138,7 +139,7 @@
 			</if>
 		</where>
 	</update>
-   
+
    <!-- 更新预录出车信息 -->
    <update id="updateTruckGoodsOrderTaker" parameterType="truckGoodsOrderTakerEntity">
 		update truckGoodsOrderTaker set
@@ -150,10 +151,17 @@
 			editTime=#{editTime}
 		 where id=#{id}
    </update>
-   
+
+	<!-- 更新预录出车信息 -->
+	<update id="setOrderTakerStatusForReceipt" parameterType="string">
+		update truckGoodsOrderTaker set
+		orderStatus=1
+		where id=#{id}
+	</update>
+
    <!-- 更新预录出车详细信息 -->
    <update id="updateTruckGoodsOrderDetail" parameterType="truckGoodsOrderDetailEntity">
-		update truckGoodsOrderDetail set 
+		update truckGoodsOrderDetail set
 			goodsType=#{goodsType},
 			price=#{price},
 			realCarry=#{realCarry},

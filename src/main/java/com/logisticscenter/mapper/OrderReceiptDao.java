@@ -2,74 +2,48 @@ package com.logisticscenter.mapper;
 
 import com.logisticscenter.model.TruckGoodsOrderDetailEntity;
 import com.logisticscenter.model.TruckGoodsOrderTakerEntity;
+import com.logisticscenter.model.TruckGoodsReportDetailEntity;
+import com.logisticscenter.model.TruckGoodsReportEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface OrderReceiptDao {
-	
+
 	/**
-	 * @param insertInfo 预录车辆信息
+	 * @param insertInfo 分配信息
 	 * @return
 	 */
-	public abstract int insertTruckGoodsOrderTaker(TruckGoodsOrderTakerEntity insertInfo);
-	
+	public abstract int insertTruckGoodsReport(TruckGoodsReportEntity insertInfo);
+
 	/**
-	 * 预录车辆详细信息
-	 * @param insertInfo
+	 * 删除分配信息
+	 * @param delIds
 	 * @return
 	 */
-	public abstract int insertTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity insertInfo);
-	
+	public abstract int deleteTruckGoodsReport(String delIds);
+
 	/**
-	 * 获得预录车辆信息
+	 * 删除分配信息
+	 * @param delIds
+	 * @return
+	 */
+	public abstract int deleteReportByOrderId(String delIds);
+
+	/**
+	 * 获得分配车辆信息
 	 * @param selectInfo
 	 * @return
 	 */
-	public abstract List<TruckGoodsOrderTakerEntity> getTruckGoodsOrderTaker(TruckGoodsOrderTakerEntity selectInfo);
-	
-	
-	/**
-	 * 获得预录车辆详细信息
-	 * @param selectInfo
-	 * @return
-	 */
-	public abstract List<TruckGoodsOrderDetailEntity> getTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity selectInfo);
+	public abstract List<TruckGoodsReportEntity> getTruckGoodsReport(TruckGoodsReportEntity selectInfo);
 
-	 
-	/**
-	 * 根据ID删除预录信息
-	 * @param id
-	 * @return
-	 */
-	public abstract int deleteTruckGoodsOrderTaker(String id);
-	
-	/**
-	 * 根据ID删除预录信息
-	 * @param reportId
-	 * @return
-	 */
-	public abstract int deleteTruckGoodsOrderDetail(String reportId);
 
-	/**
-	 * 根据ID删除预录信息
-	 * @param delEntity
-	 * @return
-	 */
-	public abstract int deleteTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity delEntity);
-	
-	/**
-	 * 更新预录信息(现在不用)
-	 * @param updateInfo
-	 */
-	public abstract int updateTruckGoodsOrderTaker(TruckGoodsOrderTakerEntity updateInfo);
-	
 	/**
 	 * 更新预录详细信息
 	 * @param updateInfo
 	 */
-	public abstract void updateTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity updateInfo);
+	public abstract void updateTruckGoodsReport(TruckGoodsReportEntity updateInfo);
 
 	
 }

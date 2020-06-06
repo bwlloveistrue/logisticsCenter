@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.logisticscenter.mapper.ClientDao;
 import com.logisticscenter.model.ClientEntity;
+import com.logisticscenter.model.WorkflowTypeEntity;
 import com.logisticscenter.service.ClientService;
 import com.splitPage.ClientSplitPage;
 import com.splitPage.EditTableBean;
@@ -140,7 +141,9 @@ public class ClientServiceImpl implements ClientService {
 			}
 			CacheManager.putCacheList("clientEntity_CACHE", beanCacheLst);
 		}
-
+		if(entityList == null){
+			entityList = new ArrayList<ClientEntity>();
+		}
 		retResult.put("clientInfo",entityList);
 		retResult.put("status",true);
 		retResult.put("ret",true);

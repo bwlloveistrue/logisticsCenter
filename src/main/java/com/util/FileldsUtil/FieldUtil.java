@@ -20,14 +20,12 @@ public class FieldUtil {
     public static final String INT = "INPUTNUMBER";
     public static final String FLOAT = "INPUTNUMBER";
     public static final String TEXTAREA = "TEXTAREA";
-    public static final String BROWSER = "BROWSER";
     public static final String DATE = "DATE";
     public static final String CHECKBOX = "CHECKBOX";
+    public static final String CHECKBOXGROUP = "CHECKBOXGROUP";
+    public static final String RADIOGROUP = "RADIOGROUP";
     public static final String SELECT = "SELECT";
     public static final String SELECTPAGE = "SELECTPAGE";
-    public static final String ATTACHEMENT = "ATTACHEMENT";
-    public static final String HYPERLINK = "HYPERLINK";
-    public static final String SELECT_LINKAGE = "SELECT_LINKAGE";
     public static final String DATEPICKER = "DATEPICKER";
     public static final String TIMEPICKER = "TIMEPICKER";
     public static final String SWITCH = "SWITCH";
@@ -419,18 +417,46 @@ public class FieldUtil {
     }
 
     /**
-     * select
+     * checkboxGroup
      * @param fieldName
      * @param fieldLabel
      * @param viewAttr
      * @param optionList
      * @return
      */
-    public static Map<String, Object> getFormItemForSelect(String fieldName, String fieldLabel, int viewAttr,int detailtype,List<Map> optionList) {
-        Map<String, Object> formItem = getPubFormItem(SELECT, fieldName, fieldLabel, "", viewAttr);
-        formItem.put("options", optionList);
-        formItem.put("detailtype", detailtype);
-        formItem.remove("value");
+    public static Map<String, Object> getFormItemForCheckBoxGroup(String fieldName, String fieldLabel, String value, int viewAttr,int detailtype,List<SearchConditionOption> optionList) {
+        Map<String, Object> formItem = getPubFormItem(CHECKBOXGROUP, fieldName, fieldLabel, value, viewAttr);
+        List<SearchLabelConditionOption> labelOptions = new ArrayList<SearchLabelConditionOption>();
+        for(SearchConditionOption opt :optionList){
+            SearchLabelConditionOption label = new SearchLabelConditionOption();
+            label.setLabel(opt.getShowname());
+            label.setValue(opt.getKey());
+            label.setDisabled(!opt.isVisible());
+            labelOptions.add(label);
+        }
+        formItem.put("options", labelOptions);
+        return formItem;
+    }
+
+    /**
+     * radioGroup
+     * @param fieldName
+     * @param fieldLabel
+     * @param viewAttr
+     * @param optionList
+     * @return
+     */
+    public static Map<String, Object> getFormItemForRadioGroup(String fieldName, String fieldLabel, String value, int viewAttr,int detailtype,List<SearchConditionOption> optionList) {
+        Map<String, Object> formItem = getPubFormItem(RADIOGROUP, fieldName, fieldLabel, value, viewAttr);
+        List<SearchLabelConditionOption> labelOptions = new ArrayList<SearchLabelConditionOption>();
+        for(SearchConditionOption opt :optionList){
+            SearchLabelConditionOption label = new SearchLabelConditionOption();
+            label.setLabel(opt.getShowname());
+            label.setValue(opt.getKey());
+            label.setDisabled(!opt.isVisible());
+            labelOptions.add(label);
+        }
+        formItem.put("options", labelOptions);
         return formItem;
     }
 

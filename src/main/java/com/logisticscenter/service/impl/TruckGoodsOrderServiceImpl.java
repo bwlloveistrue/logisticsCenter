@@ -2,6 +2,7 @@ package com.logisticscenter.service.impl;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -67,26 +68,13 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
 		int client = Utils.getIntValue(Utils.null2String(params.get("client")),0);
 		int orderStatus = Utils.getIntValue(Utils.null2String(params.get("orderStatus")),-1) ;
-		truckGoodsOrderTakerEntity.setClient(client);
+		truckGoodsOrderTakerEntity.setClient(client+"");
 		truckGoodsOrderTakerEntity.setOrderStatus(orderStatus);
 		List<TruckGoodsOrderTakerEntity> truckGoodsOrderTakerEntityList = truckGoodsOrderDao.getTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
 		PageInfo pageInfo = new PageInfo(truckGoodsOrderTakerEntityList);
 		SplitPageInterface splitPageInterface = new OrderTakerSplitPage();
 		splitPageInterface.init(pageInfo);
 		retMap.put("columns",splitPageInterface.splitPageBean.getColumns());
-		Map<String,Object> dataMap =(Map)splitPageInterface.splitPageBean.getData();
-
-		List<TruckGoodsOrderTakerEntity> datas = (List<TruckGoodsOrderTakerEntity>)dataMap.get("list");
-		datas.stream().forEach(_item->{
-			List<TruckGoodsOrderDetailEntity> children = _item.getChildren();
-			if(children.size() == 0){
-				_item.setChildren(null);
-			}
-			children.stream().forEach(_childItem->{
-				int id = _childItem.getId();
-				_childItem.setKey(99999999+id);
-			});
-		});
 		retMap.put("data",splitPageInterface.splitPageBean.getData());
 		return retMap;
 	}
@@ -179,11 +167,25 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		if(!mainInfo.equals("")){
 			JSONObject orderTakerInfoJson = JSONObject.parseObject(mainInfo);
 			TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
-			truckGoodsOrderTakerEntity.setClient(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("client"))));
+			truckGoodsOrderTakerEntity.setClient(Utils.null2String(orderTakerInfoJson.get("client")));
 			truckGoodsOrderTakerEntity.setBeginDate(Utils.null2String(orderTakerInfoJson.get("beginDate")));
 			truckGoodsOrderTakerEntity.setPackageFlg(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("packageFlg"))));
 			truckGoodsOrderTakerEntity.setPackagePrice(Utils.toDecimal(Utils.null2String(orderTakerInfoJson.get("packagePrice")),2));
 			truckGoodsOrderTakerEntity.setOrderStatus(0);
+			truckGoodsOrderTakerEntity.setDeleteFlg(0);
+			String sumGoodsType = "";
+			if(!orderTakerInfo.equals("")) {
+				JSONArray orderTakerInfoArr = JSONArray.parseArray(orderTakerInfo);
+				Iterator iterator = orderTakerInfoArr.iterator();
+				while (iterator.hasNext()) {
+					JSONObject jsonObject = (JSONObject) iterator.next();
+					sumGoodsType += ","+Utils.getIntValue(Utils.null2String(jsonObject.get("goodsType")));
+				}
+			}
+			if(!sumGoodsType.equals("")){
+				sumGoodsType = Arrays.asList(sumGoodsType.split(",")).stream().filter(_item->!_item.equals("")).collect(Collectors.toSet()).stream().collect(Collectors.joining(","));
+			}
+			truckGoodsOrderTakerEntity.setGoodsType(sumGoodsType);
 			truckGoodsOrderDao.insertTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
 			int orderId = truckGoodsOrderTakerEntity.getId();
 			if(!orderTakerInfo.equals("") && orderId > 0){
@@ -199,7 +201,7 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 						BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
 						BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),0);
 						TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
-						truckGoodsOrderDetailEntity.setGoodsType(goodsType);
+						truckGoodsOrderDetailEntity.setGoodsType(goodsType+"");
 						truckGoodsOrderDetailEntity.setEndPlace(endPlace);
 						truckGoodsOrderDetailEntity.setStartPlace(startPlace);
 						truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);
@@ -227,13 +229,25 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 		int orderId =Utils.getIntValue(Utils.null2String(params.get("id")));
 		if(!mainInfo.equals("")){
 			JSONObject orderTakerInfoJson = JSONObject.parseObject(mainInfo);
-
 			TruckGoodsOrderTakerEntity truckGoodsOrderTakerEntity = new TruckGoodsOrderTakerEntity();
-			truckGoodsOrderTakerEntity.setClient(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("client"))));
+			truckGoodsOrderTakerEntity.setClient(Utils.null2String(orderTakerInfoJson.get("client")));
 			truckGoodsOrderTakerEntity.setBeginDate(Utils.null2String(orderTakerInfoJson.get("beginDate")));
 			truckGoodsOrderTakerEntity.setPackageFlg(Utils.getIntValue(Utils.null2String(orderTakerInfoJson.get("packageFlg"))));
 			truckGoodsOrderTakerEntity.setPackagePrice(Utils.toDecimal(Utils.null2String(orderTakerInfoJson.get("packagePrice")),2));
 			truckGoodsOrderTakerEntity.setId(orderId);
+			String sumGoodsType = "";
+			if(!orderTakerInfo.equals("")) {
+				JSONArray orderTakerInfoArr = JSONArray.parseArray(orderTakerInfo);
+				Iterator iterator = orderTakerInfoArr.iterator();
+				while (iterator.hasNext()) {
+					JSONObject jsonObject = (JSONObject) iterator.next();
+					sumGoodsType += ","+Utils.getIntValue(Utils.null2String(jsonObject.get("goodsType")));
+				}
+			}
+			if(!sumGoodsType.equals("")){
+				sumGoodsType = Arrays.asList(sumGoodsType.split(",")).stream().filter(_item->!_item.equals("")).collect(Collectors.toSet()).stream().collect(Collectors.joining(","));
+			}
+			truckGoodsOrderTakerEntity.setGoodsType(sumGoodsType);
 			truckGoodsOrderDao.updateTruckGoodsOrderTaker(truckGoodsOrderTakerEntity);
 			TruckGoodsOrderDetailEntity forDel = new TruckGoodsOrderDetailEntity();
 			forDel.setReportId(orderId);
@@ -250,7 +264,7 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 					BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
 					BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),0);
 					TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
-					truckGoodsOrderDetailEntity.setGoodsType(goodsType);
+					truckGoodsOrderDetailEntity.setGoodsType(goodsType+"");
 					truckGoodsOrderDetailEntity.setEndPlace(endPlace);
 					truckGoodsOrderDetailEntity.setStartPlace(startPlace);
 					truckGoodsOrderDetailEntity.setInvoiceFlg(invoiceFlg);

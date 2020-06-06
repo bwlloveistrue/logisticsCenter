@@ -7,6 +7,7 @@ import com.cache.CacheManager;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.logisticscenter.mapper.DriverInfoDao;
+import com.logisticscenter.model.ClientEntity;
 import com.logisticscenter.model.DriverInfoEntity;
 import com.logisticscenter.service.DriverService;
 import com.splitPage.DriverSplitPage;
@@ -52,6 +53,9 @@ public class DriverServiceImpl implements DriverService {
                 beanCacheLst.add(cache);
             }
             CacheManager.putCacheList("driverEntity_CACHE", beanCacheLst);
+        }
+        if(entityList == null){
+            entityList = new ArrayList<DriverInfoEntity>();
         }
         retResult.put("driverInfo",entityList);
         return retResult;

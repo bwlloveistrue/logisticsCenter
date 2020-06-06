@@ -1,16 +1,40 @@
 package com.logisticscenter.model;
 
+import com.common.CommonTransMethod;
+import com.splitPage.OrderReceiptSplitPage;
+import com.splitPage.OrderTakerDetailSplitPage;
+import com.splitPage.PageCell;
+import com.splitPage.pageInterface.SplitPageInterface;
+import com.util.Utils;
+
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.List;
 
 public class TruckGoodsReportEntity {
+	SplitPageInterface splitPageInterface = new OrderTakerDetailSplitPage();
+
+	public TruckGoodsReportEntity() {
+		Calendar today = Calendar.getInstance();
+		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
+		this.editDate = currentdate;
+		this.editTime = currenttime;
+		this.createDate = currentdate;
+		this.createTime = currenttime;
+	}
+
 	//标识ID
 	private int id;
+	//标识ID
+	private int key;
 	//订单编号
 	private String reportNumber;
-	//是否开票
-	private String invoiceFlg;
+
 	//是否包车
 	private String packageFlg;
+	private String packageFlgShow;
 	//包车价格
 	private BigDecimal packagePrice;
 	//发货状态
@@ -23,12 +47,11 @@ public class TruckGoodsReportEntity {
 	private String partnerCarry;
 	//车牌号码
 	private String truckNumber;
+	//车牌号码
+	private String truckNumberName;
 	//预录订单号
 	private int reportId;
-	//发车起始地
-	private String startPlace;
-	//发车终点
-	private String endPlace;
+
 	//发车时间
 	private String beginDate;
 	//预计到货时间
@@ -36,9 +59,13 @@ public class TruckGoodsReportEntity {
 	//实际到货时间
 	private String endDate;
 	//司机
-	private int driver;
+	private String driver;
+	//司机
+	private String driverName;
 	//客户
-	private int client;
+	private String client;
+	//客户
+	private String clientName;
 	//是否预支费用
 	private int prepaidFlg;
 	//预支费用
@@ -47,16 +74,14 @@ public class TruckGoodsReportEntity {
 	private String prepaidDesc;
 	//客户货物类型
 	private String goodsType;
+	//客户货物类型
+	private String goodsTypeName;
 	//状态
 	private int reportStatus;
 	//是否迟到
 	private int isLater;
 	//迟到原因
 	private String laterReason;
-	//实际载重
-	private BigDecimal realCarry;
-	//单价
-	private BigDecimal price;
 	//运费金额
 	private BigDecimal expensens;
 	//盈利
@@ -84,25 +109,27 @@ public class TruckGoodsReportEntity {
 	//客户订单编号
 	private String customerOrder;
 	//是否结算运费
-	private String settlement;
-	//拼接的更新费用类型SQL
-	private String feeTypecolumnSqlUpd;
-	//拼接的查询费用类型SQL
-	private String getFeeTypecolumn;
-	//所有费用类型查询映射
-	private String feeTypeValue;
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
-	
+	private int settlement;
+
+	private List<TruckGoodsOrderDetailEntity> childInfo;
+
+	private List<PageCell>  childColumns = splitPageInterface.createColumn() ;
+
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
+	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
 	}
 	
 	public String getReportNumber() {
@@ -113,20 +140,13 @@ public class TruckGoodsReportEntity {
 		this.reportNumber = reportNumber;
 	}
 
-	public String getInvoiceFlg() {
-		return invoiceFlg;
-	}
-
-	public void setInvoiceFlg(String invoiceFlg) {
-		this.invoiceFlg = invoiceFlg;
-	}
-
 	public String getPackageFlg() {
 		return packageFlg;
 	}
 
 	public void setPackageFlg(String packageFlg) {
 		this.packageFlg = packageFlg;
+		this.setPackageFlgShow(packageFlg+"");
 	}
 
 	public BigDecimal getPackagePrice() {
@@ -175,6 +195,7 @@ public class TruckGoodsReportEntity {
 
 	public void setTruckNumber(String truckNumber) {
 		this.truckNumber = truckNumber;
+		this.setTruckNumberName(truckNumber);
 	}
 
 	public int getReportId() {
@@ -183,22 +204,6 @@ public class TruckGoodsReportEntity {
 
 	public void setReportId(int reportId) {
 		this.reportId = reportId;
-	}
-
-	public String getStartPlace() {
-		return startPlace;
-	}
-
-	public void setStartPlace(String startPlace) {
-		this.startPlace = startPlace;
-	}
-
-	public String getEndPlace() {
-		return endPlace;
-	}
-
-	public void setEndPlace(String endPlace) {
-		this.endPlace = endPlace;
 	}
 
 	public String getBeginDate() {
@@ -225,20 +230,22 @@ public class TruckGoodsReportEntity {
 		this.endDate = endDate;
 	}
 
-	public int getDriver() {
+	public String getDriver() {
 		return driver;
 	}
 
-	public void setDriver(int driver) {
+	public void setDriver(String driver) {
 		this.driver = driver;
+		this.setDriverName(driver+"");
 	}
 
-	public int getClient() {
+	public String getClient() {
 		return client;
 	}
 
-	public void setClient(int client) {
+	public void setClient(String client) {
 		this.client = client;
+		this.setClientName(client+"");
 	}
 
 	public int getPrepaidFlg() {
@@ -271,6 +278,7 @@ public class TruckGoodsReportEntity {
 
 	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType;
+		this.setGoodsTypeName(goodsType);
 	}
 
 	public int getReportStatus() {
@@ -295,22 +303,6 @@ public class TruckGoodsReportEntity {
 
 	public void setLaterReason(String laterReason) {
 		this.laterReason = laterReason;
-	}
-
-	public BigDecimal getRealCarry() {
-		return realCarry;
-	}
-
-	public void setRealCarry(BigDecimal realCarry) {
-		this.realCarry = realCarry;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
 	}
 
 	public BigDecimal getExpensens() {
@@ -409,52 +401,67 @@ public class TruckGoodsReportEntity {
 		this.customerOrder = customerOrder;
 	}
 
-	public String getSettlement() {
+	public int getSettlement() {
 		return settlement;
 	}
 
-	public void setSettlement(String settlement) {
+	public void setSettlement(int settlement) {
 		this.settlement = settlement;
 	}
 
-	public String getFeeTypecolumnSqlUpd() {
-		return feeTypecolumnSqlUpd;
+	public String getPackageFlgShow() {
+		return packageFlgShow;
 	}
 
-	public void setFeeTypecolumnSqlUpd(String feeTypecolumnSqlUpd) {
-		this.feeTypecolumnSqlUpd = feeTypecolumnSqlUpd;
+	public void setPackageFlgShow(String packageFlgShow) {
+		this.packageFlgShow = CommonTransMethod.getIsOrNotString(packageFlgShow);
 	}
 
-	public String getGetFeeTypecolumn() {
-		return getFeeTypecolumn;
+	public String getClientName() {
+		return clientName;
 	}
 
-	public void setGetFeeTypecolumn(String getFeeTypecolumn) {
-		this.getFeeTypecolumn = getFeeTypecolumn;
+	public void setClientName(String clientName) {
+		this.clientName = CommonTransMethod.getClientName(clientName);
 	}
 
-	public String getFeeTypeValue() {
-		return feeTypeValue;
+	public String getGoodsTypeName() {
+		return goodsTypeName;
 	}
 
-	public void setFeeTypeValue(String feeTypeValue) {
-		this.feeTypeValue = feeTypeValue;
+	public void setGoodsTypeName(String goodsTypeName) {
+		this.goodsTypeName = CommonTransMethod.getGoodsTypeName(goodsTypeName);
 	}
 
-	public String getPageSize() {
-		return pageSize;
+	public String getDriverName() {
+		return driverName;
 	}
 
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
+	public void setDriverName(String driverName) {
+		this.driverName = CommonTransMethod.getDriverName(driverName);;
 	}
 
-	public String getCurrentPage() {
-		return currentPage;
+	public List<TruckGoodsOrderDetailEntity> getChildInfo() {
+		return childInfo;
 	}
 
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
+	public void setChildInfo(List<TruckGoodsOrderDetailEntity> childInfo) {
+		this.childInfo = childInfo;
 	}
-	
+
+	public String getTruckNumberName() {
+		return truckNumberName;
+	}
+
+	public void setTruckNumberName(String truckNumberName) {
+		this.truckNumberName = CommonTransMethod.getTruckNumberName(truckNumberName);
+	}
+
+	public List<PageCell> getChildColumns() {
+		return childColumns;
+	}
+
+	public void setChildColumns(List<PageCell> childColumns) {
+		this.childColumns = childColumns;
+	}
 }

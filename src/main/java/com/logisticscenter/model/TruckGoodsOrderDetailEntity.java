@@ -28,7 +28,7 @@ public class TruckGoodsOrderDetailEntity {
 	//对应预录车辆信息中的reportId
 	private int reportId;
 	//客户货物类型
-	private int goodsType;
+	private String goodsType;
 	//客户货物类型
 	private String goodsTypeName;
 	//单价
@@ -55,9 +55,6 @@ public class TruckGoodsOrderDetailEntity {
 	private String editDate;
 	//修改时间
 	private String editTime;
-	
-	//检索用货物类型
-	private String goodsTypes;
 
 	public int getId() {
 		return id;
@@ -81,10 +78,10 @@ public class TruckGoodsOrderDetailEntity {
 	public void setReportId(int reportId) {
 		this.reportId = reportId;
 	}
-	public int getGoodsType() {
+	public String getGoodsType() {
 		return goodsType;
 	}
-	public void setGoodsType(int goodsType) {
+	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType;
 		this.setGoodsTypeName(goodsType+"");
 	}

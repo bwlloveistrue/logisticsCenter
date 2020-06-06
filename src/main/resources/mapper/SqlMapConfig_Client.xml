@@ -31,9 +31,7 @@
    <insert id="insertClient" parameterType="clientEntity">
       insert into clientInfo (clientName,contant,mobile,fax,address,products,createDate,createTime)
       values ( #{clientName}, #{contant}, #{mobile}, #{fax}, #{address}, #{products}, #{createDate}, #{createTime})
-      <selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from clientInfo
-		</selectKey>
+
    </insert>
 
    <!-- 删除用户对象 -->

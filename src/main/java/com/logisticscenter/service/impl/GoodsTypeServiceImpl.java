@@ -134,6 +134,9 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 			}
 			CacheManager.putCacheList("goodsTypeEntity_CACHE", beanCacheLst);
 		}
+		if(entityList == null){
+			entityList = new ArrayList<GoodsTypeEntity>();
+		}
 		retMap.put("goodsTypeInfo",entityList);
 		return retMap;
 	}

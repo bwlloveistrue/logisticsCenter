@@ -237,7 +237,7 @@ public class ImageFileController implements Serializable{
 				int packageFlgExchange = Integer.parseInt(beanLst.get(i).getPackageFlg());
 				int truckPartExchange = beanLst.get(i).getTruckPart();
 				beanMap.put("id",beanLst.get(i).getId());
-				beanMap.put("truckNumber",commonTransMethod.getTruckNumber(beanLst.get(i).getTruckNumber()));
+				beanMap.put("truckNumber",commonTransMethod.getTruckNumberName(beanLst.get(i).getTruckNumber()));
 				beanMap.put("packageFlg",packageFlgExchange);
 				beanMap.put("packageFlgShow",commonTransMethod.convertPackage(packageFlgExchange));
 				beanMap.put("packagePrice",ConvertService.getPointValue(beanLst.get(i).getPackagePrice()+"",2));

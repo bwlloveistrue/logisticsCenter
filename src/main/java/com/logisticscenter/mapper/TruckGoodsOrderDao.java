@@ -71,5 +71,7 @@ public interface TruckGoodsOrderDao {
 	 */
 	public abstract void updateTruckGoodsOrderDetail(TruckGoodsOrderDetailEntity updateInfo);
 
+	public abstract void setOrderTakerStatusForReceipt(String id);
+
 	
 }

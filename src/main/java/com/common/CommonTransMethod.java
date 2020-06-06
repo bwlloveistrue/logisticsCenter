@@ -64,8 +64,13 @@ public class CommonTransMethod {
 	public  ImageFileService imageFileService;
 	@Autowired
 	public  TruckSetService truckSetService;
+	// 消息推送注入
 	@Autowired
 	public  MessageService messageService;
+
+	// 伙伴注入
+	@Autowired
+	public PartnerService partnerService;
 
 	/**
 	 * @return 客户名称
@@ -142,7 +147,7 @@ public class CommonTransMethod {
 		Map beanMap = new HashMap();
 		try{
 			beanMap= truckService.getAllTruck();
-			allTruck = (List<TruckEntity>)beanMap.get("goodsTypeInfo");
+			allTruck = (List<TruckEntity>)beanMap.get("truckInfo");
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -163,6 +168,9 @@ public class CommonTransMethod {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		if(allSendType == null){
+			allSendType = new ArrayList<SendTypeEntity>();
+		}
 		return allSendType;
 	}
 
@@ -179,7 +187,29 @@ public class CommonTransMethod {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		if(allWorkflowType == null){
+			allWorkflowType = new ArrayList<WorkflowTypeEntity>();
+		}
 		return allWorkflowType;
+	}
+
+	/**
+	 * @return 货物类型ID
+	 */
+	public  List<PartnerEntity> getAllPartner(){
+		List<PartnerEntity> allPartner = new ArrayList<PartnerEntity>();
+		Map beanMap = new HashMap();
+		try{
+			beanMap= partnerService.getAllPartner();
+			allPartner = (List<PartnerEntity>)beanMap.get("partnerInfo");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(allPartner == null){
+			allPartner = new ArrayList<PartnerEntity>();
+		}
+		return allPartner;
 	}
 
 	/**
@@ -191,9 +221,9 @@ public class CommonTransMethod {
 		String clientNameTemp = "";
 		for (int i = 0; i < cacheList.size(); i++) {
 			String key = cacheList.get(i).getKey();
-			if(key.equals(ids+"")){
+			if((","+ids+",").indexOf(","+key+",")>-1){
 				ClientEntity clientEntity = (ClientEntity) cacheList.get(i).getValue();
-				clientNameTemp = clientEntity.getClientName();
+				clientNameTemp += clientNameTemp.equals("")? clientEntity.getClientName():","+clientNameTemp.equals("");
 			}
 		}
 		return clientNameTemp;
@@ -204,14 +234,14 @@ public class CommonTransMethod {
 	 * @param ids 司机ID
 	 * @return 司机姓名
 	 */
-	public  String getDriverName(String ids){
+	public static  String getDriverName(String ids){
 		List<Cache> cacheList = CacheManager.getCacheListInfo("driverEntity_CACHE");
 		String driverNameTemp = "";
 		for (int i = 0; i < cacheList.size(); i++) {
 			String key = cacheList.get(i).getKey();
-			if(key.equals(ids+"")){
+			if((","+ids+",").indexOf(","+key+",")>-1){
 				DriverInfoEntity driverInfoEntity = (DriverInfoEntity) cacheList.get(i).getValue();
-				driverNameTemp = driverInfoEntity.getName();
+				driverNameTemp += driverNameTemp.equals("")? driverInfoEntity.getName():","+driverInfoEntity.getName();
 			}
 		}
 		return driverNameTemp;
@@ -226,12 +256,46 @@ public class CommonTransMethod {
 		String goodsTypeNameTemp = "";
 		for (int i = 0; i < cacheList.size(); i++) {
 			String key = cacheList.get(i).getKey();
-			if(key.equals(ids+"")){
+			if((","+ids+",").indexOf(","+key+",")>-1){
 				GoodsTypeEntity goodsTypeEntity = (GoodsTypeEntity) cacheList.get(i).getValue();
-				goodsTypeNameTemp = goodsTypeEntity.getGoodsName();
+				goodsTypeNameTemp += goodsTypeNameTemp.equals("")? goodsTypeEntity.getGoodsName():","+goodsTypeEntity.getGoodsName();
 			}
 		}
 		return goodsTypeNameTemp;
+	}
+
+	/**
+	 * @param ids 货物类型ID
+	 * @return 货物名称
+	 */
+	public static String getPartnerName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("partnerEntity_CACHE");
+		String partnerNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if((","+ids+",").indexOf(","+key+",")>-1){
+				PartnerEntity goodsTypeEntity = (PartnerEntity) cacheList.get(i).getValue();
+				partnerNameTemp += partnerNameTemp.equals("")? goodsTypeEntity.getPartnerName():","+goodsTypeEntity.getPartnerName();
+			}
+		}
+		return partnerNameTemp;
+	}
+
+	/**
+	 * @param ids 车牌号
+	 * @return 车辆名称
+	 */
+	public static String getTruckNumberName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("truckEntity_CACHE");
+		String truckNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if((","+ids+",").indexOf(","+key+",")>-1){
+				TruckEntity truckEntity = (TruckEntity) cacheList.get(i).getValue();
+				truckNameTemp += truckNameTemp.equals("")? truckEntity.getTruckName():","+truckEntity.getTruckName();
+			}
+		}
+		return truckNameTemp;
 	}
 
 	/**
@@ -394,31 +458,6 @@ public class CommonTransMethod {
 //		maxId = goodsTypeService.insertGoodsType(entity);
 		CacheManager.clearOnly("goodsTypeEntity_CACHE");
 		return maxId;
-	}
-
-	/**
-	 * @param id 车牌号
-	 * @return 车辆名称
-	 */
-	public  String getTruckNumber(String id){
-		String retStr = "";
-		if("".equals(id) || id == null || id.equals("0")){
-			return "";
-		}
-		Map truckInfoMap= truckService.getAllTruck();
-		List<TruckEntity> entityList = (List<TruckEntity>)truckInfoMap.get("data");
-		try{
-			for(int i = 0;i<entityList.size();i++){
-				if(entityList.get(i).getId()== Integer.parseInt(id)){
-					retStr = entityList.get(i).getTruckNumber();
-					break;
-				}
-			}
-			return retStr;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return "";
 	}
 
 	/**
