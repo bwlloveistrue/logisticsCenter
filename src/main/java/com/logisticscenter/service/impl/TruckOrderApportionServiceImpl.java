@@ -7,10 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.logisticscenter.mapper.OrderApportionDao;
 import com.logisticscenter.mapper.OrderReceiptDao;
 import com.logisticscenter.mapper.TruckGoodsOrderDao;
-import com.logisticscenter.model.TruckGoodsOrderDetailEntity;
-import com.logisticscenter.model.TruckGoodsOrderTakerEntity;
-import com.logisticscenter.model.TruckGoodsReportDetailEntity;
-import com.logisticscenter.model.TruckGoodsReportEntity;
+import com.logisticscenter.model.*;
 import com.logisticscenter.service.TruckGoodsOrderService;
 import com.logisticscenter.service.TruckOrderApportionService;
 import com.splitPage.EditTableBean;
@@ -353,6 +350,31 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		truckGoodsReportEntity.setSettlement(0);
 		orderReceiptDao.insertTruckGoodsReport(truckGoodsReportEntity);
 		receiptId = truckGoodsReportEntity.getId();
+
+		List<TruckGoodsReceiptDetailEntity> insertInfo = new ArrayList<>();
+		for (TruckGoodsOrderDetailEntity _truckGoodsOrderDetail:truckGoodsOrderDetailEntities) {
+			String detailGoodsType = _truckGoodsOrderDetail.getGoodsType();
+			if((","+goodsType+",").indexOf(","+detailGoodsType+",")>-1){
+				TruckGoodsReceiptDetailEntity truckGoodsReceiptDetailEntity = new TruckGoodsReceiptDetailEntity();
+				truckGoodsReceiptDetailEntity.setReceiptId(receiptId);
+				truckGoodsReceiptDetailEntity.setReportId(_truckGoodsOrderDetail.getReportId());
+				truckGoodsReceiptDetailEntity.setGoodsType(_truckGoodsOrderDetail.getGoodsType());
+				truckGoodsReceiptDetailEntity.setDeleteFlg(_truckGoodsOrderDetail.getDeleteFlg());
+				truckGoodsReceiptDetailEntity.setPrice(_truckGoodsOrderDetail.getPrice());
+				truckGoodsReceiptDetailEntity.setRealCarry(_truckGoodsOrderDetail.getRealCarry());
+				truckGoodsReceiptDetailEntity.setInvoiceFlg(_truckGoodsOrderDetail.getInvoiceFlg());
+				truckGoodsReceiptDetailEntity.setStartPlace(_truckGoodsOrderDetail.getStartPlace());
+				truckGoodsReceiptDetailEntity.setEndPlace(_truckGoodsOrderDetail.getEndPlace());
+				truckGoodsReceiptDetailEntity.setCreateDate(_truckGoodsOrderDetail.getCreateDate());
+				truckGoodsReceiptDetailEntity.setCreateTime(_truckGoodsOrderDetail.getCreateTime());
+				truckGoodsReceiptDetailEntity.setEditDate(_truckGoodsOrderDetail.getEditDate());
+				truckGoodsReceiptDetailEntity.setEditTime(_truckGoodsOrderDetail.getEditTime());
+				insertInfo.add(truckGoodsReceiptDetailEntity);
+			}
+		}
+		orderReceiptDao.insertTruckGoodsReceiptDetail(insertInfo);
+
+
 		return receiptId;
 	}
 }

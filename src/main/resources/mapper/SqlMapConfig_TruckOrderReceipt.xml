@@ -35,7 +35,7 @@
         <result property="editDate" column="editDate"/>
         <result property="editTime" column="editTime"/>
 
-        <collection property="childInfo" ofType="truckGoodsOrderDetailEntity" column="reportId" select="getOrderDetailByReportId"></collection>
+        <collection property="childInfo" ofType="TruckGoodsReceiptDetailEntity" column="reportId" select="getOrderDetailByReportId"></collection>
     </resultMap>
     <insert id="insertTruckGoodsReport" parameterType="truckGoodsReportEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into truckGoodsReport (
@@ -103,9 +103,6 @@
         #{editDate},
         #{editTime}
         )
-        <selectKey resultType="int" keyProperty="id" order="AFTER">
-            SELECT max(id) as id from truckGoodsReport
-        </selectKey>
     </insert>
 
     <!-- 更新出车信息 -->
@@ -174,8 +171,43 @@
     </select>
 
     <!-- 根据条件查询出车预录详细信息 -->
-    <select id="getOrderDetailByReportId" resultType="truckGoodsOrderDetailEntity" parameterType="int">
-        select * from truckGoodsOrderDetail where reportId = #{id}
+    <select id="getOrderDetailByReportId" resultType="TruckGoodsReceiptDetailEntity" parameterType="int">
+        select * from truckGoodsReceiptDetail where reportId = #{id}
     </select>
+
+    <insert id="insertTruckGoodsReceiptDetail" parameterType="java.util.List">
+        INSERT INTO truckGoodsReceiptDetail
+        (
+        reportId,
+        goodsType,
+        deleteFlg,
+        price,
+        realCarry,
+        invoiceFlg,
+        startPlace,
+        endPlace,
+        receiptId,
+        createDate,
+        createTime,
+        editDate,
+        editTime)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (#{item.reportId},
+            #{item.goodsType},
+            #{item.deleteFlg},
+            #{item.price},
+            #{item.realCarry},
+            #{item.invoiceFlg},
+            #{item.startPlace},
+            #{item.endPlace},
+            #{item.receiptId},
+            #{item.createDate},
+            #{item.createTime},
+            #{item.editDate},
+            #{item.editTime})
+        </foreach>
+    </insert>
 
 </mapper>

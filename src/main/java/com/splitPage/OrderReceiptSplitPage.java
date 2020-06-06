@@ -27,7 +27,7 @@ public class OrderReceiptSplitPage extends SplitPageInterface {
         pageCell = new PageCell("包车价格","packagePrice","packagePrice","5%",false,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("车牌","truckNumber","truckNumber","7%",false,false);
+        pageCell = new PageCell("车牌","truckNumberName","truckNumberName","7%",false,false);
         pageCellList.add(pageCell);
 
         pageCell = new PageCell("驾驶员","driverName","driverName","7%",false,false);
@@ -39,17 +39,6 @@ public class OrderReceiptSplitPage extends SplitPageInterface {
         pageCell = new PageCell("货物类型","goodsTypeName","goodsTypeName","15%",false,false);
         pageCellList.add(pageCell);
 
-//        pageCell = new PageCell("始发地","startPlace","startPlace","10%",false,false);
-//        pageCellList.add(pageCell);
-//
-//        pageCell = new PageCell("目的地","endPlace","endPlace","10%",false,false);
-//        pageCellList.add(pageCell);
-//
-//        pageCell = new PageCell("单价","price","price","5%",false,false);
-//        pageCellList.add(pageCell);
-//
-//        pageCell = new PageCell("重量","realCarry","realCarry","5%",false,false);
-//        pageCellList.add(pageCell);
 
         pageCell = new PageCell("出发时间","beginDate","beginDate","10%",false,false);
         pageCellList.add(pageCell);

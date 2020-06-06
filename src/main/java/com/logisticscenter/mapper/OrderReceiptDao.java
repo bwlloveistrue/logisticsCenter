@@ -1,9 +1,6 @@
 package com.logisticscenter.mapper;
 
-import com.logisticscenter.model.TruckGoodsOrderDetailEntity;
-import com.logisticscenter.model.TruckGoodsOrderTakerEntity;
-import com.logisticscenter.model.TruckGoodsReportDetailEntity;
-import com.logisticscenter.model.TruckGoodsReportEntity;
+import com.logisticscenter.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -44,6 +41,8 @@ public interface OrderReceiptDao {
 	 * @param updateInfo
 	 */
 	public abstract void updateTruckGoodsReport(TruckGoodsReportEntity updateInfo);
+
+	public abstract void insertTruckGoodsReceiptDetail(List<TruckGoodsReceiptDetailEntity> insertInfo);
 
 	
 }
