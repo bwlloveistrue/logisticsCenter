@@ -59,6 +59,7 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		retResult.put("status",true);
 		retResult.put("ret",true);
 		CacheManager.clearOnly("goodsTypeEntity_CACHE");
+		this.getAllGoodsType();
 		return retResult;
 	}
 
@@ -152,6 +153,7 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		}
 		retMap.put("status",true);
 		CacheManager.clearOnly("goodsTypeEntity_CACHE");
+		this.getAllGoodsType();
 		return retMap;
 	}
 
@@ -167,6 +169,7 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		goodsTypeEntity.setIsUse(isUse);
 		goodsTypeDao.updateGoodsTypeInfo(goodsTypeEntity);
 		CacheManager.clearOnly("goodsTypeEntity_CACHE");
+		this.getAllGoodsType();
 		retResult.put("status",true);
 		retResult.put("ret",true);
 

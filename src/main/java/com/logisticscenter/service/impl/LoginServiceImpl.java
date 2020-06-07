@@ -118,16 +118,16 @@ public class LoginServiceImpl implements LoginService {
 		cache.setTimeOut(date.getTime());
 		cache.setValue(loginInfoEntity);
 		CacheManager.putCache(CacheConstant.USER_BEAN_CACHE, cache);
-		//检查是否允许重复登陆
-		int reLogin = truckSetEntity.getReLogin();
-		//预留接口:是否允许重复登陆
-		if(reLogin == 1){
-			status = getIsLogin(request);
-		}
-		//设置session
-		if(status > -1){
-			setLoginSession(request,loginInfoEntity);
-		}
+//		//检查是否允许重复登陆
+//		int reLogin = truckSetEntity.getReLogin();
+//		//预留接口:是否允许重复登陆
+//		if(reLogin == 1){
+//			status = getIsLogin(request);
+//		}
+//		//设置session
+//		if(status > -1){
+//			setLoginSession(request,loginInfoEntity);
+//		}
 
 		return status;
 	}

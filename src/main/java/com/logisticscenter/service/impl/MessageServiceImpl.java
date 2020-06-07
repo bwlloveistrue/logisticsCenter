@@ -159,6 +159,7 @@ public class MessageServiceImpl implements MessageService {
 		int maxId = messageDao.insertMessageInfo(messageE);
 		int c     = messageE.getId();
 		CacheManager.clearOnly("messageEntity_CACHE");
+		this.getAllMessage();
 		retResult.put("id",maxId);
 		retResult.put("c",c);
 		retResult.put("status",true);
@@ -175,8 +176,10 @@ public class MessageServiceImpl implements MessageService {
 		messageE.setSendType(Utils.null2String(params.get("sendType")));
 		messageE.setWorkflowType(Utils.null2String(params.get("workflowType")));
 		messageE.setMouldId(Utils.null2String(params.get("mouldId")));
+		messageE.setId(Utils.getIntValue(Utils.null2String(params.get("id"))));
 		count = messageDao.updateMessageInfo(messageE);
 		CacheManager.clearOnly("messageEntity_CACHE");
+		this.getAllMessage();
 		retResult.put("count",count);
 		retResult.put("status",true);
 		retResult.put("ret",true);
@@ -192,6 +195,8 @@ public class MessageServiceImpl implements MessageService {
 				messageDao.deleteMessageInfo(item);
 			});
 		}
+		CacheManager.clearOnly("messageEntity_CACHE");
+		this.getAllMessage();
 		retResult.put("status",true);
 		retResult.put("ret",true);
 		return retResult;

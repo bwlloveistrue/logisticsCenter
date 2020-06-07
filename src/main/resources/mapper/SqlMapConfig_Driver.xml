@@ -34,7 +34,7 @@
 	</select>
   
    <!-- 新增用户对象 -->
-   <insert id="insertDriverInfo" parameterType="driverInfoEntity">
+   <insert id="insertDriverInfo" parameterType="driverInfoEntity"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
       insert into driverInfo (
 	   name,
 	   sex,
@@ -53,6 +53,7 @@
 	   salary,
 	   remark,
 	   job,
+	   openId,
 	   createDate,
 	   createTime) 
       values (
@@ -72,13 +73,11 @@
 	   #{appraise}, 
 	   #{salary}, 
 	   #{remark}, 
-	   #{job}, 
+	   #{job},
+	   #{openId},
 	   #{createDate}, 
 	   #{createTime}
 	   )
-      <selectKey resultType="int" keyProperty="id" order="AFTER">    
-			SELECT max(id) as id from driverInfo
-		</selectKey>
    </insert>
    
    <!-- 删除用户对象 -->
@@ -105,7 +104,8 @@
 		  appraise= #{appraise}, 
 		  salary= #{salary}, 
 		  remark= #{remark}, 
-		  job= #{job}, 
+		  job= #{job},
+		  openId = #{openId},
 		  editDate= #{editDate}, 
 		  editTime= #{editTime}
 	  where

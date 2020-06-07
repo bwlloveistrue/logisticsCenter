@@ -2,6 +2,7 @@ package com.util.wxPublic;
 
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
@@ -64,10 +65,64 @@ public class WxMsgPush {
         return msgId != null;
     }
 
+
+    /**
+     * 发送微信模板信息
+     *
+     * @param template 推送消息主体
+     * @return 是否推送成功
+     */
+    public Boolean SendWxMsg(Template template) {
+        // 发送模板消息接口
+        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                // 接收者openid
+                .toUser(template.getToUser())
+                // 模板id
+                .templateId(template.getTemplateId())
+                // 模板跳转链接
+                .url(template.getUrl())
+                .build();
+        // 添加模板数据
+        List<TemplateParam> templateParams = template.getTemplateParamList();
+        templateParams.stream().forEach(_params->{
+            templateMessage.addData(new WxMpTemplateData(_params.getName(), _params.getValue(), _params.getColor()));
+        });
+
+        String msgId = null;
+        try {
+            // 发送模板消息
+            msgId = wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        return msgId != null;
+    }
+
+
+
+    /**
+     * 获取所有openid
+     * @return
+     */
     public List<String> getOpenId(){
         List<String> openIdList = new ArrayList<String>();
         openIdList = recursionOpenId(openIdList,null);
         return openIdList;
+    }
+
+    public List<WxMpUser> getAllSubscribeUserInfo(){
+        List<WxMpUser> userInfoList = new ArrayList<>();
+        List<String> openIDs = getOpenId();
+        openIDs.stream().forEach(_item->{
+            WxMpUser userInfo = new WxMpUser();
+            try {
+                userInfo = wxMpService.getUserService().userInfo(_item);
+            } catch (WxErrorException e) {
+                e.printStackTrace();
+            }
+            userInfoList.add(userInfo);
+        });
+        return userInfoList;
     }
 
     /**

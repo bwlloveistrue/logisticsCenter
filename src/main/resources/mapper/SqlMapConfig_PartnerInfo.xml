@@ -27,9 +27,9 @@
   </select>
 
    <!-- 新增用户对象 -->
-   <insert id="insertPartnerInfo" parameterType="partnerEntity" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
-      insert into partnerInfo (partner,address,mobile)
-      values ( #{partner}, #{address}, #{mobile})
+   <insert id="insertPartnerInfo" parameterType="partnerEntity" useGeneratedKeys="true" keyProperty="id"  keyColumn="id" >
+      insert into partnerInfo (partner,address,mobile,openId)
+      values ( #{partner}, #{address}, #{mobile},#{openId})
    </insert>
 
    <!-- 删除用户对象 -->
@@ -43,6 +43,7 @@
       partner= #{partner},
       address= #{address},
       mobile= #{mobile},
+      openId = #{openId}
       where id= #{id}
    </update>
 </mapper>

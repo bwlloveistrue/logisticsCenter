@@ -222,6 +222,7 @@ public class TruckServiceImpl implements TruckService {
             });
         }
         CacheManager.clearOnly("truckEntity_CACHE");
+        this.getAllTruck();
         retResult.put("status",true);
         retResult.put("ret",true);
         return retResult;
@@ -311,7 +312,8 @@ public class TruckServiceImpl implements TruckService {
             truckEntity.setBuyCost(buyCost);
             truckEntity.setRemark(remark);
             int maxId = truckDao.updateTruck(truckEntity);
-            CacheManager.clearOnly("driverEntity_CACHE");
+            CacheManager.clearOnly("truckEntity_CACHE");
+            this.getAllTruck();
             retResult.put("id",maxId);
             retResult.put("status",true);
             retResult.put("ret",true);
@@ -406,7 +408,8 @@ public class TruckServiceImpl implements TruckService {
         truckEntity.setBuyCost(buyCost);
         truckEntity.setRemark(remark);
         int maxId = truckDao.insertTruck(truckEntity);
-        CacheManager.clearOnly("driverEntity_CACHE");
+        CacheManager.clearOnly("truckEntity_CACHE");
+        this.getAllTruck();
         retResult.put("id",maxId);
         retResult.put("status",true);
         retResult.put("ret",true);

@@ -19,6 +19,8 @@ public class WorkflowTypeEntity {
 
 	private String description;
 
+	private String workflowDesc;
+
 
 	public int getId() {
 		return id;
@@ -52,5 +54,14 @@ public class WorkflowTypeEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+		this.setWorkflowDesc(description);
+	}
+
+	public String getWorkflowDesc() {
+		return workflowDesc;
+	}
+
+	public void setWorkflowDesc(String workflowDesc) {
+		this.workflowDesc = workflowDesc;
 	}
 }

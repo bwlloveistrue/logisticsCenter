@@ -61,9 +61,9 @@ public class SelectOptionUtils {
     public List<SearchConditionOption> getSexOptions(){
         List<SearchConditionOption> orderStatusOptions = new ArrayList<SearchConditionOption>();
         SearchConditionOption searchConditionOption = new SearchConditionOption();
-        searchConditionOption = new SearchConditionOption("0","男",true,true);
+        searchConditionOption = new SearchConditionOption("1","男",true,true);
         orderStatusOptions.add(searchConditionOption);
-        searchConditionOption = new SearchConditionOption("1","女",false,true);
+        searchConditionOption = new SearchConditionOption("2","女",false,true);
         orderStatusOptions.add(searchConditionOption);
         return orderStatusOptions;
     }
@@ -169,6 +169,19 @@ public class SelectOptionUtils {
             clientOptions.add(childOption);
         });
         return clientOptions;
+    }
+
+    /**
+     * @return
+     */
+    public List<SearchConditionOption> getSubscribeOptions(){
+        List<SubscribeEntity> allSubscribeMap =  commonTransMethod.getAllSubscribe();
+        List<SearchConditionOption> subscribeOptions = new ArrayList<SearchConditionOption>();
+        allSubscribeMap.forEach((_v)->{
+            SearchConditionOption childOption = new SearchConditionOption(_v.getOpenId()+"",_v.getNickname(),false,true);
+            subscribeOptions.add(childOption);
+        });
+        return subscribeOptions;
     }
 
     /**

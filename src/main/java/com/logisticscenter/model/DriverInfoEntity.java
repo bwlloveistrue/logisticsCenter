@@ -56,6 +56,10 @@ public class DriverInfoEntity {
 	private String remark;
 	//职位
 	private String job;
+
+	// 关联微信openID
+	private String openId;
+
 	//创建日期
 	private String createDate;
 	//创建时间
@@ -184,6 +188,15 @@ public class DriverInfoEntity {
 	public void setJob(String job) {
 		this.job = job;
 	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
 	public String getCreateDate() {
 		return createDate;
 	}

@@ -1,12 +1,11 @@
 package com.common;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.cache.Cache;
 import com.cache.CacheManager;
+import com.common.consatnt.SendTypeConstant;
+import com.common.consatnt.WorkflowTypeConstant;
 import com.javabean.ClientBean;
 import com.javabean.DriverInfoBean;
 import com.javabean.FeeTypeBean;
@@ -16,6 +15,9 @@ import com.javabean.TruckBean;
 import com.javabean.TruckGoodsOrderDetailBean;
 import com.logisticscenter.model.*;
 import com.logisticscenter.service.*;
+import com.util.Utils;
+import com.util.wxPublic.WxMsgPush;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -71,6 +73,10 @@ public class CommonTransMethod {
 	// 伙伴注入
 	@Autowired
 	public PartnerService partnerService;
+
+	// 伙伴注入
+	@Autowired
+	public WxMsgPush wxMsgPush;
 
 	/**
 	 * @return 客户名称
@@ -213,6 +219,45 @@ public class CommonTransMethod {
 	}
 
 	/**
+	 * @return 货物类型ID
+	 */
+	public  List<SubscribeEntity> getAllSubscribe(){
+
+		Map beanMap = new HashMap();
+		try{
+			List<SubscribeEntity> allSubscribe = new ArrayList<SubscribeEntity>();
+			List<WxMpUser> wxMpUsers = wxMsgPush.getAllSubscribeUserInfo();
+			wxMpUsers.stream().forEach(_user->{
+				SubscribeEntity subscribeEntity = new SubscribeEntity();
+				subscribeEntity.setNickname(_user.getNickname());
+				subscribeEntity.setCity(_user.getCity());
+				subscribeEntity.setCountry(_user.getCountry());
+				subscribeEntity.setGroupId(_user.getGroupId());
+				subscribeEntity.setLanguage(_user.getLanguage());
+				subscribeEntity.setOpenId(_user.getOpenId());
+				subscribeEntity.setHeadImgUrl(_user.getHeadImgUrl());
+				subscribeEntity.setProvince(_user.getProvince());
+				subscribeEntity.setSex(_user.getSex());
+				subscribeEntity.setRemark(_user.getRemark());
+				subscribeEntity.setSubscribe(_user.getSubscribe()?1:0);
+				Long subscribeTime = _user.getSubscribeTime()*1000;
+				Date date = new Date(subscribeTime);
+				Calendar today = Calendar.getInstance();
+				today.setTime(date);
+				String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+				String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) + ":" + Utils.add0(today.get(Calendar.SECOND), 2) ;
+				subscribeEntity.setSubscribeTime(currentdate+" " +currenttime);
+				allSubscribe.add(subscribeEntity);
+			});
+			return allSubscribe;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return new ArrayList<SubscribeEntity>();
+	}
+
+	/**
 	 * @param ids 客户ID
 	 * @return 客户名称
 	 */
@@ -227,6 +272,57 @@ public class CommonTransMethod {
 			}
 		}
 		return clientNameTemp;
+	}
+
+	/**
+	 * @param id 客户ID
+	 * @return 客户名称
+	 */
+	public ClientEntity getClientInfo(String id){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
+		ClientEntity clientEntity = new ClientEntity();
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(id.equals(key)){
+				clientEntity = (ClientEntity) cacheList.get(i).getValue();
+			}
+		}
+		return clientEntity;
+	}
+
+	/**
+	 * @param id 客户ID
+	 * @return 客户名称
+	 */
+	public String getClientOpenId(String id){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
+		String openId = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(id.equals(key)){
+				ClientEntity clientEntity = (ClientEntity) cacheList.get(i).getValue();
+				openId = clientEntity.getOpenId();
+			}
+		}
+		return openId;
+	}
+
+
+	/**
+	 * @param id 司机ID
+	 * @return 司机姓名
+	 */
+	public  DriverInfoEntity getDriverInfo(String id){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("driverEntity_CACHE");
+		DriverInfoEntity driverInfoEntity = new DriverInfoEntity();
+		String driverNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(id.equals(key)){
+				driverInfoEntity = (DriverInfoEntity) cacheList.get(i).getValue();
+			}
+		}
+		return driverInfoEntity;
 	}
 
 
@@ -245,6 +341,23 @@ public class CommonTransMethod {
 			}
 		}
 		return driverNameTemp;
+	}
+
+	/**
+	 * @param id 客户ID
+	 * @return 客户名称
+	 */
+	public static String getDriverOpenId(String id){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("clientEntity_CACHE");
+		String openId = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if(id.equals(key)){
+				DriverInfoEntity clientEntity = (DriverInfoEntity) cacheList.get(i).getValue();
+				openId = clientEntity.getOpenId();
+			}
+		}
+		return openId;
 	}
 
 	/**
@@ -299,6 +412,64 @@ public class CommonTransMethod {
 	}
 
 	/**
+	 * @param ids 发送类型
+	 * @return 车辆名称
+	 */
+	public static String getSendTypeName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("sendTypeEntity_CACHE");
+		String truckNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if((","+ids+",").indexOf(","+key+",")>-1){
+				SendTypeEntity sendTypeEntity = (SendTypeEntity) cacheList.get(i).getValue();
+				truckNameTemp += truckNameTemp.equals("")? sendTypeEntity.getDescription():","+sendTypeEntity.getDescription();
+			}
+		}
+		return truckNameTemp;
+	}
+
+	/**
+	 * @param ids 车牌号
+	 * @return 车辆名称
+	 */
+	public static String getWorkflowName(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("workflowTypeEntity_CACHE");
+		String truckNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if((","+ids+",").indexOf(","+key+",")>-1){
+				WorkflowTypeEntity workflowTypeEntity = (WorkflowTypeEntity) cacheList.get(i).getValue();
+				truckNameTemp += truckNameTemp.equals("")? workflowTypeEntity.getDescription():","+workflowTypeEntity.getDescription();
+			}
+		}
+		return truckNameTemp;
+	}
+
+	/**
+	 * @return
+	 */
+	public List<WxMpUser> getOpenIdsUserInfo(){
+		List<WxMpUser> userInfoList = wxMsgPush.getAllSubscribeUserInfo();
+		return userInfoList;
+	}
+
+	public List<String> getModuleId(SendTypeConstant sendType, WorkflowTypeConstant workflowType){
+		List<String> moduleIds = new ArrayList<>();
+		List<Cache> cacheList = CacheManager.getCacheListInfo("messageEntity_CACHE");
+		String truckNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			MessageEntity messageEntity = (MessageEntity) cacheList.get(i).getValue();
+			int sendTypeTemp = Utils.getIntValue(messageEntity.getSendType()) ;
+			int workflowTypeTemp = Utils.getIntValue(messageEntity.getWorkflowType());
+			if(sendTypeTemp == sendType.getIndex() && workflowTypeTemp == workflowType.getIndex()){
+
+				moduleIds.add(messageEntity.getMouldId());
+			}
+		}
+		return moduleIds;
+	}
+
+	/**
 	 * @param str
 	 * @return 是/否
 	 */
@@ -329,6 +500,23 @@ public class CommonTransMethod {
 		return retStr;
 	}
 
+	/**
+	 * @param str
+	 * @return 男/女
+	 */
+	public static String getSexName(String str){
+		String retStr = "";
+		if(str.equals("1")){
+			retStr = "男";
+		}else if(str.equals("1")){
+			retStr = "女";
+		}else{
+			retStr = "未知";
+		}
+
+		return retStr;
+	}
+
 
 
 	/**
@@ -354,6 +542,10 @@ public class CommonTransMethod {
 
 	}
 
+	/**
+	 * @param driverName
+	 * @return
+	 */
 	public  int createDriver(String driverName){
 		int maxId = 0;
 		DriverInfoBean bean = new DriverInfoBean(0,driverName, "1", "", "", "", 0, "", "", "", "", "", "", "", "", "", "", "");

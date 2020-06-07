@@ -18,6 +18,8 @@ public class SendTypeEntity {
 
 	private String description;
 
+	private String sendTypeDesc;
+
 	public int getId() {
 		return id;
 	}
@@ -48,5 +50,15 @@ public class SendTypeEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+		this.setSendTypeDesc(description);
+
+	}
+
+	public String getSendTypeDesc() {
+		return sendTypeDesc;
+	}
+
+	public void setSendTypeDesc(String sendTypeDesc) {
+		this.sendTypeDesc = sendTypeDesc;
 	}
 }

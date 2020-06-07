@@ -28,9 +28,9 @@
   </select>
 
    <!-- 新增用户对象 -->
-   <insert id="insertClient" parameterType="clientEntity">
-      insert into clientInfo (clientName,contant,mobile,fax,address,products,createDate,createTime)
-      values ( #{clientName}, #{contant}, #{mobile}, #{fax}, #{address}, #{products}, #{createDate}, #{createTime})
+   <insert id="insertClient" parameterType="clientEntity"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+      insert into clientInfo (clientName,contant,mobile,fax,address,products,openId,createDate,createTime)
+      values ( #{clientName}, #{contant}, #{mobile}, #{fax}, #{address}, #{products},#{openId}, #{createDate}, #{createTime})
 
    </insert>
 
@@ -48,6 +48,7 @@
       fax= #{fax},
       address= #{address},
       products= #{products},
+      openId = #{openId},
       editDate= #{editDate},
       editTime= #{editTime}
       where id= #{id}

@@ -90,10 +90,11 @@ public class PartnerServiceImpl implements PartnerService {
 				partnerValueEntity = searchList.get(0);
 			}
 		}
+		List<SearchConditionOption> subscribeOptions = selectOptionUtils.getSubscribeOptions();
 		String partner = Utils.null2String(partnerValueEntity.getPartner());
 		String address = Utils.null2String(partnerValueEntity.getAddress());
 		String mobile = Utils.null2String(partnerValueEntity.getMobile());
-
+		String openId = Utils.null2String(partnerValueEntity.getOpenId());
 
 		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
 		Map<String,Object> groupitem = new HashMap<String,Object>();
@@ -102,6 +103,7 @@ public class PartnerServiceImpl implements PartnerService {
 		itemlist.add(FieldUtil.getFormItemForInput("partner", "伙伴", partner,3));
 		itemlist.add(FieldUtil.getFormItemForInput("address", "地址", address,3));
 		itemlist.add(FieldUtil.getFormItemForInput("mobile", "联系方式", mobile, 3));
+		itemlist.add(FieldUtil.getFormItemForSelect("openId", "微信昵称", openId,2, 2,subscribeOptions));
 		groupitem.put("title", "基本信息");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 1);
@@ -151,9 +153,11 @@ public class PartnerServiceImpl implements PartnerService {
 		partnerE.setPartner(Utils.null2String(params.get("partner")));
 		partnerE.setAddress(Utils.null2String(params.get("address")));
 		partnerE.setMobile(Utils.null2String(params.get("mobile")));
+		partnerE.setOpenId(Utils.null2String(params.get("openId")));
 		int maxId = partnerDao.insertPartnerInfo(partnerE);
 		int c     = partnerE.getId();
 		CacheManager.clearOnly("partnerEntity_CACHE");
+		this.getAllPartner();
 		retResult.put("id",maxId);
 		retResult.put("c",c);
 		retResult.put("status",true);
@@ -170,8 +174,10 @@ public class PartnerServiceImpl implements PartnerService {
 		partnerE.setPartner(Utils.null2String(params.get("partner")));
 		partnerE.setAddress(Utils.null2String(params.get("address")));
 		partnerE.setMobile(Utils.null2String(params.get("mobile")));
+		partnerE.setOpenId(Utils.null2String(params.get("openId")));
 		count = partnerDao.updatePartnerInfo(partnerE);
 		CacheManager.clearOnly("partnerEntity_CACHE");
+		this.getAllPartner();
 		retResult.put("count",count);
 		retResult.put("status",true);
 		retResult.put("ret",true);
@@ -187,6 +193,8 @@ public class PartnerServiceImpl implements PartnerService {
 				partnerDao.deletePartnerInfo(item);
 			});
 		}
+		CacheManager.clearOnly("partnerEntity_CACHE");
+		this.getAllPartner();
 		retResult.put("status",true);
 		retResult.put("ret",true);
 		return retResult;

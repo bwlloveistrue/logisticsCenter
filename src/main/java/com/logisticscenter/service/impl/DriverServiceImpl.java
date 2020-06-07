@@ -71,6 +71,7 @@ public class DriverServiceImpl implements DriverService {
         itemlist.add(FieldUtil.getFormItemForInput("mobile", "手机号码", "", 3));
         itemlist.add(FieldUtil.getFormItemForInput("idNumber", "身份证号码", "", 3));
         itemlist.add(FieldUtil.getFormItemForInput("driverLicense", "驾驶证号", "", 3));
+        itemlist.add(FieldUtil.getFormItemForInput("driverLicense", "驾驶证号", "", 3));
 
         groupitem.put("title", "基本信息");
         groupitem.put("defaultshow", true);
@@ -121,8 +122,10 @@ public class DriverServiceImpl implements DriverService {
         driverInfoEntity.setSalary(salary);
         driverInfoEntity.setRemark(remark);
         driverInfoEntity.setJob(job);
+        driverInfoEntity.setOpenId(Utils.null2String(params.get("openId")));
         int maxId = driverInfoDao.insertDriverInfo(driverInfoEntity);
         CacheManager.clearOnly("driverEntity_CACHE");
+        this.getAllDriverInfo();
         retResult.put("id",maxId);
         retResult.put("status",true);
         retResult.put("ret",true);
@@ -200,7 +203,10 @@ public class DriverServiceImpl implements DriverService {
             driverInfoEntity.setSalary(salary);
             driverInfoEntity.setRemark(remark);
             driverInfoEntity.setJob(job);
+            driverInfoEntity.setOpenId(Utils.null2String(params.get("openId")));
             driverInfoDao.updateDriverInfo(driverInfoEntity);
+            CacheManager.clearOnly("driverEntity_CACHE");
+            this.getAllDriverInfo();
             retResult.put("status",true);
             retResult.put("ret",true);
 
@@ -223,6 +229,7 @@ public class DriverServiceImpl implements DriverService {
             });
         }
         CacheManager.clearOnly("driverEntity_CACHE");
+        this.getAllDriverInfo();
         retResult.put("status",true);
         retResult.put("ret",true);
         return retResult;
@@ -262,11 +269,13 @@ public class DriverServiceImpl implements DriverService {
         String salary = Utils.null2String(driverValueEntity.getSalary());
         String remark = Utils.null2String(driverValueEntity.getRemark());
         String job = Utils.null2String(driverValueEntity.getJob());
+        String openId = Utils.null2String(driverValueEntity.getOpenId());
         List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
         Map<String,Object> groupitem = new HashMap<String,Object>();
         List<SearchConditionOption> sexOptions = selectOptionUtils.getSexOptions();
         List<SearchConditionOption> educationOptions = selectOptionUtils.getEducationOptions();
         List<SearchConditionOption> driverJobOptions = selectOptionUtils.getDriverJobOptions();
+        List<SearchConditionOption> subscribeOptions = selectOptionUtils.getSubscribeOptions();
         List itemlist = new ArrayList();
         itemlist.add(FieldUtil.getFormItemForInput("name", "姓名", name, 3));
         itemlist.add(FieldUtil.getFormItemForSelect("sex", "性别", sex, 3,3,sexOptions));
@@ -284,7 +293,7 @@ public class DriverServiceImpl implements DriverService {
         itemlist.add(FieldUtil.getFormItemForInputNumber("salary", "工资标准", salary, 3));
         itemlist.add(FieldUtil.getFormItemForInput("remark", "备注", remark, 2));
         itemlist.add(FieldUtil.getFormItemForSelect("job", "职位", job, 2,3,driverJobOptions));
-
+        itemlist.add(FieldUtil.getFormItemForSelect("openId", "微信昵称", openId,2, 2,subscribeOptions));
         groupitem.put("title", "基本信息");
         groupitem.put("defaultshow", true);
         groupitem.put("col", 4);

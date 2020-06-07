@@ -95,17 +95,20 @@ public class ClientServiceImpl implements ClientService {
 		String fax = Utils.null2String(clientValueEntity.getFax());
 		String address = Utils.null2String(clientValueEntity.getAddress());
 		String products = Utils.null2String(clientValueEntity.getProducts());
+		String openId = Utils.null2String(clientValueEntity.getOpenId());
 
 		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
 		Map<String,Object> groupitem = new HashMap<String,Object>();
 		List itemlist = new ArrayList();
 		List<SearchConditionOption> goodsTypeOptions = selectOptionUtils.getGoodsTypeOptions();
+		List<SearchConditionOption> subscribeOptions = selectOptionUtils.getSubscribeOptions();
 		itemlist.add(FieldUtil.getFormItemForInput("clientName", "客户名称", clientName, 3));
 		itemlist.add(FieldUtil.getFormItemForInput("contant", "联系方式", contant, 2));
 		itemlist.add(FieldUtil.getFormItemForInput("mobile", "手机", mobile, 3));
 		itemlist.add(FieldUtil.getFormItemForInput("fax", "传真", fax, 2));
 		itemlist.add(FieldUtil.getFormItemForInput("address", "地址", address, 3));
 		itemlist.add(FieldUtil.getFormItemForSelect("products", "主要货物", products,2, 2,goodsTypeOptions));
+		itemlist.add(FieldUtil.getFormItemForSelect("openId", "微信昵称", openId,2, 2,subscribeOptions));
 		groupitem.put("title", "基本信息");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 3);
@@ -160,9 +163,11 @@ public class ClientServiceImpl implements ClientService {
 		clientE.setFax(Utils.null2String(params.get("fax")));
 		clientE.setAddress(Utils.null2String(params.get("address")));
 		clientE.setProducts(Utils.null2String(params.get("products")));
+		clientE.setOpenId(Utils.null2String(params.get("openId")));
 		int maxId = clientDao.insertClient(clientE);
 		int c     = clientE.getId();
 		CacheManager.clearOnly("clientEntity_CACHE");
+		this.getAllClient();
 		retResult.put("id",maxId);
 		retResult.put("c",c);
 		retResult.put("status",true);
@@ -183,8 +188,10 @@ public class ClientServiceImpl implements ClientService {
 		clientE.setFax(Utils.null2String(params.get("fax")));
 		clientE.setAddress(Utils.null2String(params.get("address")));
 		clientE.setProducts(Utils.null2String(params.get("products")));
+		clientE.setOpenId(Utils.null2String(params.get("openId")));
 		count = clientDao.updateClient(clientE);
 		CacheManager.clearOnly("clientEntity_CACHE");
+		this.getAllClient();
 		retResult.put("count",count);
 		retResult.put("status",true);
 		retResult.put("ret",true);
@@ -200,6 +207,8 @@ public class ClientServiceImpl implements ClientService {
 				clientDao.deleteClient(item);
 			});
 		}
+		CacheManager.clearOnly("clientEntity_CACHE");
+		this.getAllClient();
 		retResult.put("status",true);
 		retResult.put("ret",true);
 		return retResult;

@@ -2,8 +2,12 @@ package com.logisticscenter.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.common.CommonTransMethod;
+import com.common.consatnt.SendTypeConstant;
+import com.common.consatnt.WorkflowTypeConstant;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.logisticscenter.controller.WeChatPushController;
 import com.logisticscenter.mapper.OrderApportionDao;
 import com.logisticscenter.mapper.OrderReceiptDao;
 import com.logisticscenter.mapper.TruckGoodsOrderDao;
@@ -17,6 +21,9 @@ import com.util.FileldsUtil.FieldUtil;
 import com.util.FileldsUtil.SearchConditionOption;
 import com.util.Utils;
 import com.util.optionUtil.SelectOptionUtils;
+import com.util.wxPublic.Template;
+import com.util.wxPublic.TemplateParam;
+import com.util.wxPublic.WxMsgPush;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +46,20 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 	@Autowired
 	SelectOptionUtils selectOptionUtils;
 
+	@Autowired
+	WeChatPushController weChatPushController;
 
+	@Autowired
+	CommonTransMethod commonTransMethod;
+
+	@Autowired
+	WxMsgPush wxMsgPush;
+
+
+	/**
+	 * @param params
+	 * @return
+	 */
 	@Override
 	public Map getCondition(Map params) {
 		Map retMap = new HashMap();
@@ -64,6 +84,10 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		return retMap;
 	}
 
+	/**
+	 * @param params
+	 * @return
+	 */
 	@Override
 	public Map getTableInfoList(Map params) {
 		Map retMap = new HashMap();
@@ -86,6 +110,10 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		return retMap;
 	}
 
+	/**
+	 * @param params
+	 * @return
+	 */
 	@Override
 	public Map getOrderApportionFields(Map params) {
 		Map retMap = new HashMap();
@@ -194,6 +222,10 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		return retMap;
 	}
 
+	/**
+	 * @param params
+	 * @return
+	 */
 	@Override
 	public Map saveOrderApportion(Map params) {
 		Map retMap = new HashMap();
@@ -237,6 +269,10 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		return retMap;
 	}
 
+	/**
+	 * @param params
+	 * @return
+	 */
 	@Override
 	public Map dispatchOrderApportion(Map params) {
 		Map retMap = new HashMap();
@@ -263,6 +299,11 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 			// 再新增
 			JSONArray orderTakerInfoArr = JSONArray.parseArray(orderApportionInfo);
 			Iterator iterator = orderTakerInfoArr.iterator();
+			List<String> driverModuleIds = commonTransMethod.getModuleId(SendTypeConstant.DRIVER, WorkflowTypeConstant.APPORTION);
+			Calendar today = Calendar.getInstance();
+			String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+
+			String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
 			while (iterator.hasNext()) {
 				JSONObject jsonObject = (JSONObject) iterator.next();
 				String goodsType = Utils.null2String(jsonObject.get("goodsType"));
@@ -285,9 +326,65 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 					truckGoodsReportDetailEntity.setReportId(reportId);
 					truckGoodsReportDetailEntity.setTruckPart(truckPart);
 					orderApportionDao.insertTruckGoodsReportDetail(truckGoodsReportDetailEntity);
+					//推送给司机
+					DriverInfoEntity driverInfoEntity = commonTransMethod.getDriverInfo(driver);
+					String openId = driverInfoEntity.getOpenId();
+					if(!openId.equals("") && !driver.equals("")){
+						driverModuleIds.stream().forEach(_moduleId->{
+							Template template = new Template();
+							template.setTemplateId(_moduleId);
+							template.setToUser(openId);
+							template.setUrl("");
+							List<TemplateParam> templateParams = new ArrayList<>();
+							TemplateParam templateParam = new TemplateParam("first","您好，您有新的订单！","");
+							templateParams.add(templateParam);
+							templateParam = new TemplateParam("keyword1",driverInfoEntity.getName(),"");
+							templateParams.add(templateParam);
+							templateParam = new TemplateParam("keyword2",commonTransMethod.getGoodsTypeName(goodsType),"");
+							templateParams.add(templateParam);
+							templateParam = new TemplateParam("keyword3",currentdate+" "+currenttime,"");
+							templateParams.add(templateParam);
+							templateParam = new TemplateParam("remark","11111111","");
+							templateParams.add(templateParam);
+							template.setTemplateParamList(templateParams);
+							wxMsgPush.SendWxMsg(template);
+						});
+					}
+
 				}
 				// 设置已分配
 				truckGoodsOrderDao.setOrderTakerStatusForReceipt(orderTakerId+"");
+				// 推送给客户
+				String clinetId = truckGoodsOrderTakerValueEntity.getClient();
+				ClientEntity clientEntity = commonTransMethod.getClientInfo(clinetId);
+				String openId = clientEntity.getOpenId();
+				if(!clinetId.equals("") && !openId.equals("")){
+					List<String> moduleIds = commonTransMethod.getModuleId(SendTypeConstant.CLIENT, WorkflowTypeConstant.APPORTION);
+					moduleIds.stream().forEach(_moduleId->{
+						Template template = new Template();
+						template.setTemplateId(_moduleId);
+						template.setToUser(openId);
+						template.setUrl("");
+						List<TemplateParam> templateParams = new ArrayList<>();
+						TemplateParam templateParam = new TemplateParam("first","您好，您有新的订单！","");
+						templateParams.add(templateParam);
+						templateParam = new TemplateParam("keyword1","xxxxxxx","");
+						templateParams.add(templateParam);
+						templateParam = new TemplateParam("keyword2","xxxxxx","");
+						templateParams.add(templateParam);
+						templateParam = new TemplateParam("keyword3",clientEntity.getClientName(),"");
+						templateParams.add(templateParam);
+						templateParam = new TemplateParam("keyword4","","");
+						templateParams.add(templateParam);
+						templateParam = new TemplateParam("keyword5","","");
+						templateParams.add(templateParam);
+						templateParam = new TemplateParam("remark","11111111","");
+						templateParams.add(templateParam);
+						template.setTemplateParamList(templateParams);
+						wxMsgPush.SendWxMsg(template);
+					});
+				}
+
 			}
 
 		}else{
@@ -299,6 +396,10 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 	}
 
 
+	/**
+	 * @param params
+	 * @return
+	 */
 	@Override
 	public Map deleteOrderApportion(Map params) {
 		Map retMap = new HashMap();
@@ -311,7 +412,14 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		retMap.put("status",true);
 		return retMap;
 	}
-	
+
+	/**
+	 * @param orderTakerId
+	 * @param jsonObject
+	 * @param truckGoodsOrderDetailEntities
+	 * @param mainInfo
+	 * @return
+	 */
 	public int insertReportInfo(int orderTakerId, JSONObject jsonObject,List<TruckGoodsOrderDetailEntity> truckGoodsOrderDetailEntities,TruckGoodsOrderTakerEntity mainInfo){
 		int receiptId = 0;
 		String goodsType = Utils.null2String(jsonObject.get("goodsType"));
@@ -373,7 +481,7 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 			}
 		}
 		orderReceiptDao.insertTruckGoodsReceiptDetail(insertInfo);
-
+		wxMsgPush.SendWxMsg("");
 
 		return receiptId;
 	}

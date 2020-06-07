@@ -33,6 +33,8 @@ public class ClientEntity {
 	private String address;
 	//货物
 	private String products;
+	// 关联微信openID
+	private String openId;
 	//创建日期
 	private String createDate;
 	//创建时间
@@ -95,6 +97,15 @@ public class ClientEntity {
 	public void setProducts(String products) {
 		this.products = products;
 	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
 	public String getCreateDate() {
 		return createDate;
 	}

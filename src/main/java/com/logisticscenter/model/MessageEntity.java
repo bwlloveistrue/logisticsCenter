@@ -1,5 +1,6 @@
 package com.logisticscenter.model;
 
+import com.common.CommonTransMethod;
 import com.util.Utils;
 
 import java.util.Calendar;
@@ -58,7 +59,7 @@ public class MessageEntity {
 	}
 
 	public void setSendTypeName(String sendTypeName) {
-		this.sendTypeName = sendTypeName;
+		this.sendTypeName = CommonTransMethod.getSendTypeName(sendTypeName);
 	}
 
 	public String getWorkflowType() {
@@ -75,7 +76,7 @@ public class MessageEntity {
 	}
 
 	public void setWorkflowTypeName(String workflowTypeName) {
-		this.workflowTypeName = workflowTypeName;
+		this.workflowTypeName = CommonTransMethod.getWorkflowName(workflowTypeName);
 	}
 
 	public String getMouldId() {

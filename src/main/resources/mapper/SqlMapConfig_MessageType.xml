@@ -53,7 +53,7 @@
       update messageInfo set
       sendType= #{sendType},
       workflowType= #{workflowType},
-      mouldId= #{mouldId},
+      mouldId= #{mouldId}
       where id= #{id}
    </update>
 </mapper>

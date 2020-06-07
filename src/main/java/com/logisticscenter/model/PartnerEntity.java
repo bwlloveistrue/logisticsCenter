@@ -37,6 +37,9 @@ public class PartnerEntity {
 	//伙伴
 	private String mobile;
 
+	// 关联微信openID
+	private String openId;
+
 	//创建日期
 	private String createDate;
 	//创建时间
@@ -94,6 +97,14 @@ public class PartnerEntity {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 	public String getCreateDate() {
