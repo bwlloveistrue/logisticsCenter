@@ -79,10 +79,10 @@ public class OrderReceiptController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/getOrderReceiptFields")
-	public Map getOrderTakersInfoFields(HttpServletRequest request){
+	public Map getOrderReceiptFields(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderReceiptService.getOrderTakersInfoFields(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.getOrderReceiptInfoFields(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,10 +94,10 @@ public class OrderReceiptController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/addOrderReceipt")
-	public Map addOrderTaker(HttpServletRequest request){
+	public Map addOrderReceipt(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderReceiptService.addOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.addOrderReceipt(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,10 +109,10 @@ public class OrderReceiptController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/updateOrderReceipt")
-	public Map updateOrderTaker(HttpServletRequest request){
+	public Map updateOrderReceipt(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderReceiptService.updateOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.updateOrderReceipt(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,10 +124,10 @@ public class OrderReceiptController implements Serializable{
 
 	@ResponseBody
 	@PostMapping("/deleteOrderReceipt")
-	public Map deleteOrderTaker(HttpServletRequest request){
+	public Map deleteOrderReceipt(HttpServletRequest request){
 		Map<String, Object> apidatas = new HashMap<String, Object>();
 		try {
-			apidatas.putAll(truckOrderReceiptService.deleteOrderTaker(ParamUtil.request2Map(request)));
+			apidatas.putAll(truckOrderReceiptService.deleteOrderReceipt(ParamUtil.request2Map(request)));
 			apidatas.put("api_status", true);
 		} catch (Exception e) {
 			e.printStackTrace();

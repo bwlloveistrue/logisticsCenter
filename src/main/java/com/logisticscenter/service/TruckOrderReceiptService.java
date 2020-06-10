@@ -23,28 +23,28 @@ public interface TruckOrderReceiptService {
 	 * @param params
 	 * @return
 	 */
-	public abstract Map getOrderTakersInfoFields(Map params);
+	public abstract Map getOrderReceiptInfoFields(Map params);
 
 	/**
 	 * 保存预录车辆详细信息
 	 * @param params
 	 * @return
 	 */
-	public abstract Map addOrderTaker(Map params);
+	public abstract Map addOrderReceipt(Map params);
 
 	/**
 	 * 更新预录车辆详细信息
 	 * @param params
 	 * @return
 	 */
-	public abstract Map updateOrderTaker(Map params);
+	public abstract Map updateOrderReceipt(Map params);
 
 	/**
 	 * 删除预录车辆详细信息
 	 * @param params
 	 * @return
 	 */
-	public abstract Map deleteOrderTaker(Map params);
+	public abstract Map deleteOrderReceipt(Map params);
 
 
 	

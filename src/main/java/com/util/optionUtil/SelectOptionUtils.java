@@ -259,17 +259,17 @@ public class SelectOptionUtils {
      * @return
      */
     public List<SearchConditionOption> getPartnerOptions(boolean isSearch){
-        List<PartnerEntity> alltruckMap =  commonTransMethod.getAllPartner();
-        List<SearchConditionOption> truckOptions = new ArrayList<SearchConditionOption>();
+        List<PartnerEntity> allpartnerMap =  commonTransMethod.getAllPartner();
+        List<SearchConditionOption> partnerOptions = new ArrayList<SearchConditionOption>();
         if(isSearch){
             SearchConditionOption searchConditionOption = new SearchConditionOption("","全部",true,true);
-            truckOptions.add(searchConditionOption);
+            partnerOptions.add(searchConditionOption);
         }
-        alltruckMap.forEach((_v)->{
+        allpartnerMap.forEach((_v)->{
             SearchConditionOption childOption = new SearchConditionOption(_v.getId()+"",_v.getPartner(),false,true);
-            truckOptions.add(childOption);
+            partnerOptions.add(childOption);
         });
-        return truckOptions;
+        return partnerOptions;
     }
 
     /**

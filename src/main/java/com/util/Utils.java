@@ -80,115 +80,216 @@ public class Utils {
 		return arraylist;
 	}
 
-	public static String toDecimalDigits(String s, int i)
+	public static String toDecimalDigits(String aNumber,int precision)
 	{
-		String s1 = s;
-		if (null == s || s.equals(""))
-			return "";
-		try
-		{
-			int j = 0;
-			if (s.indexOf(".") > -1)
-			{
-				String as[] = s.split("\\.");
-				j = as[as.length - 1].length();
+		String returnVal = aNumber;
+		//判断数字是不是科学计数法，如果是需要对数据进行处理   QC#785941
+		if(aNumber.contains("E")){
+			BigDecimal db = new BigDecimal(returnVal);
+			String tempValue = db.toPlainString();
+			aNumber = tempValue;
+			returnVal = tempValue;
+		}
+		try{
+			if(null == aNumber || aNumber.equals("")){
+				return  "";
 			}
-			if (j != i)
-				if (j == 0)
-				{
-					if (i == 1)
-						s1 = (new StringBuilder()).append(s1).append(".0").toString();
-					else
-					if (i == 2)
-						s1 = (new StringBuilder()).append(s1).append(".00").toString();
-					else
-					if (i == 3)
-						s1 = (new StringBuilder()).append(s1).append(".000").toString();
-					else
-					if (i == 4)
-						s1 = (new StringBuilder()).append(s1).append(".0000").toString();
-				} else
-				{
-					int k = i - j;
-					if (k == 1)
-						s1 = (new StringBuilder()).append(s1).append("0").toString();
-					else
-					if (k == 2)
-						s1 = (new StringBuilder()).append(s1).append("00").toString();
-					else
-					if (k == 3)
-						s1 = (new StringBuilder()).append(s1).append("000").toString();
-					else
-					if (k < 0)
-					{
-						Double double1 = Double.valueOf(Double.parseDouble(s1));
-						BigDecimal bigdecimal = new BigDecimal(double1.doubleValue());
-						bigdecimal = bigdecimal.setScale(i, 4);
-						s1 = String.valueOf(bigdecimal.doubleValue());
+			int valInt = 0;
+			if(aNumber.indexOf(".")>-1){
+				String[] val = aNumber.split("\\.");
+				valInt = val[val.length-1].length();
+			}
+			if(valInt != precision){
+				if(valInt == 0){
+					if(precision == 1){
+						returnVal += ".0";
+					}else if(precision == 2){
+						returnVal += ".00";
+					}else if(precision == 3){
+						returnVal += ".000";
+					}else if(precision == 4){
+						returnVal += ".0000";
+					}else if(precision == 5){
+						returnVal += ".00000";
+					}else if(precision == 6){
+						returnVal += ".000000";
+					}else if(precision == 7){
+						returnVal += ".0000000";
+					}else if(precision == 8){
+						returnVal += ".00000000";
+					}else if(precision == 9){
+						returnVal += ".000000000";
+					}else if(precision == 10){
+						returnVal += ".0000000000";
+					}else if(precision == 11){
+						returnVal += ".00000000000";
+					}else if(precision == 12){
+						returnVal += ".000000000000";
+					}else if(precision == 13){
+						returnVal += ".0000000000000";
+					}else if(precision == 14){
+						returnVal += ".00000000000000";
+					}else if(precision == 15){
+						returnVal += ".000000000000000";
+					}
+				}else{
+					int lengInt = precision-valInt;
+					//判断添加小数位0的个数
+					if(lengInt == 1 ){
+						returnVal += "0";
+					}else if(lengInt == 2){
+						returnVal += "00";
+					}else if(lengInt == 3){
+						returnVal += "000";
+					}else if(lengInt == 4){
+						returnVal += "0000";
+					}else if(lengInt == 5){
+						returnVal += "00000";
+					}else if(lengInt == 6){
+						returnVal += "000000";
+					}else if(lengInt == 7){
+						returnVal += "0000000";
+					}else if(lengInt == 8){
+						returnVal += "00000000";
+					}else if(lengInt == 9){
+						returnVal += "000000000";
+					}else if(lengInt == 10){
+						returnVal += "0000000000";
+					}else if(lengInt == 11){
+						returnVal += "00000000000";
+					}else if(lengInt == 12){
+						returnVal += "000000000000";
+					}else if(lengInt == 13){
+						returnVal += "0000000000000";
+					}else if(lengInt == 14){
+						returnVal += "00000000000000";
+					}else if(lengInt < 0){
+                    /*if(precision == 1){
+                        returnVal += ".0";
+                    }else if(precision == 2){
+                        returnVal += ".00";
+                    }else if(precision == 3){
+                        returnVal += ".000";
+                    }else if(precision == 4){
+                        returnVal += ".0000";
+                    }  */
+						//liuzy 上述做法会将123.45678转换成123.45678.00,算法改为四舍五入
+						BigDecimal bd=new BigDecimal(returnVal);
+						bd=bd.setScale(precision,BigDecimal.ROUND_HALF_UP);
+						returnVal = bd.toString();
 					}
 				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception exception)
-		{
-			
-		}
-		return s1;
+		return  returnVal;
 	}
 	
-	public static BigDecimal toDecimal(String s, int i)
+	public static BigDecimal toDecimal(String aNumber,int precision)
 	{
-		String s1 = s;
-		BigDecimal bigdecimal = null;
-		if (null == s || s.equals(""))
-			return BigDecimal.valueOf(Float.parseFloat("0"));
-		try
-		{
-			int j = 0;
-			if (s.indexOf(".") > -1)
-			{
-				String as[] = s.split("\\.");
-				j = as[as.length - 1].length();
+		String returnVal = aNumber;
+		//判断数字是不是科学计数法，如果是需要对数据进行处理   QC#785941
+		if(aNumber.contains("E")){
+			BigDecimal db = new BigDecimal(returnVal);
+			String tempValue = db.toPlainString();
+			aNumber = tempValue;
+			returnVal = tempValue;
+		}
+		try{
+			if(null == aNumber || aNumber.equals("")){
+				return  BigDecimal.valueOf(Float.parseFloat("0"));
 			}
-			if (j != i)
-				if (j == 0)
-				{
-					if (i == 1)
-						s1 = (new StringBuilder()).append(s1).append(".0").toString();
-					else
-					if (i == 2)
-						s1 = (new StringBuilder()).append(s1).append(".00").toString();
-					else
-					if (i == 3)
-						s1 = (new StringBuilder()).append(s1).append(".000").toString();
-					else
-					if (i == 4)
-						s1 = (new StringBuilder()).append(s1).append(".0000").toString();
-				} else
-				{
-					int k = i - j;
-					if (k == 1)
-						s1 = (new StringBuilder()).append(s1).append("0").toString();
-					else
-					if (k == 2)
-						s1 = (new StringBuilder()).append(s1).append("00").toString();
-					else
-					if (k == 3)
-						s1 = (new StringBuilder()).append(s1).append("000").toString();
-					else
-					if (k < 0)
-					{
-						Double double1 = Double.valueOf(Double.parseDouble(s1));
-						bigdecimal = new BigDecimal(double1.doubleValue());
-						bigdecimal = bigdecimal.setScale(i, 4);
-						s1 = String.valueOf(bigdecimal.doubleValue());
+			int valInt = 0;
+			if(aNumber.indexOf(".")>-1){
+				String[] val = aNumber.split("\\.");
+				valInt = val[val.length-1].length();
+			}
+			if(valInt != precision){
+				if(valInt == 0){
+					if(precision == 1){
+						returnVal += ".0";
+					}else if(precision == 2){
+						returnVal += ".00";
+					}else if(precision == 3){
+						returnVal += ".000";
+					}else if(precision == 4){
+						returnVal += ".0000";
+					}else if(precision == 5){
+						returnVal += ".00000";
+					}else if(precision == 6){
+						returnVal += ".000000";
+					}else if(precision == 7){
+						returnVal += ".0000000";
+					}else if(precision == 8){
+						returnVal += ".00000000";
+					}else if(precision == 9){
+						returnVal += ".000000000";
+					}else if(precision == 10){
+						returnVal += ".0000000000";
+					}else if(precision == 11){
+						returnVal += ".00000000000";
+					}else if(precision == 12){
+						returnVal += ".000000000000";
+					}else if(precision == 13){
+						returnVal += ".0000000000000";
+					}else if(precision == 14){
+						returnVal += ".00000000000000";
+					}else if(precision == 15){
+						returnVal += ".000000000000000";
+					}
+				}else{
+					int lengInt = precision-valInt;
+					//判断添加小数位0的个数
+					if(lengInt == 1 ){
+						returnVal += "0";
+					}else if(lengInt == 2){
+						returnVal += "00";
+					}else if(lengInt == 3){
+						returnVal += "000";
+					}else if(lengInt == 4){
+						returnVal += "0000";
+					}else if(lengInt == 5){
+						returnVal += "00000";
+					}else if(lengInt == 6){
+						returnVal += "000000";
+					}else if(lengInt == 7){
+						returnVal += "0000000";
+					}else if(lengInt == 8){
+						returnVal += "00000000";
+					}else if(lengInt == 9){
+						returnVal += "000000000";
+					}else if(lengInt == 10){
+						returnVal += "0000000000";
+					}else if(lengInt == 11){
+						returnVal += "00000000000";
+					}else if(lengInt == 12){
+						returnVal += "000000000000";
+					}else if(lengInt == 13){
+						returnVal += "0000000000000";
+					}else if(lengInt == 14){
+						returnVal += "00000000000000";
+					}else if(lengInt < 0){
+                    /*if(precision == 1){
+                        returnVal += ".0";
+                    }else if(precision == 2){
+                        returnVal += ".00";
+                    }else if(precision == 3){
+                        returnVal += ".000";
+                    }else if(precision == 4){
+                        returnVal += ".0000";
+                    }  */
+						//liuzy 上述做法会将123.45678转换成123.45678.00,算法改为四舍五入
+						BigDecimal bd=new BigDecimal(returnVal);
+						bd=bd.setScale(precision,BigDecimal.ROUND_HALF_UP);
+						return bd;
 					}
 				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception exception)
-		{
-			
-		}
-		return BigDecimal.valueOf(Float.parseFloat(s1));
+		return  BigDecimal.valueOf(Float.parseFloat("0"));
 	}
 
 	public static ArrayList TokenizerString(String s, String s1, boolean flag)

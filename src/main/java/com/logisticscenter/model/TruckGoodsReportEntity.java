@@ -52,6 +52,9 @@ public class TruckGoodsReportEntity {
 	//预录订单号
 	private int reportId;
 
+	// 删除标识
+	private int deleteFlg;
+
 	//发车时间
 	private String beginDate;
 	//预计到货时间
@@ -80,6 +83,16 @@ public class TruckGoodsReportEntity {
 	private int reportStatus;
 	//是否迟到
 	private int isLater;
+
+	// 缴费单
+	private String payAccessory;
+
+	//签收单
+	private String signAccessory;
+
+	//出库单
+	private String checkOutAccessory;
+
 	//迟到原因
 	private String laterReason;
 	//运费金额
@@ -92,8 +105,38 @@ public class TruckGoodsReportEntity {
 	private String carryNumber;
 	//区域
 	private String workPlace;
-	//附件
-	private String accessorys;
+	//备注
+	private String remark;
+	//客户订单编号
+	private String customerOrder;
+	//是否结算运费
+	private int settlement;
+	// 吊费
+	private BigDecimal lifitingCost ;
+	// 加工费
+	private BigDecimal processingFee ;
+	// 装货费用是否结清
+	private int loadIsSettle ;
+	//油费
+	private BigDecimal oilFee ;
+	//过路费
+	private BigDecimal tollFee ;
+	//修车费
+	private BigDecimal repairFee ;
+	//轮胎费
+	private BigDecimal tyreFee ;
+	//带路费
+	private BigDecimal guideWayFee ;
+	//其他
+	private BigDecimal otherFee ;
+	//补助
+	private BigDecimal allowance ;
+	//罚款
+	private BigDecimal forfeit ;
+	//配件
+	private BigDecimal parts ;
+	//breakRulesFee
+	private BigDecimal breakRulesFee ;
 
 	//创建日期
 	private String createDate;
@@ -104,15 +147,10 @@ public class TruckGoodsReportEntity {
 	private String editDate;
 	//修改时间
 	private String editTime;
-	//备注
-	private String remark;
-	//客户订单编号
-	private String customerOrder;
-	//是否结算运费
-	private int settlement;
 
+	//用作列表主数据的明细显示
 	private List<TruckGoodsOrderDetailEntity> childInfo;
-
+	//用作列表主数据的明细显示
 	private List<PageCell>  childColumns = splitPageInterface.createColumn() ;
 
 	public int getId() {
@@ -345,14 +383,6 @@ public class TruckGoodsReportEntity {
 		this.workPlace = workPlace;
 	}
 
-	public String getAccessorys() {
-		return accessorys;
-	}
-
-	public void setAccessorys(String accessorys) {
-		this.accessorys = accessorys;
-	}
-
 	public String getCreateDate() {
 		return createDate;
 	}
@@ -441,14 +471,6 @@ public class TruckGoodsReportEntity {
 		this.driverName = CommonTransMethod.getDriverName(driverName);;
 	}
 
-	public List<TruckGoodsOrderDetailEntity> getChildInfo() {
-		return childInfo;
-	}
-
-	public void setChildInfo(List<TruckGoodsOrderDetailEntity> childInfo) {
-		this.childInfo = childInfo;
-	}
-
 	public String getTruckNumberName() {
 		return truckNumberName;
 	}
@@ -457,11 +479,155 @@ public class TruckGoodsReportEntity {
 		this.truckNumberName = CommonTransMethod.getTruckNumberName(truckNumberName);
 	}
 
+	public String getPayAccessory() {
+		return payAccessory;
+	}
+
+	public void setPayAccessory(String payAccessory) {
+		this.payAccessory = payAccessory;
+	}
+
+	public String getSignAccessory() {
+		return signAccessory;
+	}
+
+	public void setSignAccessory(String signAccessory) {
+		this.signAccessory = signAccessory;
+	}
+
+	public String getCheckOutAccessory() {
+		return checkOutAccessory;
+	}
+
+	public void setCheckOutAccessory(String checkOutAccessory) {
+		this.checkOutAccessory = checkOutAccessory;
+	}
+
+	public BigDecimal getLifitingCost() {
+		return lifitingCost;
+	}
+
+	public void setLifitingCost(BigDecimal lifitingCost) {
+		this.lifitingCost = lifitingCost;
+	}
+
+	public BigDecimal getProcessingFee() {
+		return processingFee;
+	}
+
+	public void setProcessingFee(BigDecimal processingFee) {
+		this.processingFee = processingFee;
+	}
+
+	public int getLoadIsSettle() {
+		return loadIsSettle;
+	}
+
+	public void setLoadIsSettle(int loadIsSettle) {
+		this.loadIsSettle = loadIsSettle;
+	}
+
+	public BigDecimal getOilFee() {
+		return oilFee;
+	}
+
+	public void setOilFee(BigDecimal oilFee) {
+		this.oilFee = oilFee;
+	}
+
+	public BigDecimal getTollFee() {
+		return tollFee;
+	}
+
+	public void setTollFee(BigDecimal tollFee) {
+		this.tollFee = tollFee;
+	}
+
+	public BigDecimal getRepairFee() {
+		return repairFee;
+	}
+
+	public void setRepairFee(BigDecimal repairFee) {
+		this.repairFee = repairFee;
+	}
+
+	public BigDecimal getTyreFee() {
+		return tyreFee;
+	}
+
+	public void setTyreFee(BigDecimal tyreFee) {
+		this.tyreFee = tyreFee;
+	}
+
+	public BigDecimal getGuideWayFee() {
+		return guideWayFee;
+	}
+
+	public void setGuideWayFee(BigDecimal guideWayFee) {
+		this.guideWayFee = guideWayFee;
+	}
+
+	public BigDecimal getOtherFee() {
+		return otherFee;
+	}
+
+	public void setOtherFee(BigDecimal otherFee) {
+		this.otherFee = otherFee;
+	}
+
+	public BigDecimal getAllowance() {
+		return allowance;
+	}
+
+	public void setAllowance(BigDecimal allowance) {
+		this.allowance = allowance;
+	}
+
+	public BigDecimal getForfeit() {
+		return forfeit;
+	}
+
+	public void setForfeit(BigDecimal forfeit) {
+		this.forfeit = forfeit;
+	}
+
+	public BigDecimal getParts() {
+		return parts;
+	}
+
+	public void setParts(BigDecimal parts) {
+		this.parts = parts;
+	}
+
+	public BigDecimal getBreakRulesFee() {
+		return breakRulesFee;
+	}
+
+	public void setBreakRulesFee(BigDecimal breakRulesFee) {
+		this.breakRulesFee = breakRulesFee;
+	}
+
+	public List<TruckGoodsOrderDetailEntity> getChildInfo() {
+		return childInfo;
+	}
+
+	public void setChildInfo(List<TruckGoodsOrderDetailEntity> childInfo) {
+		this.childInfo = childInfo;
+	}
+
 	public List<PageCell> getChildColumns() {
 		return childColumns;
 	}
 
 	public void setChildColumns(List<PageCell> childColumns) {
 		this.childColumns = childColumns;
+	}
+
+	public int getDeleteFlg() {
+		return deleteFlg;
+	}
+
+	public void setDeleteFlg(int deleteFlg) {
+		this.deleteFlg = deleteFlg;
 	}
 }

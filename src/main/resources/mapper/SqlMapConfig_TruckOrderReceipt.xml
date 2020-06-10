@@ -3,101 +3,153 @@
 <mapper namespace="com.logisticscenter.mapper.OrderReceiptDao">
     <resultMap type="truckGoodsReportEntity" id="orderTakerReceiptForSplit">
         <id property="id" column="id"/>
-        <result property="packageFlg" column="packageFlg"/>
-        <result property="packagePrice" column="packagePrice"/>
-        <result property="truckPart" column="truckPart"/>
-        <result property="partner" column="partner"/>
-        <result property="partnerPrice" column="partnerPrice"/>
-        <result property="partnerCarry" column="partnerCarry"/>
-        <result property="reportNumber" column="reportNumber"/>
         <result property="truckNumber" column="truckNumber"/>
+        <result property="reportNumber" column="reportNumber"/>
         <result property="reportId" column="reportId"/>
         <result property="beginDate" column="beginDate"/>
         <result property="expectedDate" column="expectedDate"/>
         <result property="endDate" column="endDate"/>
         <result property="driver" column="driver"/>
         <result property="client" column="client"/>
-        <result property="prepaidFlg" column="prepaidFlg"/>
-        <result property="prepaidExpress" column="prepaidExpress"/>
-        <result property="prepaidDesc" column="prepaidDesc"/>
         <result property="goodsType" column="goodsType"/>
+        <result property="packageFlg" column="packageFlg"/>
+        <result property="packagePrice" column="packagePrice"/>
+        <result property="truckPart" column="truckPart"/>
+        <result property="partner" column="partner"/>
+        <result property="partnerPrice" column="partnerPrice"/>
+        <result property="partnerCarry" column="partnerCarry"/>
         <result property="reportStatus" column="reportStatus"/>
         <result property="isLater" column="isLater"/>
         <result property="laterReason" column="laterReason"/>
         <result property="expensens" column="expensens"/>
-        <result property="carryNumber" column="carryNumber"/>
+        <result property="profit" column="profit"/>
+        <result property="cost" column="cost"/>
+        <result property="payAccessory" column="payAccessory"/>
+        <result property="signAccessory" column="signAccessory"/>
+        <result property="checkOutAccessory" column="checkOutAccessory"/>
         <result property="workPlace" column="workPlace"/>
         <result property="remark" column="remark"/>
+        <result property="carryNumber" column="carryNumber"/>
         <result property="customerOrder" column="customerOrder"/>
-        <result property="settlement" column="settlement"/>
+        <result property="prepaidFlg" column="prepaidFlg"/>
+        <result property="prepaidExpress" column="prepaidExpress"/>
+        <result property="prepaidDesc" column="prepaidDesc"/>
+        <result property="processingFee" column="processingFee"/>
+        <result property="loadIsSettle" column="loadIsSettle"/>
+        <result property="deleteFlg" column="deleteFlg"/>
+        <result property="lifitingCost" column="lifitingCost"/>
+        <result property="tollFee" column="tollFee"/>
+        <result property="repairFee" column="repairFee"/>
+        <result property="tyreFee" column="tyreFee"/>
+        <result property="guideWayFee" column="guideWayFee"/>
+        <result property="otherFee" column="otherFee"/>
+        <result property="allowance" column="allowance"/>
+        <result property="forfeit" column="forfeit"/>
+        <result property="parts" column="parts"/>
+        <result property="breakRulesFee" column="breakRulesFee"/>
         <result property="createDate" column="createDate"/>
         <result property="createTime" column="createTime"/>
         <result property="editDate" column="editDate"/>
         <result property="editTime" column="editTime"/>
-
         <collection property="childInfo" ofType="TruckGoodsReceiptDetailEntity" column="reportId" select="getOrderDetailByReportId"></collection>
     </resultMap>
     <insert id="insertTruckGoodsReport" parameterType="truckGoodsReportEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into truckGoodsReport (
-        packageFlg,
-        packagePrice,
-        truckPart,
-        partner,
-        partnerPrice,
-        partnerCarry,
-        reportNumber,
         truckNumber,
+        reportNumber,
         reportId,
         beginDate,
         expectedDate,
         endDate,
         driver,
         client,
-        prepaidFlg,
-        prepaidExpress,
-        prepaidDesc,
         goodsType,
+        packageFlg,
+        packagePrice,
+        truckPart,
+        partner,
+        partnerPrice,
+        partnerCarry,
         reportStatus,
         isLater,
         laterReason,
         expensens,
-        carryNumber,
+        profit,
+        cost,
+        payAccessory,
+        signAccessory,
+        checkOutAccessory,
         workPlace,
         remark,
+        carryNumber,
         customerOrder,
-        settlement,
+        prepaidFlg,
+        prepaidExpress,
+        prepaidDesc,
+        processingFee,
+        loadIsSettle,
+        deleteFlg,
+        lifitingCost,
+        oilFee,
+        tollFee,
+        repairFee,
+        tyreFee,
+        guideWayFee,
+        otherFee,
+        allowance,
+        forfeit,
+        parts,
+        breakRulesFee,
         createDate,
         createTime,
         editDate,
         editTime)
         values (
-        #{packageFlg},
-        #{packagePrice},
-        #{truckPart},
-        #{partner},
-        #{partnerPrice},
-        #{partnerCarry},
-        #{reportNumber},
         #{truckNumber},
+        #{reportNumber},
         #{reportId},
         #{beginDate},
         #{expectedDate},
         #{endDate},
         #{driver},
         #{client},
-        #{prepaidFlg},
-        #{prepaidExpress},
-        #{prepaidDesc},
         #{goodsType},
+        #{packageFlg},
+        #{packagePrice},
+        #{truckPart},
+        #{partner},
+        #{partnerPrice},
+        #{partnerCarry},
         #{reportStatus},
         #{isLater},
         #{laterReason},
         #{expensens},
-        #{carryNumber},
+        #{profit},
+        #{cost},
+        #{payAccessory},
+        #{signAccessory},
+        #{checkOutAccessory},
         #{workPlace},
         #{remark},
+        #{carryNumber},
         #{customerOrder},
-        #{settlement},
+        #{prepaidFlg},
+        #{prepaidExpress},
+        #{prepaidDesc},
+        #{processingFee},
+        #{loadIsSettle},
+        #{deleteFlg},
+        #{lifitingCost},
+        #{oilFee},
+        #{tollFee},
+        #{repairFee},
+        #{tyreFee},
+        #{guideWayFee},
+        #{otherFee},
+        #{allowance},
+        #{forfeit},
+        #{parts},
+        #{breakRulesFee},
         #{createDate},
         #{createTime},
         #{editDate},
@@ -109,25 +161,53 @@
     <update id="updateTruckGoodsReport" parameterType="truckGoodsReportEntity">
         update truckGoodsReport set
         truckNumber=#{truckNumber},
+        reportNumber=#{reportNumber},
+        reportId=#{reportId},
         beginDate=#{beginDate},
         expectedDate=#{expectedDate},
         endDate=#{endDate},
         driver=#{driver},
         client=#{client},
-        prepaidFlg=#{prepaidFlg},
-        prepaidExpress=#{prepaidExpress},
-        prepaidDesc=#{prepaidDesc},
         goodsType=#{goodsType},
+        packageFlg=#{packageFlg},
+        packagePrice=#{packagePrice},
+        truckPart=#{truckPart},
+        partner=#{partner},
+        partnerPrice=#{partnerPrice},
+        partnerCarry=#{partnerCarry},
         reportStatus=#{reportStatus},
         isLater=#{isLater},
         laterReason=#{laterReason},
+        expensens=#{expensens},
+        profit=#{profit},
+        cost=#{cost},
+        payAccessory=#{payAccessory},
+        signAccessory=#{signAccessory},
+        checkOutAccessory=#{checkOutAccessory},
+        workPlace=#{workPlace},
         remark=#{remark},
-        customerOrder=#{customerOrder},
         carryNumber=#{carryNumber},
-        settlement=#{settlement},
-        accessorys=#{accessorys},
+        customerOrder=#{customerOrder},
+        prepaidFlg=#{prepaidFlg},
+        prepaidExpress=#{prepaidExpress},
+        prepaidDesc=#{prepaidDesc},
+        processingFee=#{processingFee},
+        loadIsSettle=#{loadIsSettle},
+        deleteFlg=#{deleteFlg},
+        lifitingCost=#{lifitingCost},
+        oilFee=#{oilFee},
+        tollFee=#{tollFee},
+        repairFee=#{repairFee},
+        tyreFee=#{tyreFee},
+        guideWayFee=#{guideWayFee},
+        otherFee=#{otherFee},
+        allowance=#{allowance},
+        forfeit=#{forfeit},
+        parts=#{parts},
+        breakRulesFee=#{breakRulesFee},
         editDate=#{editDate},
         editTime=#{editTime}
+
         where id=#{id}
     </update>
 
@@ -209,5 +289,19 @@
             #{item.editTime})
         </foreach>
     </insert>
+
+    <!-- 获取分配出车详细信息 -->
+    <select id="getTruckGoodsReceiptDetail" parameterType="truckGoodsReceiptDetailEntity"
+            resultType="truckGoodsReceiptDetailEntity" >
+        select * from truckGoodsReceiptDetail
+        <where>
+            <if test="id > 0">
+                id = #{id}
+            </if>
+            <if test="reportId > 0">
+                reportId = #{reportId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

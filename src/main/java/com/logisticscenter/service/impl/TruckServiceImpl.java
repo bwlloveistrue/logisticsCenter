@@ -146,16 +146,16 @@ public class TruckServiceImpl implements TruckService {
         String truckColor = Utils.null2String(truckValueEntity.getTruckColor());
 
 //车辆长度
-        BigDecimal truckLength = Utils.toDecimal(Utils.null2String(truckValueEntity.getTruckLength()), 0);
+        BigDecimal truckLength = Utils.toDecimal(Utils.null2String(truckValueEntity.getTruckLength()), 2);
 
 //车辆宽度
-        BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(truckValueEntity.getTruckWidth()), 0);
+        BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(truckValueEntity.getTruckWidth()), 2);
 
 //车辆高度
-        BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(truckValueEntity.getTruckHeight()), 0);
+        BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(truckValueEntity.getTruckHeight()), 2);
 
 //标准载重
-        BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(truckValueEntity.getStandardWeight()), 0);
+        BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(truckValueEntity.getStandardWeight()), 2);
 
 //驾驶证号
         String driverLicense = Utils.null2String(truckValueEntity.getDriverLicense());
@@ -170,10 +170,10 @@ public class TruckServiceImpl implements TruckService {
         String buyDate = Utils.null2String(truckValueEntity.getBuyDate());
 
 //原值
-        BigDecimal worth = Utils.toDecimal(Utils.null2String(truckValueEntity.getWorth()), 0);
+        BigDecimal worth = Utils.toDecimal(Utils.null2String(truckValueEntity.getWorth()), 2);
 
 //买进价格
-        BigDecimal buyCost = Utils.toDecimal(Utils.null2String(truckValueEntity.getBuyCost()), 0);
+        BigDecimal buyCost = Utils.toDecimal(Utils.null2String(truckValueEntity.getBuyCost()), 2);
 
 //备注
         String remark = Utils.null2String(truckValueEntity.getRemark());
@@ -258,16 +258,16 @@ public class TruckServiceImpl implements TruckService {
             String truckColor = Utils.null2String(params.get("truckColor"));
 
             //车辆长度
-            BigDecimal truckLength = Utils.toDecimal(Utils.null2String(params.get("truckLength")), 0);
+            BigDecimal truckLength = Utils.toDecimal(Utils.null2String(params.get("truckLength")), 2);
 
             //车辆宽度
-            BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(params.get("truckWidth")), 0);
+            BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(params.get("truckWidth")), 2);
 
             //车辆高度
-            BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(params.get("truckHeight")), 0);
+            BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(params.get("truckHeight")), 2);
 
             //标准载重
-            BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(params.get("standardWeight")), 0);
+            BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(params.get("standardWeight")), 2);
 
             //驾驶证号
             String driverLicense = Utils.null2String(params.get("driverLicense"));
@@ -282,10 +282,10 @@ public class TruckServiceImpl implements TruckService {
             String buyDate = Utils.null2String(params.get("buyDate"));
 
             //原值
-            BigDecimal worth = Utils.toDecimal(Utils.null2String(params.get("worth")), 0);
+            BigDecimal worth = Utils.toDecimal(Utils.null2String(params.get("worth")), 2);
 
             //买进价格
-            BigDecimal buyCost = Utils.toDecimal(Utils.null2String(params.get("buyCost")), 0);
+            BigDecimal buyCost = Utils.toDecimal(Utils.null2String(params.get("buyCost")), 2);
 
             //备注
             String remark = Utils.null2String(params.get("remark"));
@@ -355,16 +355,16 @@ public class TruckServiceImpl implements TruckService {
         String truckColor = Utils.null2String(params.get("truckColor"));
 
         //车辆长度
-        BigDecimal truckLength = Utils.toDecimal(Utils.null2String(params.get("truckLength")), 0);
+        BigDecimal truckLength = Utils.toDecimal(Utils.null2String(params.get("truckLength")), 2);
 
         //车辆宽度
-        BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(params.get("truckWidth")), 0);
+        BigDecimal truckWidth = Utils.toDecimal(Utils.null2String(params.get("truckWidth")), 2);
 
         //车辆高度
-        BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(params.get("truckHeight")), 0);
+        BigDecimal truckHeight = Utils.toDecimal(Utils.null2String(params.get("truckHeight")), 2);
 
         //标准载重
-        BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(params.get("standardWeight")), 0);
+        BigDecimal standardWeight = Utils.toDecimal(Utils.null2String(params.get("standardWeight")), 2);
 
         //驾驶证号
         String driverLicense = Utils.null2String(params.get("driverLicense"));
@@ -379,10 +379,10 @@ public class TruckServiceImpl implements TruckService {
         String buyDate = Utils.null2String(params.get("buyDate"));
 
         //原值
-        BigDecimal worth = Utils.toDecimal(Utils.null2String(params.get("worth")), 0);
+        BigDecimal worth = Utils.toDecimal(Utils.null2String(params.get("worth")), 2);
 
         //买进价格
-        BigDecimal buyCost = Utils.toDecimal(Utils.null2String(params.get("buyCost")), 0);
+        BigDecimal buyCost = Utils.toDecimal(Utils.null2String(params.get("buyCost")), 2);
 
         //备注
         String remark = Utils.null2String(params.get("truckNumbe"));

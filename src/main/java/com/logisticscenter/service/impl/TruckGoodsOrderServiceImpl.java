@@ -197,9 +197,9 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 					if(goodsType > 0){
 						String startPlace = Utils.null2String(jsonObject.get("startPlace"));
 						String endPlace = Utils.null2String(jsonObject.get("endPlace"));
-						int invoiceFlg = Utils.getIntValue(Utils.null2String(jsonObject.get("invoiceFlg")),0);
-						BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
-						BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),0);
+						int invoiceFlg = Utils.getIntValue(Utils.null2String(jsonObject.get("invoiceFlg")),2);
+						BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),2);
+						BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),2);
 						TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
 						truckGoodsOrderDetailEntity.setGoodsType(goodsType+"");
 						truckGoodsOrderDetailEntity.setEndPlace(endPlace);
@@ -260,9 +260,9 @@ public class TruckGoodsOrderServiceImpl implements TruckGoodsOrderService {
 					int goodsType = Utils.getIntValue(Utils.null2String(jsonObject.get("goodsType")));
 					String startPlace = Utils.null2String(jsonObject.get("startPlace"));
 					String endPlace = Utils.null2String(jsonObject.get("endPlace"));
-					int invoiceFlg = Utils.getIntValue(Utils.null2String(jsonObject.get("invoiceFlg")),0);
-					BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),0);
-					BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),0);
+					int invoiceFlg = Utils.getIntValue(Utils.null2String(jsonObject.get("invoiceFlg")),2);
+					BigDecimal realCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("realCarry")),2);
+					BigDecimal price = Utils.toDecimal(Utils.null2String(jsonObject.get("price")),2);
 					TruckGoodsOrderDetailEntity truckGoodsOrderDetailEntity = new TruckGoodsOrderDetailEntity();
 					truckGoodsOrderDetailEntity.setGoodsType(goodsType+"");
 					truckGoodsOrderDetailEntity.setEndPlace(endPlace);

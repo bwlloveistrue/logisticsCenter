@@ -28,22 +28,22 @@ public class TruckBean {
 		driver = driver2;
 		truckColor = Utils.null2String(truckColor2);
 		if(!"".equals(Utils.null2String(trucklength2))){
-			truckLength = Utils.toDecimal(trucklength2,4);
+			truckLength = Utils.toDecimal(trucklength2,2);
 		}else{
 			truckLength = ParamConstant.defaultDecimal;
 		}
 		if(!"".equals(Utils.null2String(truckWidth2))){
-			truckWidth = Utils.toDecimal(truckWidth2,4);
+			truckWidth = Utils.toDecimal(truckWidth2,2);
 		}else{
 			truckWidth = ParamConstant.defaultDecimal;
 		}
 		if(!"".equals(Utils.null2String(truckHeight2))){
-			truckHeight = Utils.toDecimal(truckHeight2,4);
+			truckHeight = Utils.toDecimal(truckHeight2,2);
 		}else{
 			truckHeight = ParamConstant.defaultDecimal;
 		}
 		if(!"".equals(Utils.null2String(standardWeight2))){
-			standardWeight = Utils.toDecimal(standardWeight2,4);
+			standardWeight = Utils.toDecimal(standardWeight2,2);
 		}else{
 			standardWeight = ParamConstant.defaultDecimal;
 		}
@@ -52,12 +52,12 @@ public class TruckBean {
 		madeDate = Utils.null2String(madeDate2);
 		buyDate = Utils.null2String(buyDate2);
 		if(!"".equals(Utils.null2String(worth2))){
-			worth = Utils.toDecimal(worth2,4);
+			worth = Utils.toDecimal(worth2,2);
 		}else{
 			worth = ParamConstant.defaultDecimal;
 		}
 		if(!"".equals(Utils.null2String(buyCost2))){
-			buyCost = Utils.toDecimal(buyCost2,4);
+			buyCost = Utils.toDecimal(buyCost2,2);
 		}else{
 			buyCost = ParamConstant.defaultDecimal;
 		}

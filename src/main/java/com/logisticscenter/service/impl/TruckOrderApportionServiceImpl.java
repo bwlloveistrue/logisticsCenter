@@ -244,8 +244,8 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 				if(!goodsType.equals("")){
 					String truckNumber = Utils.null2String(jsonObject.get("truckNumber"));
 					String driver = Utils.null2String(jsonObject.get("driver"));
-					BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),0);
-					BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),0);
+					BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),2);
+					BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),2);
 					int partner = Utils.getIntValue(Utils.null2String(jsonObject.get("partner")));
 					int truckPart = Utils.getIntValue(Utils.null2String(jsonObject.get("truckPart")));
 					TruckGoodsReportDetailEntity truckGoodsReportDetailEntity = new TruckGoodsReportDetailEntity();
@@ -311,8 +311,8 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 					int reportId = insertReportInfo(orderTakerId,jsonObject,truckGoodsOrderDetailEntities,truckGoodsOrderTakerValueEntity);
 					String truckNumber = Utils.null2String(jsonObject.get("truckNumber"));
 					String driver = Utils.null2String(jsonObject.get("driver"));
-					BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),0);
-					BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),0);
+					BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),2);
+					BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),2);
 					int partner = Utils.getIntValue(Utils.null2String(jsonObject.get("partner")));
 					int truckPart = Utils.getIntValue(Utils.null2String(jsonObject.get("truckPart")));
 					TruckGoodsReportDetailEntity truckGoodsReportDetailEntity = new TruckGoodsReportDetailEntity();
@@ -425,8 +425,8 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		String goodsType = Utils.null2String(jsonObject.get("goodsType"));
 		String truckNumber = Utils.null2String(jsonObject.get("truckNumber"));
 		String driver = Utils.null2String(jsonObject.get("driver"));
-		BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),0);
-		BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),0);
+		BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),2);
+		BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),2);
 		int partner = Utils.getIntValue(Utils.null2String(jsonObject.get("partner")));
 		int truckPart = Utils.getIntValue(Utils.null2String(jsonObject.get("truckPart")));
 		TruckGoodsReportEntity truckGoodsReportEntity = new TruckGoodsReportEntity();

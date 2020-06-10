@@ -44,5 +44,7 @@ public interface OrderReceiptDao {
 
 	public abstract void insertTruckGoodsReceiptDetail(List<TruckGoodsReceiptDetailEntity> insertInfo);
 
+	public abstract List<TruckGoodsReceiptDetailEntity> getTruckGoodsReceiptDetail(TruckGoodsReceiptDetailEntity selectInfo);
+
 	
 }
