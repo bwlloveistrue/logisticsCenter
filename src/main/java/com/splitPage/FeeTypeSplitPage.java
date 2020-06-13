@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2020/5/24.
  */
-public class GoodsTypeSplitPage extends SplitPageInterface {
+public class FeeTypeSplitPage extends SplitPageInterface {
 
 
     @Override
@@ -20,13 +20,16 @@ public class GoodsTypeSplitPage extends SplitPageInterface {
         PageCell pageCell = new PageCell("","","","",false,false);
         pageCellList.add(pageCell);
 
-//        pageCell = new PageCell("客户","client","client","10%",false,false);
-//        pageCellList.add(pageCell);
-
-        pageCell = new PageCell("货物名称","goodsName","goodsName","50%",false,false);
+        pageCell = new PageCell("费用名称","feeName","feeName","30%",false,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("是否启用","isUseName","isUseName","45%",false,false);
+        pageCell = new PageCell("费用字段","feeTypeColumn","feeTypeColumn","30%",false,false);
+        pageCellList.add(pageCell);
+
+        pageCell = new PageCell("是否启用","isUseName","isUseName","10%",false,false);
+        pageCellList.add(pageCell);
+
+        pageCell = new PageCell("类型","showTypeName","showTypeName","10%",false,false);
         pageCellList.add(pageCell);
 
         return pageCellList;

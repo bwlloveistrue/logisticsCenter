@@ -15,22 +15,22 @@
                 id = #{id}
             </if>
             <if test="truckNumber != null and truckNumber != ''">
-                truckNumber like '%' + #{truckNumber}+ '%'
+                and  truckNumber like '%' + #{truckNumber}+ '%'
             </if>
             <if test="driver > 0">
-                driver = #{driver}
+                and driver = #{driver}
             </if>
             <if test="truckBrand != null and truckBrand != ''">
-                truckBrand like '%' + #{truckBrand}+ '%'
+                and truckBrand like '%' + #{truckBrand}+ '%'
             </if>
             <if test="engineNumber != null and engineNumber != ''">
-                engineNumber like '%' + #{engineNumber}+ '%'
+                and engineNumber like '%' + #{engineNumber}+ '%'
             </if>
             <if test="buyStartDate != null and buyStartDate != ''">
-                buyDate &gt; #{buyStartDate}
+                and buyDate &gt; #{buyStartDate}
             </if>
             <if test="buyEndDate != null and buyEndDate != ''">
-                buyDate &lt; #{buyEndDate}
+                and buyDate &lt; #{buyEndDate}
             </if>
         </where>
         order by id desc

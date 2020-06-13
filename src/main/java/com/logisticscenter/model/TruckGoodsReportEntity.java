@@ -135,7 +135,7 @@ public class TruckGoodsReportEntity {
 	private BigDecimal forfeit ;
 	//配件
 	private BigDecimal parts ;
-	//breakRulesFee
+	//违章
 	private BigDecimal breakRulesFee ;
 
 	//创建日期

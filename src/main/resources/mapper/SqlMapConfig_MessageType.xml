@@ -22,13 +22,13 @@
 			   id = #{id}
 		   </if>
 		   <if test="sendType != null and sendType != ''">
-               sendType like '%' + #{sendType} +  '%'
+               and sendType like '%' + #{sendType} +  '%'
 		   </if>
 		   <if test="workflowType != null and workflowType != ''">
-               workflowType like '%' + #{workflowType} +  '%'
+               and workflowType like '%' + #{workflowType} +  '%'
 		   </if>
 		   <if test="mouldId != null and mouldId != ''">
-               mouldId like '%' + #{mouldId} +  '%'
+               and mouldId like '%' + #{mouldId} +  '%'
 		   </if>
 	   </where>
        order by id desc

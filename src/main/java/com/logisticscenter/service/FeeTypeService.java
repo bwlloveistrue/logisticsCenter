@@ -6,19 +6,46 @@ import java.util.Map;
 import com.javabean.FeeTypeBean;
 
 public interface FeeTypeService {
-	
-	public abstract Map insertFeeType(Map params);
-	
-	public abstract Map getFeeType(Map params);
-	
-	public abstract List<FeeTypeBean> getFeeType(FeeTypeBean selectInfo);
-	
-	public abstract Map getFeeTypeCount(FeeTypeBean selectInfo);
-	
-	public abstract Map deleteFeeType(Map params);
-	
-	public abstract Map updateFeeType(FeeTypeBean updateInfo);
 
-	public abstract Map getAllFeeType(Map params);
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getCondition(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map insertFeeType(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getTableInfoList(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map getFeeTypeFields(Map<String, Object> params);
+
+	/**
+	 * @return
+	 */
+	public abstract Map getAllFeeType();
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map deleteFeeType(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map updateFeeType(Map<String, Object> params);
 
 }

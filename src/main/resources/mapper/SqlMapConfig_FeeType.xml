@@ -1,100 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.logisticscenter.mapper.FeeTypeDao">
-  <!-- 获得全查询列表 -->
-  <select id="getAllFeeType" resultType="feeTypeEntity">
-    select * from feeType
-  </select>
-  
-   <!--  -->
-   <select id="getFeeTypeBy" resultType="feeTypeEntity" parameterType="feeTypeEntity">
-	select top ${pageSize} * from ( select row_number() over(order by id desc) as rownumber,* from feetype
-	   <where>
-		   <if test="feeName != null and feeName != ''">
-			   feeName like '%' + #{feeName} +  '%'
-		   </if>
-		   <if test="isUse > -1">
-			   isUse = #{isUse}
-		   </if>
-	   </where>
-	) A
-	   <where>
-		   <if test="currentPage != null and currentPage != ''">
-			   rownumber > ${currentPage}
-		   </if>
-	   </where>
-  </select> 
-  
-   <!-- 获得分页的count -->
-   <select id="getFeeTypeByCount" resultType="string" parameterType="feeTypeEntity">
-	select count(*) from ( select row_number() over(order by id) as rownumber,* from feetype ) A
-	   <where>
-		   <if test="feeName != null and feeName != ''">
-			   feeName like '%' + #{feeName} +  '%'
-		   </if>
-		   <if test="isUse > -1">
-			   isUse = #{isUse}
-		   </if>
-	   </where>
-     
-  </select> 
-  
-  <!-- 根据id获得用户对象 -->
-    <select id="getFeeTypeById" resultType="feeTypeEntity">
-     select * from feeType where id=#{id}
-  </select> 
-  
-   <!-- 新增用户对象 -->
-	<insert id="insertFeeType" parameterType="feeTypeEntity">
-	insert into feeType (
-	   feeName,showType,createDate,createTime,isUse)
-      values (
-	   #{feeName},#{showType},#{createDate},#{createTime},#{isUse})
-      <selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from feeType
-		</selectKey>
-   </insert>
-   
-   <!-- 删除用户对象 -->
-   <delete id="deleteFeeType" parameterType="java.util.List">
-     delete from feeType  WHERE ID in
-	   <foreach item="item" index="index" collection="list"
-				open="(" separator="," close=")">
-		   #{item}
-	   </foreach>
-   </delete>
-   
-   <!-- 删除出车信息表中的字段 -->
-   <delete id="deleteTruckGoodsReportColumn">
-     alter table truckGoodsReport drop column ${feeTypeArr}
-   </delete>
-   
-   <!-- 更新费用类型 -->
-   <update id="updateFeeType" parameterType="feeTypeEntity">
-      update
-      	feeType
-      set
-      	feename= #{feeName},
-      	showType= #{showType},
-      	isUse= #{isUse},
-      	editDate= #{editDate},
-      	editTime= #{editTime}
-      where
-      	id= #{id}
-   </update>
-   
-   <!-- 更新费用类型字段名称 -->
-   <update id="updateFeeTypeColumn" parameterType="java.util.Map">
-      update feeType
-      set
-      	feeTypeColumn= #{columnName}
-      where
-      	id= #{id}
-   </update>
-   
-   <!-- 更新出车信息字段名称 -->
-   <update id="updateTruckGoodsReportColumn" parameterType="java.util.Map">
-      alter table truckGoodsReport
-	   add ${columnName} ${columnLength}
+	<!-- 获得全查询列表 -->
+	<select id="getAllFeeType" resultType="feeTypeEntity">
+		select * from feeType order by id desc
+	</select>
+
+	<!-- 根据id获得用户对象 -->
+	<select id="getFeeTypeInfo" resultType="feeTypeEntity">
+		select * from feeType
+		<where>
+			<if test="id != null and id != ''">
+				id = #{id}
+			</if>
+			<if test="feeName != null and feeName != ''">
+				and feeName like '%' + #{feeName} +  '%'
+			</if>
+		</where>
+		order by id desc
+	</select>
+
+	<!-- 新增用户对象 -->
+	<insert id="insertFeeTypeInfo" parameterType="feeTypeEntity"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into feeType (feeName,showType,isUse,feeTypeColumn,createDate,createTime)
+		values (#{feeName},#{showType},#{isUse},#{feeTypeColumn},#{createDate},#{createTime})
+	</insert>
+
+	<!-- 删除用户对象 -->
+	<delete id="deleteFeeTypeInfo" parameterType="string">
+		delete from feeType WHERE ID = #{id}
+
+	</delete>
+
+	<!-- 更新用户对象 -->
+	<update id="updateFeeTypeInfo" parameterType="feeTypeEntity">
+      update feeType set feename=#{feeName},isUse=#{isUse},showType=#{showType},feeTypeColumn=#{feeTypeColumn} where id=#{id}
    </update>
 </mapper>

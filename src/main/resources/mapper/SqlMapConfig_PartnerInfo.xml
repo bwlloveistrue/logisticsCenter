@@ -14,13 +14,13 @@
 			   id = #{id}
 		   </if>
            <if test="partner != null and partner != ''">
-               partner like '%' + #{partner} +  '%'
+               and  partner like '%' + #{partner} +  '%'
            </if>
 		   <if test="address != null and address != ''">
-               address like '%' + #{address} +  '%'
+               and address like '%' + #{address} +  '%'
 		   </if>
 		   <if test="mobile != null and mobile != ''">
-               mobile like '%' + #{mobile} +  '%'
+               and mobile like '%' + #{mobile} +  '%'
 		   </if>
 	   </where>
        order by id desc

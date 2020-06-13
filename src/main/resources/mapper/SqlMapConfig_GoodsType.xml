@@ -15,7 +15,7 @@
                 id = #{id}
             </if>
             <if test="goodsName != null and goodsName != ''">
-                goodsName like '%' + #{goodsName} +  '%'
+                and goodsName like '%' + #{goodsName} +  '%'
             </if>
         </where>
         order by id desc

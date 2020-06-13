@@ -544,7 +544,7 @@ public class FieldUtil {
         return formItem;
     }
 
-    /**
+        /**
      * 返回imgfileid
      * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
      * @param fieldName
@@ -576,111 +576,143 @@ public class FieldUtil {
         return formItem;
     }
 
-    /**
-     * 返回docid
-     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
-     * @param fieldName
-     * @param fieldLabel
-     * @param category
-     * @param maxSize
-     * @param limitType
-     * @param listType
-     * @param viewAttr
-     * @param value
-     * @return
-     */
-    public static Map<String, Object> getFormItemForUploadDoc (String fieldName,String fieldLabel,String category,Double maxSize,String limitType,String listType,int viewAttr, String value){
-
-        List<Object> datas=null;
-        Map<String, Object> formItem = new HashMap<String, Object>();
-        formItem.put("uploadUrl", "/api/workflow/reqform/docUpload?category="+category);
-        formItem.put("category", category);
-        formItem.put("maxUploadSize", maxSize);
-        formItem.put("limitType", limitType);
-        formItem.put("listType", listType);
-        formItem.put("autoUpload", false);
-        formItem.put("conditionType", "UPLOAD");
-        formItem.put("label", fieldLabel);
-        formItem.put("colSpan", 1);
-        formItem.put("labelcol", 6);
-        formItem.put("fieldcol", 11);
-        formItem.put("domkey", new String[]{fieldName});
-        formItem.put("viewAttr", viewAttr);
-        //formItem.put("datas", datas);
-        return formItem;
-    }
-
-    /**
-     * 返回docid
-     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
-     * @param fieldName
-     * @param fieldLabel
-     * @param category
-     * @param maxSize
-     * @param minSize
-     * @param limitType
-     * @param listType
-     * @param viewAttr
-     * @param value
-     * @return
-     */
-    public static Map<String, Object> getFormItemForUploadDoc (String fieldName,String fieldLabel,String category,Double maxSize,Double minSize,String limitType,String listType,int viewAttr, String value){
-
-        List<Object> datas=null;
-        Map<String, Object> formItem = new HashMap<String, Object>();
-        formItem.put("uploadUrl", "/api/workflow/reqform/docUpload?category="+category);
-        formItem.put("category", category);
-        formItem.put("maxUploadSize", maxSize);
-        formItem.put("mixUploadSize", minSize);
-        formItem.put("limitType", limitType);
-        formItem.put("listType", listType);
-        formItem.put("autoUpload", false);
-        formItem.put("conditionType", "UPLOAD");
-        formItem.put("label", fieldLabel);
-        formItem.put("colSpan", 1);
-        formItem.put("labelcol", 6);
-        formItem.put("fieldcol", 11);
-        formItem.put("domkey", new String[]{fieldName});
-        formItem.put("viewAttr", viewAttr);
-        //formItem.put("datas", datas);
-        return formItem;
-    }
-
-    /**
-     * 返回docid
-     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
-     * @param fieldName
-     * @param fieldLabel
-     * @param category
-     * @param maxSize
-     * @param minSize
-     * @param limitType
-     * @param listType
-     * @param viewAttr
-     * @param value
-     * @return
-     */
-    public static Map<String, Object> getFormItemForUploadImage (String fieldName,String fieldLabel,String category,Double maxSize,Double minSize,String limitType,String listType,int viewAttr, String value){
-
-        List<Object> datas=null;
-        Map<String, Object> formItem = new HashMap<String, Object>();
-        formItem.put("uploadUrl", "/api/workflow/reqform/docUpload?category="+category+"&listType=img");
-        formItem.put("category", category);
-        formItem.put("maxUploadSize", maxSize);
-        formItem.put("mixUploadSize", minSize);
-        formItem.put("limitType", limitType);
-        formItem.put("listType", listType);
-        formItem.put("autoUpload", false);
-        formItem.put("conditionType", "UPLOAD");
-        formItem.put("label", fieldLabel);
-        formItem.put("colSpan", 1);
-        formItem.put("labelcol", 6);
-        formItem.put("fieldcol", 11);
-        formItem.put("domkey", new String[]{fieldName});
-        formItem.put("viewAttr", viewAttr);
-        //formItem.put("datas", datas);
-        return formItem;
-    }
+//    /**
+//     * 返回imgfileid
+//     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
+//     * @param fieldName
+//     * @param fieldLabel
+//     * @param category
+//     * @param maxSize
+//     * @param limitType
+//     * @param listType
+//     * @param viewAttr
+//     * @param value
+//     * @return
+//     */
+//    public static Map<String, Object> getFormItemForUpload (String fieldName,String fieldLabel,String category,int maxSize,String limitType,String listType,int viewAttr, String value){
+//        Map<String, Object> formItem = new HashMap<String, Object>();
+//        formItem.put("uploadUrl", "/api/doc/upload/uploadFile?category="+category);
+//        formItem.put("category", category);
+//        formItem.put("maxUploadSize", maxSize);
+//        formItem.put("limitType", limitType);
+//        formItem.put("listType", listType);
+//        formItem.put("autoUpload", false);
+//        formItem.put("conditionType", "UPLOAD");
+//        formItem.put("label", fieldLabel);
+//        formItem.put("colSpan", 1);
+//        formItem.put("labelcol", 6);
+//        formItem.put("fieldcol", 11);
+//        formItem.put("domkey", new String[]{fieldName});
+//        formItem.put("viewAttr", viewAttr);
+////        formItem.put("datas", datas);
+//        return formItem;
+//    }
+//
+//    /**
+//     * 返回docid
+//     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
+//     * @param fieldName
+//     * @param fieldLabel
+//     * @param category
+//     * @param maxSize
+//     * @param limitType
+//     * @param listType
+//     * @param viewAttr
+//     * @param value
+//     * @return
+//     */
+//    public static Map<String, Object> getFormItemForUploadDoc (String fieldName,String fieldLabel,String category,Double maxSize,String limitType,String listType,int viewAttr, String value){
+//
+//        List<Object> datas=null;
+//        Map<String, Object> formItem = new HashMap<String, Object>();
+//        formItem.put("uploadUrl", "/api/workflow/reqform/docUpload?category="+category);
+//        formItem.put("category", category);
+//        formItem.put("maxUploadSize", maxSize);
+//        formItem.put("limitType", limitType);
+//        formItem.put("listType", listType);
+//        formItem.put("autoUpload", false);
+//        formItem.put("conditionType", "UPLOAD");
+//        formItem.put("label", fieldLabel);
+//        formItem.put("colSpan", 1);
+//        formItem.put("labelcol", 6);
+//        formItem.put("fieldcol", 11);
+//        formItem.put("domkey", new String[]{fieldName});
+//        formItem.put("viewAttr", viewAttr);
+//        //formItem.put("datas", datas);
+//        return formItem;
+//    }
+//
+//    /**
+//     * 返回docid
+//     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
+//     * @param fieldName
+//     * @param fieldLabel
+//     * @param category
+//     * @param maxSize
+//     * @param minSize
+//     * @param limitType
+//     * @param listType
+//     * @param viewAttr
+//     * @param value
+//     * @return
+//     */
+//    public static Map<String, Object> getFormItemForUploadDoc (String fieldName,String fieldLabel,String category,Double maxSize,Double minSize,String limitType,String listType,int viewAttr, String value){
+//
+//        List<Object> datas=null;
+//        Map<String, Object> formItem = new HashMap<String, Object>();
+//        formItem.put("uploadUrl", "/api/workflow/reqform/docUpload?category="+category);
+//        formItem.put("category", category);
+//        formItem.put("maxUploadSize", maxSize);
+//        formItem.put("mixUploadSize", minSize);
+//        formItem.put("limitType", limitType);
+//        formItem.put("listType", listType);
+//        formItem.put("autoUpload", false);
+//        formItem.put("conditionType", "UPLOAD");
+//        formItem.put("label", fieldLabel);
+//        formItem.put("colSpan", 1);
+//        formItem.put("labelcol", 6);
+//        formItem.put("fieldcol", 11);
+//        formItem.put("domkey", new String[]{fieldName});
+//        formItem.put("viewAttr", viewAttr);
+//        //formItem.put("datas", datas);
+//        return formItem;
+//    }
+//
+//    /**
+//     * 返回docid
+//     * 如果要返回 docid  /api/workflow/reqform/docUpload 需要单独写
+//     * @param fieldName
+//     * @param fieldLabel
+//     * @param category
+//     * @param maxSize
+//     * @param minSize
+//     * @param limitType
+//     * @param listType
+//     * @param viewAttr
+//     * @param value
+//     * @return
+//     */
+//    public static Map<String, Object> getFormItemForUploadImage (String fieldName,String fieldLabel,String category,Double maxSize,Double minSize,String limitType,String listType,int viewAttr, String value){
+//
+//        List<Object> datas=null;
+//        Map<String, Object> formItem = new HashMap<String, Object>();
+//        formItem.put("uploadUrl", "/api/workflow/reqform/docUpload?category="+category+"&listType=img");
+//        formItem.put("category", category);
+//        formItem.put("maxUploadSize", maxSize);
+//        formItem.put("mixUploadSize", minSize);
+//        formItem.put("limitType", limitType);
+//        formItem.put("listType", listType);
+//        formItem.put("autoUpload", false);
+//        formItem.put("conditionType", "UPLOAD");
+//        formItem.put("label", fieldLabel);
+//        formItem.put("colSpan", 1);
+//        formItem.put("labelcol", 6);
+//        formItem.put("fieldcol", 11);
+//        formItem.put("domkey", new String[]{fieldName});
+//        formItem.put("viewAttr", viewAttr);
+//        //formItem.put("datas", datas);
+//        return formItem;
+//    }
 
     public static Map getRightMenuCfg(String isControl,String isTop,String icon,String name,String type){
         Map m = new HashMap();

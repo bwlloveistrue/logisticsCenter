@@ -15,13 +15,13 @@
 			   id = #{id}
 		   </if>
 		   <if test="clientName != null and clientName != ''">
-			   clientName like '%' + #{clientName} +  '%'
+               and clientName like '%' + #{clientName} +  '%'
 		   </if>
 		   <if test="address != null and address != ''">
-			   address like '%' + #{address} +  '%'
+               and address like '%' + #{address} +  '%'
 		   </if>
 		   <if test="mobile != null and mobile != ''">
-			   mobile like '%' + #{mobile} +  '%'
+               and mobile like '%' + #{mobile} +  '%'
 		   </if>
 	   </where>
        order by id desc

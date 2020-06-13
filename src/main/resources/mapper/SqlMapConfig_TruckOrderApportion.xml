@@ -48,7 +48,7 @@
                 id = #{id}
             </if>
             <if test="truckOrder > 0">
-                truckOrder = #{truckOrder}
+                and truckOrder = #{truckOrder}
             </if>
         </where>
     </select>

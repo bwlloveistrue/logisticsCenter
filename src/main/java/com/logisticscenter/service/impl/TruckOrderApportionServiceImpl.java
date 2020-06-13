@@ -328,8 +328,8 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 					orderApportionDao.insertTruckGoodsReportDetail(truckGoodsReportDetailEntity);
 					//推送给司机
 					DriverInfoEntity driverInfoEntity = commonTransMethod.getDriverInfo(driver);
-					String openId = driverInfoEntity.getOpenId();
-					if(!openId.equals("") && !driver.equals("")){
+					String openId = Utils.null2String(driverInfoEntity.getOpenId());
+					if(partner < 1 && !openId.equals("") && !driver.equals("")){
 						driverModuleIds.stream().forEach(_moduleId->{
 							Template template = new Template();
 							template.setTemplateId(_moduleId);
@@ -357,7 +357,7 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 				// 推送给客户
 				String clinetId = truckGoodsOrderTakerValueEntity.getClient();
 				ClientEntity clientEntity = commonTransMethod.getClientInfo(clinetId);
-				String openId = clientEntity.getOpenId();
+				String openId = Utils.null2String(clientEntity.getOpenId()) ;
 				if(!clinetId.equals("") && !openId.equals("")){
 					List<String> moduleIds = commonTransMethod.getModuleId(SendTypeConstant.CLIENT, WorkflowTypeConstant.APPORTION);
 					moduleIds.stream().forEach(_moduleId->{

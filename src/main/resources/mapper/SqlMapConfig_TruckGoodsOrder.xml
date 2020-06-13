@@ -96,10 +96,10 @@
 				id = #{id}
 			</if>
 			<if test="client > 0">
-				client = #{client}
+				and client = #{client}
 			</if>
 			<if test="orderStatus > -1">
-				orderStatus = #{orderStatus}
+				and orderStatus = #{orderStatus}
 			</if>
 		</where>
 	</select>
@@ -117,7 +117,7 @@
 				id = #{id}
 			</if>
 			<if test="reportId > 0">
-				reportId = #{reportId}
+				and reportId = #{reportId}
 			</if>
 		</where>
 	</select>

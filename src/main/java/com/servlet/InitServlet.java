@@ -123,6 +123,9 @@ public class InitServlet {
 
 		partnerService = applicationContext.getBean(PartnerService.class);
 		partnerService.getAllPartner();
+
+		feeTypeService = applicationContext.getBean(FeeTypeService.class);
+		feeTypeService.getAllFeeType();
 		/*  ---升级操作end---  */
 		
 	}

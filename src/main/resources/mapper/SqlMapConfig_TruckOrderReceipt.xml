@@ -31,6 +31,7 @@
         <result property="remark" column="remark"/>
         <result property="carryNumber" column="carryNumber"/>
         <result property="customerOrder" column="customerOrder"/>
+        <result property="settlement" column="settlement"/>
         <result property="prepaidFlg" column="prepaidFlg"/>
         <result property="prepaidExpress" column="prepaidExpress"/>
         <result property="prepaidDesc" column="prepaidDesc"/>
@@ -51,7 +52,7 @@
         <result property="createTime" column="createTime"/>
         <result property="editDate" column="editDate"/>
         <result property="editTime" column="editTime"/>
-        <collection property="childInfo" ofType="TruckGoodsReceiptDetailEntity" column="reportId" select="getOrderDetailByReportId"></collection>
+        <collection property="childInfo" ofType="TruckGoodsReceiptDetailEntity" column="id" select="getOrderDetailByReceiptId"></collection>
     </resultMap>
     <insert id="insertTruckGoodsReport" parameterType="truckGoodsReportEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into truckGoodsReport (
@@ -83,6 +84,7 @@
         remark,
         carryNumber,
         customerOrder,
+        settlement,
         prepaidFlg,
         prepaidExpress,
         prepaidDesc,
@@ -133,6 +135,7 @@
         #{remark},
         #{carryNumber},
         #{customerOrder},
+        #{settlement},
         #{prepaidFlg},
         #{prepaidExpress},
         #{prepaidDesc},
@@ -188,6 +191,7 @@
         remark=#{remark},
         carryNumber=#{carryNumber},
         customerOrder=#{customerOrder},
+        settlement=#{settlement},
         prepaidFlg=#{prepaidFlg},
         prepaidExpress=#{prepaidExpress},
         prepaidDesc=#{prepaidDesc},
@@ -219,40 +223,43 @@
             <if test="id > 0">
                 id = #{id}
             </if>
+            <if test="deleteFlg > -1">
+                and deleteFlg = #{deleteFlg}
+            </if>
             <if test="truckNumber > 0">
-                truckNumber = #{truckNumber}
+                and truckNumber = #{truckNumber}
             </if>
             <if test="beginDate != null and beginDate != ''">
-                beginDate &gt;= #{beginDate}
+                and beginDate &gt;= #{beginDate}
             </if>
             <if test="endDate != null and endDate != ''">
-                endDate &lt; #{endDate}
+                and endDate &lt; #{endDate}
             </if>
             <if test="carryNumber != null and carryNumber != ''">
-                carryNumber = #{carryNumber}
+                and carryNumber = #{carryNumber}
             </if>
             <if test="goodsType != null and goodsType != ''">
-                ','+goodsType+',' like '%,'+#{goodsType}+',%'
+                and ','+goodsType+',' like '%,'+#{goodsType}+',%'
             </if>
             <if test="reportStatus > 0">
-                reportStatus = #{reportStatus}
+                and reportStatus = #{reportStatus}
             </if>
             <if test="truckNumber > 0">
-                truckNumber = #{truckNumber}
+                and truckNumber = #{truckNumber}
             </if>
             <if test="driver > 0">
-                driver = #{driver}
+                and driver = #{driver}
             </if>
             <if test="client > 0">
-                client = #{client}
+                and client = #{client}
             </if>
         </where>
         ORDER BY createDate desc,createTime desc
     </select>
 
     <!-- 根据条件查询出车预录详细信息 -->
-    <select id="getOrderDetailByReportId" resultType="TruckGoodsReceiptDetailEntity" parameterType="int">
-        select * from truckGoodsReceiptDetail where reportId = #{id}
+    <select id="getOrderDetailByReceiptId" resultType="TruckGoodsReceiptDetailEntity" parameterType="int">
+        select * from truckGoodsReceiptDetail where receiptId = #{id}
     </select>
 
     <insert id="insertTruckGoodsReceiptDetail" parameterType="java.util.List">
@@ -299,9 +306,25 @@
                 id = #{id}
             </if>
             <if test="reportId > 0">
-                reportId = #{reportId}
+                and reportId = #{reportId}
+            </if>
+            <if test="receiptId > 0">
+                and receiptId = #{receiptId}
             </if>
         </where>
     </select>
+
+    <!-- 更新分配出车详细信息 -->
+    <select id="updateTruckGoodsReceiptDetail" parameterType="truckGoodsReceiptDetailEntity" >
+        update truckGoodsReceiptDetail set
+        realCarry = #{realCarry},
+        price = #{price}
+        WHERE id = #{id}
+    </select>
+
+    <!-- 获取分配出车详细信息 -->
+    <update id="deleteTruckGoodsReport" parameterType="string" >
+        update truckGoodsReport set deleteFlg = 1 where id = #{id}
+    </update>
 
 </mapper>

@@ -1,16 +1,24 @@
 package com.logisticscenter.model;
 
+import com.common.CommonTransMethod;
+
 public class FeeTypeEntity {
 	//标识ID
 	private int id;
+	//标识ID
+	private int key;
 	//货物名称
 	private String feeName;
 	//类型
 	private int showType;
+	//类型
+	private String showTypeName;
 	//是否启用
 	private int isUse;
-	//是否删除
-	private int isDelete;
+
+	//是否启用
+	private String isUseName;
+
 	//创建日期
 	private String createDate;
 	//创建时间
@@ -21,18 +29,22 @@ public class FeeTypeEntity {
 	private String editTime;
 	//费用类型字段
 	private String feeTypeColumn;
-	//pageSize
-	private String pageSize;
-	
-	//currentPage
-	private String currentPage;
-	
+
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+		this.key = id;
+	}
+
+	public int getKey() {
+		return key;
+	}
+
+	public void setKey(int key) {
+		this.key = key;
 	}
 
 	public String getFeeName() {
@@ -49,6 +61,15 @@ public class FeeTypeEntity {
 
 	public void setShowType(int showType) {
 		this.showType = showType;
+		this.setShowTypeName(showType+"");
+	}
+
+	public String getShowTypeName() {
+		return showTypeName;
+	}
+
+	public void setShowTypeName(String showTypeName) {
+		this.showTypeName = CommonTransMethod.getFeeShowTypeName(showTypeName);
 	}
 
 	public int getIsUse() {
@@ -57,16 +78,16 @@ public class FeeTypeEntity {
 
 	public void setIsUse(int isUse) {
 		this.isUse = isUse;
+		this.setIsUseName(isUse+"");
 	}
 
-	public int getIsDelete() {
-		return isDelete;
+	public String getIsUseName() {
+		return isUseName;
 	}
 
-	public void setIsDelete(int isDelete) {
-		this.isDelete = isDelete;
+	public void setIsUseName(String isUseName) {
+		this.isUseName = CommonTransMethod.getIsOrNotString(isUseName);
 	}
-
 	public String getCreateDate() {
 		return createDate;
 	}
@@ -105,22 +126,6 @@ public class FeeTypeEntity {
 
 	public void setFeeTypeColumn(String feeTypeColumn) {
 		this.feeTypeColumn = feeTypeColumn;
-	}
-
-	public String getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public String getCurrentPage() {
-		return currentPage;
-	}
-
-	public void setCurrentPage(String currentPage) {
-		this.currentPage = currentPage;
 	}
 	
 }

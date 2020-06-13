@@ -67,7 +67,10 @@ public class SubscribeServiceImpl implements SubscribeService {
 		// 再插入所有
 		List <SubscribeEntity> allSubscribeInfo = new ArrayList<SubscribeEntity>();
 		List<SubscribeEntity> allSubscribe = commonTransMethod.getAllSubscribe();
-		subscribeDao.insertSubscribeInfo(allSubscribe);
+		if(allSubscribe.size() > 0){
+			subscribeDao.insertSubscribeInfo(allSubscribe);
+		}
+
 		// 再获取所有
 		subscribeDao.getAllSubscribeInfo();
 		List<SubscribeEntity> entityList = new ArrayList<SubscribeEntity>();

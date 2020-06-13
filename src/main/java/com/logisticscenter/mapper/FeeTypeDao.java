@@ -7,20 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface FeeTypeDao {
-	
-	public abstract int insertFeeType(FeeTypeEntity insertInfo);
-	
-	public abstract FeeTypeEntity getFeeType(String id);
-	
-	public abstract List<FeeTypeEntity> getFeeType(FeeTypeEntity selectInfo);
-	
-	public abstract String getFeeTypeCount(FeeTypeEntity selectInfo);
-	
+
+	public abstract int insertFeeTypeInfo(FeeTypeEntity insertInfo);
+
+	public abstract List<FeeTypeEntity> getFeeTypeInfo(FeeTypeEntity selectInfo);
+
 	public abstract List<FeeTypeEntity> getAllFeeType();
-	
-	public abstract int deleteFeeType(String id);
-	
-	public abstract void updateFeeType(FeeTypeEntity selectInfo);
-	
-	public abstract void updateAllFeeType(FeeTypeEntity selectInfo);
+
+	public abstract int deleteFeeTypeInfo(String id);
+
+	public abstract void updateFeeTypeInfo(FeeTypeEntity selectInfo);
+
 }

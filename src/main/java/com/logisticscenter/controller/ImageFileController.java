@@ -13,6 +13,7 @@ import com.logisticscenter.service.FeeTypeService;
 import com.logisticscenter.service.ImageFileService;
 import com.logisticscenter.service.TruckGoodsReportService;
 import com.util.ConstantUtils;
+import com.util.TimeUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -27,10 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,39 +79,10 @@ public class ImageFileController implements Serializable{
 			apidatas.put("api_errormsg", "catch exception : " + e.getMessage());
 		}
 		return apidatas;
-
-//		HttpServletResponse response = ServletActionContext.getResponse();
-//		HttpServletRequest request = ServletActionContext.getRequest();
-//		String selectFileIds = request.getParameter("selectFileIds");
-//		List<ImageFileBean> imageFileList = new ArrayList<ImageFileBean>();
-//		imageFileList = imageFileService.getImageFileBy(selectFileIds);
-//		PrintWriter out = null;
-//		Map result = new HashMap();
-//		Map retResult = new HashMap();
-//		String retDetail = "";
-//		try{
-//			for(int i=0;i<imageFileList.size();i++){
-//
-//			}
-//			retResult.put("FileDetail",result);
-//			response.setContentType("text/html; charset=utf-8");
-//			out = response.getWriter();
-////			/* 设置格式为text/json	*/
-////			response.setContentType("text/json");
-////			/*设置字符集为'UTF-8'*/
-////			response.setCharacterEncoding("UTF-8");
-//			JSONObject obj = JSONObject.parseObject(retResult.toString());
-//			out.print(obj.toString());
-//			out.flush();
-//		}catch(Exception e){
-//
-//		}
-//		return null;
 	}
 
-	@ResponseBody
-	@PostMapping("/downloads")
-	public String downloads(HttpServletRequest request, HttpServletResponse response){
+	@GetMapping("/imageDownloads")
+	public void downloads(HttpServletRequest request, HttpServletResponse response){
 
 		String pathId = request.getParameter("id");
 		String pathUrl = commonTransMethod.getFullPathName(pathId);
@@ -135,12 +104,10 @@ public class ImageFileController implements Serializable{
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		return null;
 	}
 
-	@ResponseBody
-	@PostMapping("/exportExcel")
-	public String exportExcel(HttpServletRequest request ,HttpServletResponse response ){
+	@GetMapping("/exportExcel")
+	public void exportExcel(HttpServletRequest request ,HttpServletResponse response ){
 		//获得费用类型的columns
 		String[] feeNames = ConstantUtils.FEE_TYPE_NAMES.split(",");
 		String[] feeIds = ConstantUtils.FEE_TYPE_COLUMNS.split(",");
@@ -308,9 +275,6 @@ public class ImageFileController implements Serializable{
 					beanMap.put("invoiceFlg", invoiceFlgShow);
 					beanMap.put("liftingCost", liftingCostShow);
 				}
-				
-				//beanMap.put("feeTypeTitle",getFeeTypeTitle(beanLst.get(i).getId()+""));
-				getFeeTypeColumnMap(beanLst.get(i).getId()+"",beanMap);
 				HSSFRow row3=sheet.createRow(2+i);
 				for(int j=0;j<columnIdList.size();j++){
 					row3.createCell(j).setCellValue((beanMap.get(columnIdList.get(j))+""));
@@ -324,16 +288,17 @@ public class ImageFileController implements Serializable{
 		OutputStream output;
 		try {
 			output = response.getOutputStream();
-			 response.reset();
-				response.setHeader("Content-disposition", "attachment; filename=details.xls");
-				response.setContentType("application/msexcel");		
-				wb.write(output);
-				output.close();
+			response.setCharacterEncoding("gb2312");
+			response.setHeader("Content-disposition", "attachment; filename=details.xls");
+			response.setContentType("application/msexcel");
+			response.setHeader("Content-disposition", "attachment;filename=" + TimeUtil.getFormartString(Calendar.getInstance(), "yyyyMMddHH") + ".xls");
+			response.setContentType("application/vnd.ms-excel");
+			wb.write(output);
+			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
 	/**
@@ -410,367 +375,5 @@ public class ImageFileController implements Serializable{
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	/**
-	 * mvn install:install-file -Dfile=asprise_scan.jar -DgroupId=com.asprise -DartifactId=asprise -Dversion=1.0.1 -Dpackaging=jar
-	 * 调用扫描仪上传图片
-	 */
-	@ResponseBody
-	@PostMapping("/scan")
-	public Map scan(HttpServletResponse response){
-		BaseBean bs = new BaseBean();
-		bs.writeLog("扫描图片开始");
-		bs.writeLog("1111111111");
-	//输出Excel文件
-		Map retResult = new HashMap();
-//		try {
-
-//			//参照http://asprise.com/scan2/docs/html/scan-dsl-spec.html#dsl-i18n
-//			Result result = new AspriseScanUI().setRequest(
-//					  Request.fromJson("{" +
-//					    "  \"twain_cap_setting\" : {" +
-//					    "    \"ICAP_PIXEXELTYPE\" : \"TWPT_RGB\"," +
-//					    "    \"ICAP_SUPPORPORTEDSIZES\" : \"TWSS_USLESLETTER\"" +
-//					    "  }," +
-//					    "  \"i18n\" : {" +
-//					    "    \"lang\" : \"zh\"" +
-//					    "  }," +
-//					    "  \"output_settings\" : [ {" +
-//					    "    \"type\" : \"save\"," +
-//					    "    \"format\" : \"jpg\"," +
-//					    "    \"save_path\" : \".\\\\${TMS}-thumb${EXT}\"" +
-//					    "  }, {"+
-//					    "    \"type\" : \"save-thumbnail\"," +
-//					    "    \"format\" : \"jpg\"," +
-//					    "    \"save_path\" : \".\\\\${TMS}-thumb${EXT}\"" +
-//					    "  } ]" +
-//					    "}")
-//					  ).showDialog(null, "启动扫描仪", true, null); // owner can be null
-//
-//			List<File> files = result.getImageFiles(); // Gets files
-//			File file = null;
-//			//设置目录
-//			String dateTemp=ConvertService.getDate();;
-//			String root = "D:\\temp\\"+dateTemp;
-//			File fileRoot = new File(root);
-//			if(!fileRoot.isDirectory()){
-//				fileRoot.mkdirs();
-//			}
-//			String realName = "";
-//			String accessorys = "";
-//			String fileNames = "";
-//			for(int i = 0;i<files.size();i++){
-//				//获得唯一序列号
-//				InputStream is = new FileInputStream(files.get(i));
-//				realName = files.get(i).getName();
-//				//String fileArr[] = fileFileName[i].split("\\.");
-//				//String fileName = fileArr[0];
-//				//String suffix = fileArr[1];
-//				String contentType = "image/jpeg";
-//				//String realName = idGenerator.next();
-//				OutputStream os = new FileOutputStream(new File(root, realName));
-//
-//
-//				//因为file是存放在临时文件夹的文件，我们可以将其文件名和文件路径打印出来，看和之前的fileFileName是否相同
-//				System.out.println("file: " + files.get(i).getName());
-//				System.out.println("file: " + files.get(i).getPath());
-//
-//				byte[] buffer = new byte[500];
-//				int length = 0;
-//
-//				while(-1 != (length = is.read(buffer, 0, buffer.length)))
-//				{
-//					os.write(buffer);
-//				}
-//
-//				os.close();
-//				is.close();
-//				ImageFileBean insertInfo = new ImageFileBean();
-//				insertInfo.setImageFileName(realName);
-//				insertInfo.setFilerealpath(root);
-//				insertInfo.setImagefiletype("");
-//				insertInfo.setDownloads(0);
-//				insertInfo.setImagefileused(0);
-//				insertInfo.setIszip("");
-//				accessorys += ","+imageFileService.insertImageFile(insertInfo);
-//				fileNames += ","+realName;
-//			}
-//			if(!accessorys.equals("")){
-//				accessorys = accessorys.substring(1);
-//			}
-//			if(!fileNames.equals("")){
-//				fileNames = fileNames.substring(1);
-//			}
-//			retResult.put("fileNames", fileNames);
-//			retResult.put("accessorys", accessorys);
-//
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		return retResult;
-	}
-	
-	
-	/**
-	 * 调用Js扫描仪上传图片
-	 */
-	@ResponseBody
-	@PostMapping("/scanJs")
-	public Map scanJs(HttpServletRequest request,HttpServletResponse response ){
-		request.getAttribute("files");
- 		BaseBean bs = new BaseBean();
-		Map retResult = new HashMap();
-		try {
-
-			//设置目录
-			String dateTemp=ConvertService.getDate();;
-			String root = "D:\\temp\\"+dateTemp;
-			String realName = "";
-			String accessorys = "";
-			String fileNames = "";
-			if (!new File("D:\\tempScan\\"+dateTemp).isDirectory())
-
-				new File("D:\\tempScan\\"+dateTemp).mkdirs();
-			File tmpDir = new File("D:\\tempScan\\"+dateTemp);
-			if (ServletFileUpload.isMultipartContent(request)) {
-
-				
-				DiskFileItemFactory dff = new DiskFileItemFactory();
-
-				dff.setRepository(tmpDir);
-
-				dff.setSizeThreshold(10240000);
-
-				ServletFileUpload sfu = new ServletFileUpload(dff);
-				List<FileItem> list = sfu.parseRequest(request);
-				List<String> imgs = new ArrayList<String>();
-				for(FileItem file :list){
-					String fileName = file.getName();
-				}
-
-				sfu.setFileSizeMax(20 * 1024 * 1024);
-
-				sfu.setSizeMax(500 * 1024 * 1024);
-
-				FileItemIterator fii = sfu.getItemIterator(request);
-				
-				
-				String fileName = "";
-				
-				while (fii.hasNext()) {
-
-					FileItemStream fis = fii.next();
-
-					if (!fis.isFormField() && fis.getName().length() > 0) {
-
-						fileName = fis.getName();
-						
-						int index = fileName.lastIndexOf("\\");
-						
-						fileName = fileName.substring(index+1,fileName.length());
-
-						String uploadPath = root;
-
-						System.out.println("uploadPath=="+ uploadPath);
-						
-						if (!new File(uploadPath).isDirectory())
-
-							new File(uploadPath).mkdirs();
-
-						System.out.println("uploadPath=" + uploadPath);
-
-
-						Date time = new Date();
-
-						String dirTime = String.valueOf(time.getTime());
-
-						//
-
-						BufferedInputStream in = new BufferedInputStream(
-								fis.openStream());
-
-						// BufferedOutputStream out = new
-						// BufferedOutputStream(new FileOutputStream(new
-						// File(saveDir+"\\"+dirTime+fileName)));
-
-						BufferedOutputStream out1 = new BufferedOutputStream(
-								new FileOutputStream(new File(uploadPath + "\\"
-										+ dirTime + fileName)));
-
-						
-						Streams.copy(in, out1, true);
-						
-						ImageFileBean insertInfo = new ImageFileBean();
-						insertInfo.setImageFileName(realName);
-						insertInfo.setFilerealpath(root);
-						insertInfo.setImagefiletype("");
-						insertInfo.setDownloads(0);
-						insertInfo.setImagefileused(0);
-						insertInfo.setIszip("");
-						accessorys += ","+imageFileService.insertImageFile(insertInfo);
-						fileNames += ","+realName;
-					}
-					if(!accessorys.equals("")){
-						accessorys = accessorys.substring(1);
-					}
-					if(!fileNames.equals("")){
-						fileNames = fileNames.substring(1);
-					}
-					retResult.put("fileNames", fileNames);
-					retResult.put("accessorys", accessorys);
-					}
-				}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileUploadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return retResult;
-	}
-	
-	/**
-	 * @param carry 载重
-	 * @param price 单价
-	 * @return 出车费用
-	 */
-	public String getCount(BigDecimal carry,BigDecimal price){
-		
-		String count="异常";
-		try{
-			count = carry.multiply(price).doubleValue() +"";
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return count;
-		
-	}
-	
-	/**
-	 * @param id
-	 * @param partnerPrice
-	 * @return
-	 */
-	public String getTruckPartnerCount(String id,String partnerPrice){
-		float allCount = 0F;
-		//设置订单中货物类型详细信息
-		TruckGoodsReportDetailBean selectInfo = new TruckGoodsReportDetailBean();
-		selectInfo.setTruckOrder(Integer.parseInt(id));
-		//TruckGoodsOrderDetailBean中需要新建一个select用goodsType,selectGoodsTypes字段用于检索
-		List<TruckGoodsReportDetailBean> detailLst = truckGoodsReportService.getTruckGoodsReportDetail(selectInfo);
-		//首先计算接货价格和给伙伴的价格差
-		BigDecimal b1 = new BigDecimal(partnerPrice);
-		//查询出车辆详细信息
-		for(int i = 0 ; i<detailLst.size(); i++){
-			BigDecimal b2 = detailLst.get(i).getPrice().subtract(b1);
-			allCount += detailLst.get(i).getRealCarry().multiply(b2).doubleValue();
-		}
-		return ConvertService.getPointValue(allCount+"");
-	}
-	
-	public Map<String,String> getColumn(String reportId,String columnName){
-		Map<String,String> feeTypeValue = new HashMap<String,String>();
-		FeeTypeValueBean typeBean = new FeeTypeValueBean();
-		List<FeeTypeValueBean> feeTypeValueList = new ArrayList<FeeTypeValueBean>();
-		feeTypeValueList = truckGoodsReportService.getColumnValue(reportId,columnName);
-		for(int i=0;i<feeTypeValueList.size();i++){
-			typeBean = feeTypeValueList.get(i);
-			feeTypeValue.put(typeBean.getFeeType(), typeBean.getFeeTypeValue());
-		}
-		return feeTypeValue;
-		
-	}
-	
-	public void getFeeTypeColumnMap(String id,Map beanMap){
-		//获得费用的title
-		Map beanMap1= feeTypeService.getAllFeeType(new HashMap());
-		List<FeeTypeEntity> beanLst = (List<FeeTypeEntity>)beanMap1.get("feeTypeInfo");
-		String feeTypeTitle = "";
-		String feeName = "";
-		String columnName="";
-		String br = "\n";
-		if(beanLst!=null){
-			String feeTypeColumns = "";
-			for(int i = 0 ; i<beanLst.size(); i++){
-				if(beanLst.get(i).getIsUse() == 0 || beanLst.get(i).getShowType() == 3) continue;
-				feeTypeColumns+=","+beanLst.get(i).getFeeTypeColumn();
-			}
-			if(feeTypeColumns.length()>0){
-				feeTypeColumns = feeTypeColumns.substring(1);
-			}else{
-				;
-			}
-			Map<String,String> feeTypeValue = getColumn(id,feeTypeColumns);
-			for(int i = 0 ; i<beanLst.size(); i++){
-				if(beanLst.get(i).getIsUse() == 0 || beanLst.get(i).getShowType() == 3) continue;
-				feeName = beanLst.get(i).getFeeName();
-				columnName = beanLst.get(i).getFeeTypeColumn();
-				feeTypeColumns+=beanLst.get(i).getFeeTypeColumn();
-				feeTypeTitle+=feeName+" : "+ConvertService.null2String((String)feeTypeValue.get(columnName),"0")+br;
-				beanMap.put(columnName, ConvertService.null2String((String)feeTypeValue.get(columnName),"0"));
-			}
-		}
-	}
-
-	@ResponseBody
-	@PostMapping("/getAllFee")
-	public String getAllFee(String id){
-		//获得费用的title
-		Map beanMap1= feeTypeService.getAllFeeType(new HashMap());
-		List<FeeTypeEntity> beanLst = (List<FeeTypeEntity>)beanMap1.get("feeTypeInfo");
-		float allFee = 0F;
-		if(beanLst!=null){
-			String feeTypeColumns = "";
-			for(int i = 0 ; i<beanLst.size(); i++){
-				//不启用并且类型为显示的不计算
-				if(beanLst.get(i).getIsUse() == 0 || beanLst.get(i).getShowType() == 3) continue;
-				feeTypeColumns+=","+beanLst.get(i).getFeeTypeColumn();
-			}
-			if(feeTypeColumns.length()>0){
-				feeTypeColumns = feeTypeColumns.substring(1);
-			}else{
-				return "";
-			}
-			Map<String,String> feeTypeValue = getColumn(id,feeTypeColumns);
-			for(String key: feeTypeValue.keySet()){
-				allFee+=ConvertService.getFloatValue(feeTypeValue.get(key),0f);
-			}
-			
-		}
-		return ConvertService.getPointValue(allFee+"");
-	}
-	
-	/**
-	 * @param id
-	 * @return
-	 */
-	@ResponseBody
-	@PostMapping("/getAllCount")
-	public String getAllCount(String id){
-		float allCount = 0F;
-		//设置订单中货物类型详细信息
-		TruckGoodsReportDetailBean selectInfo = new TruckGoodsReportDetailBean();
-		selectInfo.setTruckOrder(Integer.parseInt(id));
-		//TruckGoodsOrderDetailBean中需要新建一个select用goodsType,selectGoodsTypes字段用于检索
-		List<TruckGoodsReportDetailBean> detailLst = truckGoodsReportService.getTruckGoodsReportDetail(selectInfo);
-		//查询出车辆详细信息
-		for(int i = 0 ; i<detailLst.size(); i++){
-			allCount += detailLst.get(i).getRealCarry().multiply(detailLst.get(i).getPrice()).doubleValue();
-		}
-		return ConvertService.getPointValue(allCount+"");
-	}
-	
-	
-	public double getProfit(String count,String fee){
-		BigDecimal profit = new BigDecimal("0.00");
-		double countD = Double.parseDouble(count);
-		double feeD = Double.parseDouble(fee);
-		BigDecimal b1 = new BigDecimal(countD);
-        BigDecimal b2 = new BigDecimal(feeD);
-		return b1.subtract(b2).doubleValue();
 	}
 }

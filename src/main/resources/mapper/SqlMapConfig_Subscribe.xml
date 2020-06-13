@@ -14,7 +14,7 @@
 			   id = #{id}
 		   </if>
 		   <if test="nickname != null and nickname != ''">
-               nickname like '%' + #{nickname} +  '%'
+               and nickname like '%' + #{nickname} +  '%'
 		   </if>
 	   </where>
        order by id desc

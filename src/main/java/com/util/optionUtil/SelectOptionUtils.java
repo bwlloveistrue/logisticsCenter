@@ -317,4 +317,19 @@ public class SelectOptionUtils {
         return truckPartOptions;
     }
 
+    /**
+     * 获取工作流选择框
+     * @return
+     */
+    public List<SearchConditionOption> getFeeShowTypeOptions(){
+        List<SearchConditionOption> truckPartOptions = new ArrayList<SearchConditionOption>();
+        SearchConditionOption searchConditionOption = new SearchConditionOption("0","费用",true,true);
+        truckPartOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("1","奖励",true,true);
+        truckPartOptions.add(searchConditionOption);
+        searchConditionOption = new SearchConditionOption("2","显示",true,true);
+        truckPartOptions.add(searchConditionOption);
+        return truckPartOptions;
+    }
+
 }

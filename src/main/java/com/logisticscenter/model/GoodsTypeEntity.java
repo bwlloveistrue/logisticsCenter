@@ -1,5 +1,6 @@
 package com.logisticscenter.model;
 
+import com.common.CommonTransMethod;
 import com.util.Utils;
 
 import java.util.Calendar;
@@ -29,6 +30,9 @@ public class GoodsTypeEntity {
 	private String goodsName;
 	//是否启用
 	private int isUse;
+
+	//是否启用
+	private String isUseName;
 	//是否删除
 	private int isDelete;
 	//创建日期
@@ -67,6 +71,15 @@ public class GoodsTypeEntity {
 
 	public void setIsUse(int isUse) {
 		this.isUse = isUse;
+		this.setIsUseName(isUse+"");
+	}
+
+	public String getIsUseName() {
+		return isUseName;
+	}
+
+	public void setIsUseName(String isUseName) {
+		this.isUseName = CommonTransMethod.getIsOrNotString(isUseName);
 	}
 
 	public int getIsDelete() {

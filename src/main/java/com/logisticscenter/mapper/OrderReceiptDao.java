@@ -19,14 +19,8 @@ public interface OrderReceiptDao {
 	 * @param delIds
 	 * @return
 	 */
-	public abstract int deleteTruckGoodsReport(String delIds);
+	public abstract void deleteTruckGoodsReport(String delIds);
 
-	/**
-	 * 删除分配信息
-	 * @param delIds
-	 * @return
-	 */
-	public abstract int deleteReportByOrderId(String delIds);
 
 	/**
 	 * 获得分配车辆信息
@@ -41,6 +35,12 @@ public interface OrderReceiptDao {
 	 * @param updateInfo
 	 */
 	public abstract void updateTruckGoodsReport(TruckGoodsReportEntity updateInfo);
+
+	/**
+	 * 更新预录详细信息
+	 * @param updateInfo
+	 */
+	public abstract void updateTruckGoodsReceiptDetail(TruckGoodsReceiptDetailEntity updateInfo);
 
 	public abstract void insertTruckGoodsReceiptDetail(List<TruckGoodsReceiptDetailEntity> insertInfo);
 

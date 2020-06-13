@@ -119,7 +119,7 @@ public class CommonTransMethod {
 		List<FeeTypeEntity> allFeeType = new ArrayList<FeeTypeEntity>();
 		Map beanMap = new HashMap();
 		try{
-			beanMap= feeTypeService.getAllFeeType(new HashMap());
+			beanMap= feeTypeService.getAllFeeType();
 			allFeeType = (List<FeeTypeEntity>)beanMap.get("feeTypeInfo");
 			return allFeeType;
 		}catch(Exception e){
@@ -495,6 +495,23 @@ public class CommonTransMethod {
 			retStr = "已分配";
 		}else{
 			retStr = "已删除";
+		}
+
+		return retStr;
+	}
+
+	/**
+	 * @param str
+	 * @return 是/否
+	 */
+	public static String getFeeShowTypeName(String str){
+		String retStr = "";
+		if(str.equals("0")){
+			retStr = "费用";
+		}else if(str.equals("1")){
+			retStr = "奖励";
+		}else{
+			retStr = "显示";
 		}
 
 		return retStr;

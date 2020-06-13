@@ -270,21 +270,14 @@ public class Utils {
 					}else if(lengInt == 14){
 						returnVal += "00000000000000";
 					}else if(lengInt < 0){
-                    /*if(precision == 1){
-                        returnVal += ".0";
-                    }else if(precision == 2){
-                        returnVal += ".00";
-                    }else if(precision == 3){
-                        returnVal += ".000";
-                    }else if(precision == 4){
-                        returnVal += ".0000";
-                    }  */
-						//liuzy 上述做法会将123.45678转换成123.45678.00,算法改为四舍五入
 						BigDecimal bd=new BigDecimal(returnVal);
 						bd=bd.setScale(precision,BigDecimal.ROUND_HALF_UP);
 						return bd;
 					}
 				}
+				BigDecimal bd=new BigDecimal(returnVal);
+				bd=bd.setScale(precision,BigDecimal.ROUND_HALF_UP);
+				return bd;
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
