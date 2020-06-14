@@ -462,7 +462,6 @@ public class CommonTransMethod {
 			int sendTypeTemp = Utils.getIntValue(messageEntity.getSendType()) ;
 			int workflowTypeTemp = Utils.getIntValue(messageEntity.getWorkflowType());
 			if(sendTypeTemp == sendType.getIndex() && workflowTypeTemp == workflowType.getIndex()){
-
 				moduleIds.add(messageEntity.getMouldId());
 			}
 		}

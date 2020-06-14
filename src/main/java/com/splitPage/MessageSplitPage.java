@@ -29,7 +29,10 @@ public class MessageSplitPage extends SplitPageInterface {
         pageCell = new PageCell("发送类型","workflowTypeName","workflowTypeName","25%",false,false);
         pageCellList.add(pageCell);
 
-        pageCell = new PageCell("模板消息ID","mouldId","mouldId","45%",false,false);
+        pageCell = new PageCell("模板消息ID","mouldId","mouldId","25%",false,false);
+        pageCellList.add(pageCell);
+
+        pageCell = new PageCell("发送实现类","clazzName","clazzName","20%",false,false);
         pageCellList.add(pageCell);
 
         return pageCellList;

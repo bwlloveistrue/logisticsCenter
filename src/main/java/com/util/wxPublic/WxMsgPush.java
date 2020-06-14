@@ -1,5 +1,7 @@
 package com.util.wxPublic;
 
+import com.util.wxPublic.pushFactory.WechatPushFactory;
+import com.util.wxPublic.services.PushServiceInterface;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2020/5/21.
@@ -72,29 +75,10 @@ public class WxMsgPush {
      * @param template 推送消息主体
      * @return 是否推送成功
      */
-    public Boolean SendWxMsg(Template template) {
-        // 发送模板消息接口
-        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                // 接收者openid
-                .toUser(template.getToUser())
-                // 模板id
-                .templateId(template.getTemplateId())
-                // 模板跳转链接
-                .url(template.getUrl())
-                .build();
-        // 添加模板数据
-        List<TemplateParam> templateParams = template.getTemplateParamList();
-        templateParams.stream().forEach(_params->{
-            templateMessage.addData(new WxMpTemplateData(_params.getName(), _params.getValue(), _params.getColor()));
-        });
-
+    public Boolean SendWxMsg(String toUser, String templateId, Map params) {
         String msgId = null;
-        try {
-            // 发送模板消息
-            msgId = wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
+        PushServiceInterface pushServiceInterface = WechatPushFactory.getInstance(templateId);
+        msgId = pushServiceInterface.pushMessage(toUser,templateId,params);
         return msgId != null;
     }
 

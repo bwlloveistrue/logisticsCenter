@@ -42,7 +42,6 @@ public class MessageServiceImpl implements MessageService {
 		itemlist.add(FieldUtil.getFormItemForSelect("sendType", "发送对象", "",2, 2,sendTypeOptions));
 		itemlist.add(FieldUtil.getFormItemForSelect("workflowType", "发送类型", "",2, 2,workflowTypeOptions));
 		itemlist.add(FieldUtil.getFormItemForInput("mouldId", "模板消息ID", "", 2));
-
 		groupitem.put("title", "基本信息");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 3);
@@ -95,6 +94,8 @@ public class MessageServiceImpl implements MessageService {
 		String sendType = Utils.null2String(messageValueEntity.getSendType());
 		String workflowType = Utils.null2String(messageValueEntity.getWorkflowType());
 		String mouldId = Utils.null2String(messageValueEntity.getMouldId());
+		String clazzName = Utils.null2String(messageValueEntity.getClazzName());
+		String redirectUrl = Utils.null2String(messageValueEntity.getRedirectUrl());
 
 
 		List<Map<String,Object>> grouplist = new ArrayList<Map<String,Object>>();
@@ -107,6 +108,8 @@ public class MessageServiceImpl implements MessageService {
 		itemlist.add(FieldUtil.getFormItemForSelect("sendType", "发送对象", sendType,3, 2,sendTypeOptions));
 		itemlist.add(FieldUtil.getFormItemForSelect("workflowType", "发送类型", workflowType,3, 2,workflowTypeOptions));
 		itemlist.add(FieldUtil.getFormItemForInput("mouldId", "模板消息ID", mouldId, 3));
+		itemlist.add(FieldUtil.getFormItemForInput("clazzName", "发送实现类", clazzName, 3));
+		itemlist.add(FieldUtil.getFormItemForInput("redirectUrl", "跳转链接", redirectUrl, 2));
 		groupitem.put("title", "基本信息");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 1);
@@ -156,6 +159,8 @@ public class MessageServiceImpl implements MessageService {
 		messageE.setSendType(Utils.null2String(params.get("sendType")));
 		messageE.setWorkflowType(Utils.null2String(params.get("workflowType")));
 		messageE.setMouldId(Utils.null2String(params.get("mouldId")));
+		messageE.setClazzName(Utils.null2String(params.get("clazzName")));
+		messageE.setRedirectUrl(Utils.null2String(params.get("redirectUrl")));
 		int maxId = messageDao.insertMessageInfo(messageE);
 		int c     = messageE.getId();
 		CacheManager.clearOnly("messageEntity_CACHE");
@@ -177,6 +182,8 @@ public class MessageServiceImpl implements MessageService {
 		messageE.setWorkflowType(Utils.null2String(params.get("workflowType")));
 		messageE.setMouldId(Utils.null2String(params.get("mouldId")));
 		messageE.setId(Utils.getIntValue(Utils.null2String(params.get("id"))));
+		messageE.setClazzName(Utils.null2String(params.get("clazzName")));
+		messageE.setRedirectUrl(Utils.null2String(params.get("redirectUrl")));
 		count = messageDao.updateMessageInfo(messageE);
 		CacheManager.clearOnly("messageEntity_CACHE");
 		this.getAllMessage();

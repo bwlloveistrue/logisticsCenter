@@ -26,6 +26,12 @@ public class MessageEntity {
 	private String workflowType;
 	//发送类型
 	private String workflowTypeName;
+
+	//发送实现类
+	private String clazzName;
+
+	//跳转链接
+	private String redirectUrl;
 	//模板消息ID
 	private String mouldId;
 
@@ -85,5 +91,21 @@ public class MessageEntity {
 
 	public void setMouldId(String mouldId) {
 		this.mouldId = mouldId;
+	}
+
+	public String getClazzName() {
+		return clazzName;
+	}
+
+	public void setClazzName(String clazzName) {
+		this.clazzName = clazzName;
+	}
+
+	public String getRedirectUrl() {
+		return redirectUrl;
+	}
+
+	public void setRedirectUrl(String redirectUrl) {
+		this.redirectUrl = redirectUrl;
 	}
 }

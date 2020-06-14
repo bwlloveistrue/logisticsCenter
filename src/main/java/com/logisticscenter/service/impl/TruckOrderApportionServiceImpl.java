@@ -299,11 +299,7 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 			// 再新增
 			JSONArray orderTakerInfoArr = JSONArray.parseArray(orderApportionInfo);
 			Iterator iterator = orderTakerInfoArr.iterator();
-			List<String> driverModuleIds = commonTransMethod.getModuleId(SendTypeConstant.DRIVER, WorkflowTypeConstant.APPORTION);
-			Calendar today = Calendar.getInstance();
-			String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
 
-			String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
 			while (iterator.hasNext()) {
 				JSONObject jsonObject = (JSONObject) iterator.next();
 				String goodsType = Utils.null2String(jsonObject.get("goodsType"));
@@ -326,64 +322,11 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 					truckGoodsReportDetailEntity.setReportId(reportId);
 					truckGoodsReportDetailEntity.setTruckPart(truckPart);
 					orderApportionDao.insertTruckGoodsReportDetail(truckGoodsReportDetailEntity);
-					//推送给司机
-					DriverInfoEntity driverInfoEntity = commonTransMethod.getDriverInfo(driver);
-					String openId = Utils.null2String(driverInfoEntity.getOpenId());
-					if(partner < 1 && !openId.equals("") && !driver.equals("")){
-						driverModuleIds.stream().forEach(_moduleId->{
-							Template template = new Template();
-							template.setTemplateId(_moduleId);
-							template.setToUser(openId);
-							template.setUrl("");
-							List<TemplateParam> templateParams = new ArrayList<>();
-							TemplateParam templateParam = new TemplateParam("first","您好，您有新的订单！","");
-							templateParams.add(templateParam);
-							templateParam = new TemplateParam("keyword1",driverInfoEntity.getName(),"");
-							templateParams.add(templateParam);
-							templateParam = new TemplateParam("keyword2",commonTransMethod.getGoodsTypeName(goodsType),"");
-							templateParams.add(templateParam);
-							templateParam = new TemplateParam("keyword3",currentdate+" "+currenttime,"");
-							templateParams.add(templateParam);
-							templateParam = new TemplateParam("remark","11111111","");
-							templateParams.add(templateParam);
-							template.setTemplateParamList(templateParams);
-							wxMsgPush.SendWxMsg(template);
-						});
-					}
+
 
 				}
 				// 设置已分配
 				truckGoodsOrderDao.setOrderTakerStatusForReceipt(orderTakerId+"");
-				// 推送给客户
-				String clinetId = truckGoodsOrderTakerValueEntity.getClient();
-				ClientEntity clientEntity = commonTransMethod.getClientInfo(clinetId);
-				String openId = Utils.null2String(clientEntity.getOpenId()) ;
-				if(!clinetId.equals("") && !openId.equals("")){
-					List<String> moduleIds = commonTransMethod.getModuleId(SendTypeConstant.CLIENT, WorkflowTypeConstant.APPORTION);
-					moduleIds.stream().forEach(_moduleId->{
-						Template template = new Template();
-						template.setTemplateId(_moduleId);
-						template.setToUser(openId);
-						template.setUrl("");
-						List<TemplateParam> templateParams = new ArrayList<>();
-						TemplateParam templateParam = new TemplateParam("first","您好，您有新的订单！","");
-						templateParams.add(templateParam);
-						templateParam = new TemplateParam("keyword1","xxxxxxx","");
-						templateParams.add(templateParam);
-						templateParam = new TemplateParam("keyword2","xxxxxx","");
-						templateParams.add(templateParam);
-						templateParam = new TemplateParam("keyword3",clientEntity.getClientName(),"");
-						templateParams.add(templateParam);
-						templateParam = new TemplateParam("keyword4","","");
-						templateParams.add(templateParam);
-						templateParam = new TemplateParam("keyword5","","");
-						templateParams.add(templateParam);
-						templateParam = new TemplateParam("remark","11111111","");
-						templateParams.add(templateParam);
-						template.setTemplateParamList(templateParams);
-						wxMsgPush.SendWxMsg(template);
-					});
-				}
 
 			}
 
@@ -425,6 +368,7 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 		String goodsType = Utils.null2String(jsonObject.get("goodsType"));
 		String truckNumber = Utils.null2String(jsonObject.get("truckNumber"));
 		String driver = Utils.null2String(jsonObject.get("driver"));
+		Map pushParams = new HashMap();
 		BigDecimal partnerCarry = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerCarry")),2);
 		BigDecimal partnerPrice = Utils.toDecimal(Utils.null2String(jsonObject.get("partnerPrice")),2);
 		int partner = Utils.getIntValue(Utils.null2String(jsonObject.get("partner")));
@@ -478,10 +422,40 @@ public class TruckOrderApportionServiceImpl implements TruckOrderApportionServic
 				truckGoodsReceiptDetailEntity.setEditDate(_truckGoodsOrderDetail.getEditDate());
 				truckGoodsReceiptDetailEntity.setEditTime(_truckGoodsOrderDetail.getEditTime());
 				insertInfo.add(truckGoodsReceiptDetailEntity);
+				pushParams.put("startPlace_"+_truckGoodsOrderDetail.getGoodsType(),_truckGoodsOrderDetail.getStartPlace());
+				pushParams.put("endPlace_"+_truckGoodsOrderDetail.getGoodsType(),_truckGoodsOrderDetail.getEndPlace());
 			}
 		}
 		orderReceiptDao.insertTruckGoodsReceiptDetail(insertInfo);
-		wxMsgPush.SendWxMsg("");
+
+		//推送给司机
+		pushParams.put("client",mainInfo.getClient());
+		pushParams.put("driver",driver);
+		pushParams.put("goodsType",goodsType);
+		pushParams.put("truckNumber",truckNumber);
+		pushParams.put("beginDate",truckGoodsReportEntity.getBeginDate());
+		pushParams.put("endDate",truckGoodsReportEntity.getEndDate());
+		List<String> driverModuleIds = commonTransMethod.getModuleId(SendTypeConstant.DRIVER, WorkflowTypeConstant.APPORTION);
+		DriverInfoEntity driverInfoEntity = commonTransMethod.getDriverInfo(driver);
+		String dirverOpenId = Utils.null2String(driverInfoEntity.getOpenId());
+		if(partner < 1 && !dirverOpenId.equals("") && !driver.equals("")){
+
+			driverModuleIds.stream().forEach(_moduleId->{
+				wxMsgPush.SendWxMsg(dirverOpenId,_moduleId,pushParams);
+			});
+		}
+		// 推送给客户
+		String clinetId = mainInfo.getClient();
+		ClientEntity clientEntity = commonTransMethod.getClientInfo(clinetId);
+		String clientOpenId = Utils.null2String(clientEntity.getOpenId()) ;
+		if(!clinetId.equals("") && !clientOpenId.equals("")){
+			List<String> moduleIds = commonTransMethod.getModuleId(SendTypeConstant.CLIENT, WorkflowTypeConstant.APPORTION);
+			moduleIds.stream().forEach(_moduleId->{
+				wxMsgPush.SendWxMsg(clientOpenId,_moduleId,pushParams);
+
+			});
+		}
+
 
 		return receiptId;
 	}

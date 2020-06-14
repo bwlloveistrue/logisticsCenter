@@ -14,7 +14,7 @@
         select * from sendType order by id
     </select>
 
-   <!-- 模糊查询客户信息 -->
+   <!-- 模糊微信推送信息 -->
    <select id="getMessageInfo" resultType="messageEntity" parameterType="messageEntity">
 	select* from messageInfo
 	   <where>
@@ -34,26 +34,25 @@
        order by id desc
   </select>
 
-   <!-- 新增用户对象 -->
-   <insert id="insertMessageInfo" parameterType="messageEntity">
-      insert into messageInfo (sendType,workflowType,mouldId)
-      values ( #{sendType}, #{workflowType}, #{mouldId})
-      <selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from clientInfo
-		</selectKey>
+   <!-- 新增微信推送对象 -->
+   <insert id="insertMessageInfo" parameterType="messageEntity"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+      insert into messageInfo (sendType,workflowType,mouldId,clazzName,redirectUrl)
+      values ( #{sendType}, #{workflowType}, #{mouldId}, #{clazzName}, #{redirectUrl})
    </insert>
 
-   <!-- 删除用户对象 -->
+   <!-- 删除微信推送对象 -->
    <delete id="deleteMessageInfo" parameterType="string">
 	delete from messageInfo WHERE ID =#{id}
    </delete>
 
-   <!-- 更新用户对象 -->
+   <!-- 更新微信推送对象 -->
    <update id="updateMessageInfo" parameterType="messageEntity">
       update messageInfo set
       sendType= #{sendType},
       workflowType= #{workflowType},
-      mouldId= #{mouldId}
+      mouldId= #{mouldId},
+      clazzName= #{clazzName},
+      redirectUrl = #{redirectUrl}
       where id= #{id}
    </update>
 </mapper>
