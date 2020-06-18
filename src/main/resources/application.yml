@@ -6,6 +6,9 @@ wx:
   token: cdtyuchengwuliu
   aeskey: lAAmbNb9bGcR6DtwQCXT1cVzeP6rfDFjK26GZCMVFUz
 
+file:
+  uploadDir: ./imageTemp
+
 spring:
     datasource:
         name: logisticsCenter

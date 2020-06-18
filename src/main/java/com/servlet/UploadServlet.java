@@ -152,7 +152,7 @@ public class UploadServlet extends HttpServlet {
 						insertInfo.setDownloads(0);
 						insertInfo.setImagefileused(0);
 						insertInfo.setIszip("");
-						accessorys += ","+imageFileService.insertImageFile(insertInfo);
+//						accessorys += ","+imageFileService.insertImageFile(insertInfo);
 						fileNames += ","+fileName;
 					}
 				}

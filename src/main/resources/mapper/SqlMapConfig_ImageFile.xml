@@ -8,7 +8,7 @@
     </select>
   
   <!-- 插入上传文件信息 -->
-	<insert id="insertImageFile" parameterType="imageFileEntity">
+	<insert id="insertImageFile" parameterType="imageFileEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into imageFile (
 			imagefilename,
 			imagefiletype,

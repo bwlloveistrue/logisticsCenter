@@ -1,5 +1,6 @@
 package com.util.wxPublic;
 
+import com.configBean.WxMpProperties;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.WxMpConfigStorage;

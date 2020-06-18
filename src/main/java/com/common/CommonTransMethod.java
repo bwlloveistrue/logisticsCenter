@@ -829,7 +829,8 @@ public class CommonTransMethod {
 			return imageList;
 		}
 		try{
-			imageList = imageFileService.getImageFileBy(ids);
+
+//			imageList = imageFileService.getImageFileBy(ids);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
