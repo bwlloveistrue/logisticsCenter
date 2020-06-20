@@ -14,10 +14,10 @@ import java.util.List;
 public interface ImageFileDao {
 
 	/**
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
-	public abstract List<ImageFileEntity> getImageFileBy(String id);
+	public abstract List<ImageFileEntity> getImageFileBy(String ids);
 	
 	/**
 	 * @param imageFileEntity

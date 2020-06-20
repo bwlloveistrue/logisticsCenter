@@ -3,8 +3,8 @@
 <mapper namespace="com.logisticscenter.mapper.ImageFileDao">
   
   <!-- 根据id获得上传文件信息 -->
-    <select id="getImageFileBy" resultType="imageFileEntity">
-     select * from imageFile where id in( ${ids} )
+    <select id="getImageFileBy" resultType="imageFileEntity" parameterType="string">
+     select * from imageFile where id in( #{ids} )
     </select>
   
   <!-- 插入上传文件信息 -->
@@ -28,9 +28,6 @@
 			#{createDate},
 			#{createTime}
 		)
-		<selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from imageFile
-		</selectKey>
   </insert> 
   
 </mapper>

@@ -261,7 +261,10 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 		groupitem = new HashMap<String,Object>();
 		itemlist = new ArrayList();
-		itemlist.add(FieldUtil.getFormItemForUpload("payAccessory", "缴费单", "image/*", "picture-card",2,"",true));
+		Map<String, Object> uploadAccessoryMap = FieldUtil.getFormItemForUpload("payAccessory", "缴费单", "image/*", "picture-card",2,"",true);
+		uploadAccessoryMap.put("fieldcol",17);
+		uploadAccessoryMap.put("labelcol",3);
+		itemlist.add(uploadAccessoryMap);
 		groupitem.put("title", "缴费单");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 1);
@@ -270,7 +273,10 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 		groupitem = new HashMap<String,Object>();
 		itemlist = new ArrayList();
-		itemlist.add(FieldUtil.getFormItemForUpload("signAccessory", "签收单", "image/*", "picture-card",2,"",true));
+		uploadAccessoryMap = FieldUtil.getFormItemForUpload("signAccessory", "签收单", "image/*", "picture-card",2,"",true);
+		uploadAccessoryMap.put("fieldcol",17);
+		uploadAccessoryMap.put("labelcol",3);
+		itemlist.add(uploadAccessoryMap);
 		groupitem.put("title", "签收单");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 1);
@@ -279,7 +285,10 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 		groupitem = new HashMap<String,Object>();
 		itemlist = new ArrayList();
-		itemlist.add(FieldUtil.getFormItemForUpload("checkOutAccessory", "出库单", "image/*", "picture-card",2,"",true));
+		uploadAccessoryMap = FieldUtil.getFormItemForUpload("checkOutAccessory", "出库单", "image/*", "picture-card",2,"",true);
+		uploadAccessoryMap.put("fieldcol",17);
+		uploadAccessoryMap.put("labelcol",3);
+		itemlist.add(uploadAccessoryMap);
 		groupitem.put("title", "出库单");
 		groupitem.put("defaultshow", true);
 		groupitem.put("col", 1);

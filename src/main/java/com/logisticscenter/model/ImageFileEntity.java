@@ -1,6 +1,19 @@
 package com.logisticscenter.model;
 
+import com.util.Utils;
+
+import java.util.Calendar;
+
 public class ImageFileEntity {
+
+	public ImageFileEntity(){
+		Calendar today = Calendar.getInstance();
+		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
+
+		String currenttime = Utils.add0(today.get(Calendar.HOUR_OF_DAY), 2) + ":" + Utils.add0(today.get(Calendar.MINUTE), 2) ;
+		this.createDate = currentdate;
+		this.createTime = currenttime;
+	}
 	/**
 	 * 文件id
 	 */

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
  *
  * @卜伟领 2017
  */
-@RestController
+@Controller
 @RequestMapping(value = "/api/imageFile")
 public class ImageFileController implements Serializable {
     /**
@@ -102,14 +103,12 @@ public class ImageFileController implements Serializable {
         return apidatas;
     }
 
-    @GetMapping("/imageDownloads/{pathId:.+}")
-    public ResponseEntity<Resource> downloads(@PathVariable String pathId, HttpServletRequest request, HttpServletResponse response) {
+    @GetMapping("/imageDownloads")
+    public ResponseEntity<Resource> downloads(HttpServletRequest request, HttpServletResponse response) {
 
-        String pathUrl = commonTransMethod.getFullPathName(pathId);
-        // Load file as Resource
+        String pathId = request.getParameter("pathId");
         Resource resource = imageFileService.loadFileAsResource(pathId);
 
-        // Try to determine file's content type
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -125,24 +124,6 @@ public class ImageFileController implements Serializable {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-//		try {
-//			File file = new File(pathUrl);
-//			String filename = file.getName();
-//			InputStream fis = new BufferedInputStream(new FileInputStream(file));
-//			byte[] buffer = new byte[fis.available()];
-//			fis.read(buffer);
-//			fis.close();
-//			response.reset();
-//			// 设置response的Header
-//			response.addHeader("Content-Length", "" + file.length());
-//			OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-//			response.setContentType("image/jpeg");
-//			outputStream.write(buffer);
-//			outputStream.flush();
-//			outputStream.close();
-//		} catch (IOException ex) {
-//			ex.printStackTrace();
-//		}
     }
 
     @GetMapping("/exportExcel")
