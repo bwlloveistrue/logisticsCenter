@@ -8,6 +8,7 @@ import com.logisticscenter.mapper.FeeTypeDao;
 import com.logisticscenter.mapper.OrderReceiptDao;
 import com.logisticscenter.mapper.TruckGoodsOrderDao;
 import com.logisticscenter.model.*;
+import com.logisticscenter.service.ImageFileService;
 import com.logisticscenter.service.TruckGoodsOrderService;
 import com.logisticscenter.service.TruckOrderReceiptService;
 import com.splitPage.EditTableBean;
@@ -28,9 +29,6 @@ import java.util.*;
 public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 	@Autowired
-	TruckGoodsOrderDao truckGoodsOrderDao;
-
-	@Autowired
 	FeeTypeDao feeTypeDao;
 
 	@Autowired
@@ -38,6 +36,9 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 	@Autowired
 	SelectOptionUtils selectOptionUtils;
+
+	@Autowired
+	ImageFileService imageFileService;
 
 
 	@Override
@@ -261,9 +262,32 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 		groupitem = new HashMap<String,Object>();
 		itemlist = new ArrayList();
-		Map<String, Object> uploadAccessoryMap = FieldUtil.getFormItemForUpload("payAccessory", "缴费单", "image/*", "picture-card",2,"",true);
+		Map<String, Object> uploadAccessoryMap = FieldUtil.getFormItemForUpload("payAccessory", "缴费单", "image/png,image/gif,image/jpeg", "picture-card",2,"",true);
 		uploadAccessoryMap.put("fieldcol",17);
 		uploadAccessoryMap.put("labelcol",3);
+		Map selectMap = new HashMap();
+		Map accResultMap = new HashMap();
+		selectMap.put("id",payAccessory);
+		accResultMap = imageFileService.getImageFileBy(selectMap);
+		List<ImageFileEntity> entityList = (List<ImageFileEntity>)accResultMap.get("imageInfo");
+		List<UploadFileResponse> payAccessoryResponses = new ArrayList<UploadFileResponse>();
+		entityList.stream().forEach(_item->{
+			UploadFileResponse uploadFileResponse = new UploadFileResponse();
+			uploadFileResponse.setStatus("done");
+			uploadFileResponse.setThumbUrl("/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			uploadFileResponse.setUrl("/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			Map responseMap = new HashMap();
+			responseMap.put("status","success");
+			responseMap.put("uid",_item.getId()+"");
+			responseMap.put("status","done");
+			responseMap.put("url","/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			responseMap.put("thumbUrl","/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+
+			uploadFileResponse.setResponse(responseMap);
+			uploadFileResponse.setUid(_item.getId()+"");
+			payAccessoryResponses.add(uploadFileResponse);
+		});
+		uploadAccessoryMap.put("value",payAccessoryResponses);
 		itemlist.add(uploadAccessoryMap);
 		groupitem.put("title", "缴费单");
 		groupitem.put("defaultshow", true);
@@ -273,9 +297,25 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 		groupitem = new HashMap<String,Object>();
 		itemlist = new ArrayList();
-		uploadAccessoryMap = FieldUtil.getFormItemForUpload("signAccessory", "签收单", "image/*", "picture-card",2,"",true);
+		uploadAccessoryMap = FieldUtil.getFormItemForUpload("signAccessory", "签收单", "image/png,image/gif,image/jpeg", "picture-card",2,"",true);
 		uploadAccessoryMap.put("fieldcol",17);
 		uploadAccessoryMap.put("labelcol",3);
+		List<UploadFileResponse> signAccessoryResponses = new ArrayList<UploadFileResponse>();
+		selectMap.put("id",signAccessory);
+		accResultMap = imageFileService.getImageFileBy(selectMap);
+		entityList = (List<ImageFileEntity>)accResultMap.get("imageInfo");
+		entityList.stream().forEach(_item->{
+			UploadFileResponse uploadFileResponse = new UploadFileResponse();
+			uploadFileResponse.setStatus("done");
+			uploadFileResponse.setThumbUrl("/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			uploadFileResponse.setUrl("/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			Map responseMap = new HashMap();
+			responseMap.put("status","success");
+			uploadFileResponse.setResponse(responseMap);
+			uploadFileResponse.setUid(_item.getId()+"");
+			signAccessoryResponses.add(uploadFileResponse);
+		});
+		uploadAccessoryMap.put("value",signAccessoryResponses);
 		itemlist.add(uploadAccessoryMap);
 		groupitem.put("title", "签收单");
 		groupitem.put("defaultshow", true);
@@ -285,9 +325,25 @@ public class TruckOrderReceiptServiceImpl implements TruckOrderReceiptService {
 
 		groupitem = new HashMap<String,Object>();
 		itemlist = new ArrayList();
-		uploadAccessoryMap = FieldUtil.getFormItemForUpload("checkOutAccessory", "出库单", "image/*", "picture-card",2,"",true);
+		uploadAccessoryMap = FieldUtil.getFormItemForUpload("checkOutAccessory", "出库单", "image/png,image/gif,image/jpeg", "picture-card",2,"",true);
 		uploadAccessoryMap.put("fieldcol",17);
 		uploadAccessoryMap.put("labelcol",3);
+		List<UploadFileResponse> checkOutAccessoryResponses = new ArrayList<UploadFileResponse>();
+		selectMap.put("id",checkOutAccessory);
+		accResultMap = imageFileService.getImageFileBy(selectMap);
+		entityList = (List<ImageFileEntity>)accResultMap.get("imageInfo");
+		entityList.stream().forEach(_item->{
+			UploadFileResponse uploadFileResponse = new UploadFileResponse();
+			uploadFileResponse.setStatus("done");
+			uploadFileResponse.setThumbUrl("/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			uploadFileResponse.setUrl("/api/imageFile/imagePreview"+"?pathId="+_item.getId());
+			Map responseMap = new HashMap();
+			responseMap.put("status","success");
+			uploadFileResponse.setResponse(responseMap);
+			uploadFileResponse.setUid(_item.getId()+"");
+			checkOutAccessoryResponses.add(uploadFileResponse);
+		});
+		uploadAccessoryMap.put("value",checkOutAccessoryResponses);
 		itemlist.add(uploadAccessoryMap);
 		groupitem.put("title", "出库单");
 		groupitem.put("defaultshow", true);

@@ -3,8 +3,11 @@
 <mapper namespace="com.logisticscenter.mapper.ImageFileDao">
   
   <!-- 根据id获得上传文件信息 -->
-    <select id="getImageFileBy" resultType="imageFileEntity" parameterType="string">
-     select * from imageFile where id in( #{ids} )
+    <select id="getImageFileBy" resultType="imageFileEntity">
+     select * from imageFile where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
     </select>
   
   <!-- 插入上传文件信息 -->

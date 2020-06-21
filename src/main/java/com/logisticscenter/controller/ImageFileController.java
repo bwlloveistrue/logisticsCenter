@@ -4,6 +4,7 @@ import com.common.CommonTransMethod;
 import com.common.ConvertService;
 import com.configBean.FileProperties;
 import com.javabean.*;
+import com.logisticscenter.model.ImageFileEntity;
 import com.logisticscenter.model.UploadFileResponse;
 import com.logisticscenter.service.FeeTypeService;
 import com.logisticscenter.service.ImageFileService;
@@ -18,6 +19,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,8 +29,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import org.springframework.core.io.Resource;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,17 +70,26 @@ public class ImageFileController implements Serializable {
     @Autowired
     private CommonTransMethod commonTransMethod;
 
+    @ResponseBody
     @PostMapping("/uploadFile")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = imageFileService.storeFile(file);
+        ImageFileEntity fileEntity = imageFileService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/imageDownloads/")
-                .path(fileName)
+                .path("/imagePreview/")
+                .path(fileEntity.getId()+"")
                 .toUriString();
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize());
+        UploadFileResponse uploadFileResponse = new UploadFileResponse();
+        uploadFileResponse.setSize(file.getSize());
+        uploadFileResponse.setStatus("done");
+        uploadFileResponse.setThumbUrl(fileEntity.getFilerealpath());
+        uploadFileResponse.setUrl(fileEntity.getFilerealpath());
+        Map responseMap = new HashMap();
+        responseMap.put("status","success");
+        uploadFileResponse.setResponse(responseMap);
+        uploadFileResponse.setUid(fileEntity.getId()+"");
+        return uploadFileResponse;
     }
 
 
@@ -103,7 +116,7 @@ public class ImageFileController implements Serializable {
         return apidatas;
     }
 
-    @GetMapping("/imageDownloads")
+    @GetMapping(value = "/imageDownloads")
     public ResponseEntity<Resource> downloads(HttpServletRequest request, HttpServletResponse response) {
 
         String pathId = request.getParameter("pathId");
@@ -124,6 +137,45 @@ public class ImageFileController implements Serializable {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    @GetMapping(value = "/imagePreview")
+    public ResponseEntity<byte[]> imagePreview(HttpServletRequest request, HttpServletResponse response) {
+
+        String pathId = request.getParameter("pathId");
+        String realPath = imageFileService.getFilePath(pathId);
+        String contentType = null;
+        try {
+            Resource resource = imageFileService.loadFileAsResource(pathId);
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+        }
+        byte[] imageContent = new byte[0];
+        try {
+            imageContent = fileToByte(new File(realPath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(contentType));
+        return new ResponseEntity<>(imageContent, headers, HttpStatus.OK);
+    }
+
+    public static byte[] fileToByte(File img) throws Exception {
+        byte[] bytes = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            BufferedImage bi;
+            bi = ImageIO.read(img);
+            ImageIO.write(bi, "png", baos);
+            bytes = baos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            baos.close();
+        }
+        return bytes;
     }
 
     @GetMapping("/exportExcel")

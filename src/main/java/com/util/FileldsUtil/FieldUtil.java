@@ -561,10 +561,16 @@ public class FieldUtil {
         otherParams.put("action", "/api/imageFile/uploadFile");
         otherParams.put("name", "file");
         otherParams.put("method", "post");
+        otherParams.put("accept", limitType);
         otherParams.put("listType", listType);
         otherParams.put("multiple", multiple);
         otherParams.put("fileList", new ArrayList());
         formItem.put("otherParams",otherParams);
+        Map showUploadListParams = new HashMap();
+        showUploadListParams.put("showPreviewIcon",true);
+        showUploadListParams.put("showDownloadIcon",false);
+        showUploadListParams.put("showRemoveIcon",true);
+        formItem.put("showUploadList",showUploadListParams);
         formItem.put("conditionType", "UPLOAD");
         formItem.put("label", fieldLabel);
         formItem.put("colSpan", 1);

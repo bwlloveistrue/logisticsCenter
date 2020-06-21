@@ -44,7 +44,7 @@ public class ImageFileServiceImpl implements ImageFileService {
 		Map retResult = new HashMap();
 		List<ImageFileEntity> entityList = new ArrayList<ImageFileEntity>();
 		String ids = Utils.null2String(params.get("id")) ;
-		entityList = imageFileDao.getImageFileBy(ids);
+		entityList = imageFileDao.getImageFileBy(Arrays.asList(ids.split(",")));
 		retResult.put("imageInfo",entityList);
 		return retResult;
 	}
@@ -81,7 +81,7 @@ public class ImageFileServiceImpl implements ImageFileService {
 	 * @return 文件名
 	 */
 	@Override
-	public String storeFile(MultipartFile file) {
+	public ImageFileEntity storeFile(MultipartFile file) {
 		Calendar today = Calendar.getInstance();
 		String currentdate = Utils.add0(today.get(Calendar.YEAR), 4) + "-" + Utils.add0(today.get(Calendar.MONTH) + 1, 2) + "-" + Utils.add0(today.get(Calendar.DAY_OF_MONTH), 2);
 		String nowUploadDir = fileProperties.getUploadDir()+"/"+currentdate;
@@ -115,7 +115,15 @@ public class ImageFileServiceImpl implements ImageFileService {
 			insertParams.put("downloads",0);
 			Map retMap = insertImageFile(insertParams);
 			String id = Utils.null2String(retMap.get("id"));
-			return id;
+			Map selectMap = new HashMap();
+			selectMap.put("id",id);
+			retMap = getImageFileBy(selectMap);
+			List<ImageFileEntity> entityList = (List<ImageFileEntity>)retMap.get("imageInfo");
+			ImageFileEntity imageFileEntity = new ImageFileEntity();
+			if(entityList.size() > 0){
+				imageFileEntity = entityList.get(0);
+			}
+			return imageFileEntity;
 		} catch (IOException ex) {
 			throw new FileException("Could not store file " + fileName + ". Please try again!", ex);
 		}
@@ -147,6 +155,19 @@ public class ImageFileServiceImpl implements ImageFileService {
 		} catch (MalformedURLException ex) {
 			throw new FileException("File not found " + pathId, ex);
 		}
+	}
+
+	@Override
+	public String getFilePath(String pathId) {
+		Map selectMap = new HashMap();
+		selectMap.put("id",pathId);
+		Map retMap = getImageFileBy(selectMap);
+		List<ImageFileEntity> entityList = (List<ImageFileEntity>)retMap.get("imageInfo");
+		ImageFileEntity imageFileEntity = new ImageFileEntity();
+		if(entityList.size() > 0){
+			imageFileEntity = entityList.get(0);
+		}
+		return imageFileEntity.getFilerealpath();
 	}
 
 }

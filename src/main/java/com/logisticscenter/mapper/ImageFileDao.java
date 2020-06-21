@@ -2,6 +2,7 @@ package com.logisticscenter.mapper;
 
 import com.logisticscenter.model.ImageFileEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ImageFileDao {
 	 * @param ids
 	 * @return
 	 */
-	public abstract List<ImageFileEntity> getImageFileBy(String ids);
+	public abstract List<ImageFileEntity> getImageFileBy(List ids);
 	
 	/**
 	 * @param imageFileEntity

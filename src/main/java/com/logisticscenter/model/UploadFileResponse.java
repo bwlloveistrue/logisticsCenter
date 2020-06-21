@@ -1,47 +1,79 @@
 package com.logisticscenter.model;
 
+import java.util.Map;
+
 public class UploadFileResponse {
-    private String fileName;
-    private String fileDownloadUri;
-    private String fileType;
-    private long size;
+    private String name;
+    private String uid;
+    private String status;//uploading done error removed
+    private String url;
+    private String thumbUrl;
+    private Long size;
+    private Map response;
+    private Map linkProps;
 
-    public UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) {
-        this.fileName = fileName;
-        this.fileDownloadUri = fileDownloadUri;
-        this.fileType = fileType;
-        this.size = size;
+
+    public String getName() {
+        return name;
     }
 
-    public String getFileName() {
-        return fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public String getUid() {
+        return uid;
     }
 
-    public String getFileDownloadUri() {
-        return fileDownloadUri;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public void setFileDownloadUri(String fileDownloadUri) {
-        this.fileDownloadUri = fileDownloadUri;
+    public String getStatus() {
+        return status;
     }
 
-    public String getFileType() {
-        return fileType;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public String getUrl() {
+        return url;
     }
 
-    public long getSize() {
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         this.size = size;
+    }
+
+    public Map getResponse() {
+        return response;
+    }
+
+    public void setResponse(Map response) {
+        this.response = response;
+    }
+
+    public Map getLinkProps() {
+        return linkProps;
+    }
+
+    public void setLinkProps(Map linkProps) {
+        this.linkProps = linkProps;
     }
 }
