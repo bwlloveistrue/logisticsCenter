@@ -412,6 +412,23 @@ public class CommonTransMethod {
 	}
 
 	/**
+	 * @param ids 车牌号
+	 * @return 车辆名称
+	 */
+	public static String getTruckNumber(String ids){
+		List<Cache> cacheList = CacheManager.getCacheListInfo("truckEntity_CACHE");
+		String truckNameTemp = "";
+		for (int i = 0; i < cacheList.size(); i++) {
+			String key = cacheList.get(i).getKey();
+			if((","+ids+",").indexOf(","+key+",")>-1){
+				TruckEntity truckEntity = (TruckEntity) cacheList.get(i).getValue();
+				truckNameTemp += truckNameTemp.equals("")? truckEntity.getTruckNumber():","+truckEntity.getTruckNumber();
+			}
+		}
+		return truckNameTemp;
+	}
+
+	/**
 	 * @param ids 发送类型
 	 * @return 车辆名称
 	 */

@@ -1,50 +1,51 @@
 package com.logisticscenter.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.javabean.CommercialBean;
 
 public interface CommercialService {
-	
+
 	/**
-	 * @param insertInfo
+	 * @param params
 	 * @return
 	 */
-	public abstract int insertCommercial(CommercialBean insertInfo);
-	
+	public abstract Map getCondition(Map<String, Object> params);
+
 	/**
-	 * @param selectInfo
+	 * @param params
 	 * @return
 	 */
-	public abstract List<CommercialBean> getCommercial(CommercialBean selectInfo);
-	
+	public abstract Map insertCommercial(Map<String, Object> params);
+
 	/**
-	 * @param selectInfo
+	 * @param params
 	 * @return
 	 */
-	public abstract String getCommercialCount(CommercialBean selectInfo);
-	
+	public abstract Map getTableInfoList(Map<String, Object> params);
+
 	/**
-	 * @param id
+	 * @param params
 	 * @return
 	 */
-	public abstract CommercialBean getCommercial(String id);
-	
+	public abstract Map getCommercialFields(Map<String, Object> params);
+
 	/**
-	 * @param id
 	 * @return
 	 */
-	public abstract int deleteCommercial(String id);
-	
+	public abstract Map getAllCommercial();
+
 	/**
-	 * @param insertInfo
-	 */
-	public abstract void updateCommercial(CommercialBean insertInfo);
-	
-	/**
-	 * @param days
+	 * @param params
 	 * @return
 	 */
-	public abstract List<CommercialBean> getWarnCommercial(String days);
+	public abstract Map deleteCommercial(Map<String, Object> params);
+
+	/**
+	 * @param params
+	 * @return
+	 */
+	public abstract Map updateCommercial(Map<String, Object> params);
 
 }

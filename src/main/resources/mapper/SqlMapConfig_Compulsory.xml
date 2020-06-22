@@ -1,87 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.logisticscenter.mapper.CompulsoryDao">
-  
-  <!-- 获得全查询列表 -->
-  <select id="getAllCompulsory" resultType="compulsoryEntity">
-    select * from compulsoryInsurance
-  </select>
-  
-   <!--  -->
-   <select id="getCompulsoryBy" resultType="compulsoryEntity" parameterType="compulsoryEntity">
-	select top ${pageSize} * from ( select row_number() over(order by id desc) as rownumber,* from compulsoryInsurance
-	   <where>
-		   <if test="truckNumber != null and truckNumber != ''">
-			   truckNumber like '%' + #{truckNumber} +  '%'
-		   </if>
-		   <if test="startDate != null and startDate != ''">
-			   (startDate &lt; #{startDate} and enddate &gt; #{startDate}) or ( startDate &gt; #{startDate} )
-		   </if>
-		   <if test="endDate != null and endDate != ''">
-			   (endDate &lt; #{endDate}) or (startDate &lt; #{endDate} and enddate &gt; #{endDate})
-		   </if>
-	   </where>
-	   ) A
-	   <where>
-		   <if test="currentPage != null and currentPage != ''">
-			   rownumber > ${currentPage}
-		   </if>
-	   </where>
-  </select> 
-  
-   <!-- 获得分页的count -->
-   <select id="getCompulsoryByCount" resultType="String" parameterType="compulsoryEntity">
-	select count(*) from ( select row_number() over(order by id) as rownumber,* from compulsoryInsurance ) A
-	   <where>
-		   <if test="truckNumber != null and truckNumber != ''">
-			   truckNumber like '%' + #{truckNumber} +  '%'
-		   </if>
-		   <if test="startDate != null and startDate != ''">
-			   (startDate &lt; #{startDate} and enddate &gt; #{startDate}) or ( startDate &gt; #{startDate} )
-		   </if>
-		   <if test="endDate != null and endDate != ''">
-			   (endDate &lt; #{endDate}) or (startDate &lt; #{endDate} and enddate &gt; #{endDate})
-		   </if>
-	   </where>
-     
-  </select> 
-  
-  <!-- 根据id获得车辆商业险 -->
-    <select id="getCompulsoryById" resultType="compulsoryEntity">
-     select * from compulsoryInsurance where id=#{id}
-  </select> 
-  
-   <!-- 新增车辆商业险 -->
-   <insert id="insertCompulsory" parameterType="compulsoryEntity">
-      insert into compulsoryInsurance (truckNumber,startDate,endDate,createDate,createTime,editDate,editTime) 
-      values (#{truckNumber},#{startDate},#{endDate},#{createDate},#{createTime},#{editDate},#{editTime})
-      <selectKey resultType="int" keyProperty="id" order="AFTER">
-			SELECT max(id) as id from compulsoryInsurance
-		</selectKey>
-   </insert>
-   
-   <!-- 删除车辆商业险 -->
-   <delete id="deleteCompulsory" parameterType="java.util.List">
-     delete from compulsoryInsurance WHERE ID in
-	   <foreach item="item" index="index" collection="list"
-				open="(" separator="," close=")">
-		   #{item}
-	   </foreach>
-   </delete>
-   
-   <!-- 更新车辆商业险类型 -->
-   <update id="updateCompulsory" parameterType="compulsoryEntity">
-      update compulsoryInsurance
-      set
-      truckNumber=#{truckNumber},
-      startDate=#{startDate},
-      endDate=#{endDate},
-      editDate=#{editDate},
-      editTime=#{editTime}
-      where id=#id#
-   </update>
-    <!-- 根据id获得车辆商业险 -->
-    <select id="getWarnCompulsory" resultType="compulsoryEntity" parameterType="string">
-     select * from compulsoryInsurance where (startDate &lt; ${days} and enddate &gt; ${days})
-  </select> 
+
+	<!-- 获得全查询列表 -->
+	<select id="getAllCompulsory" resultType="compulsoryEntity">
+		select * from compulsoryInsurance
+	</select>
+
+	<!-- 根据id获得用户对象 -->
+	<select id="getCompulsoryInfo" resultType="compulsoryEntity">
+		select * from compulsoryInsurance
+		<where>
+			<if test="id != null and id != ''">
+				id = #{id}
+			</if>
+			<if test="truckNumber > 0 ">
+				and truckNumber = #{truckNumber}
+			</if>
+		</where>
+		order by id desc
+	</select>
+
+	<!-- 新增用户对象 -->
+	<insert id="insertCompulsoryInfo" parameterType="compulsoryEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into compulsoryInsurance (truckNumber,isNew,startDate,endDate,createDate,createTime,editDate,editTime)
+		values ( #{truckNumber}, #{isNew}, #{startDate}, #{endDate}, #{createDate}, #{createTime}, #{editDate}, #{editTime})
+	</insert>
+
+	<!-- 删除用户对象 -->
+	<delete id="deleteCompulsoryInfo" parameterType="string">
+		delete from compulsoryInsurance WHERE ID = #{id}
+	</delete>
+
+	<!-- 更新用户对象 -->
+	<update id="updateCompulsoryInfo" parameterType="compulsoryEntity">
+		update compulsoryInsurance set truckNumber= #{truckNumber}, isNew = #{isNew}, startDate= #{startDate},endDate= #{endDate},editDate= #{editDate},editTime= #{editTime}
+		where id= #{id}
+	</update>
 </mapper>
