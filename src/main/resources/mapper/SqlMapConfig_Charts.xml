@@ -19,7 +19,7 @@
 		case when Month(begindate)=9 then 1 else 0 end as M9,
 		case when Month(begindate)=10 then 1 else 0 end as M10,
 		case when Month(begindate)=11 then 1 else 0 end as M11,
-		case when Month(begindate)=12 then 1 else 0 end as M12  from clientinfo ci  left join  truckgoodsreport tgr  on tgr.client=ci.id and begindate=#{selectYear}
+		case when Month(begindate)=12 then 1 else 0 end as M12  from clientinfo ci  left join  truckgoodsreport tgr  on tgr.client=ci.id and YEAR(begindate)=#{selectYear}
 	)a group by client order by client
   </select>
   
@@ -40,7 +40,7 @@
 		case when Month(tgr.begindate)=9 then 1 else 0 end as M9,
 		case when Month(tgr.begindate)=10 then 1 else 0 end as M10,
 		case when Month(tgr.begindate)=11 then 1 else 0 end as M11,
-		case when Month(tgr.begindate)=12 then 1 else 0 end as M12  from driverinfo di  left join  truckgoodsreport tgr  on tgr.driver=di.id and begindate=#{selectYear}
+		case when Month(tgr.begindate)=12 then 1 else 0 end as M12  from driverinfo di  left join  truckgoodsreport tgr  on tgr.driver=di.id and YEAR(begindate)=#{selectYear}
 	)a group by driver order by driver
   </select>
   
