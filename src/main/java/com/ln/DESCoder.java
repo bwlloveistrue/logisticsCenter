@@ -32,6 +32,7 @@
      SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
 
      SecretKey secretKey = keyFactory.generateSecret(dks);
+       secretKey.getEncoded();
      return secretKey;
    }
 

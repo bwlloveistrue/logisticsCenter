@@ -17,7 +17,7 @@ public class TestLn {
     public static void main(String[] args) {
         // 示例
         LN ckLicense = new LN();
-//        ckLicense.checkLicense("I:\\workspace\\ecology9\\license\\D21732DE448E68304984A5FF3D0E0C8E.license");
+        ckLicense.checkLicense("I:\\workspace\\ecology9\\license\\D21732DE448E68304984A5FF3D0E0C8E.license");
 //        ckLicense.checkLicense("I:\\workspace\\createLicense\\createLicense.license");
 
         byte[] publicKey ;
@@ -30,6 +30,11 @@ public class TestLn {
             Map rsaKey = RSACoder.initKey();
             RSAPublicKey rsaPublicKey = (RSAPublicKey)rsaKey.get("RSAPublicKey");
             RSAPrivateKey rsaPrivateKey = (RSAPrivateKey)rsaKey.get("RSAPrivateKey");
+            String publicKeyString = new String(Base64.encodeBase64(rsaPublicKey.getEncoded()));
+            // 得到私钥字符串
+            String privateKeyString = new String(Base64.encodeBase64((rsaPrivateKey.getEncoded())));
+            System.out.println(publicKeyString);
+            System.out.println(privateKeyString);
             licenseEncryptKey = rsaPublicKey.getEncoded();
             licenseDencryKey = rsaPrivateKey.getEncoded();
             // 生成publicKey：Base64.decodeBase64(publicKey)

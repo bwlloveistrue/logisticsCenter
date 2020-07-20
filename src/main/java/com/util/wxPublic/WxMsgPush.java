@@ -71,8 +71,9 @@ public class WxMsgPush {
 
     /**
      * 发送微信模板信息
-     *
-     * @param template 推送消息主体
+     * @param toUser 推送消息主体
+     * @param templateId 推送消息主体
+     * @param params 推送消息主体
      * @return 是否推送成功
      */
     public Boolean SendWxMsg(String toUser, String templateId, Map params) {

@@ -27,6 +27,12 @@ public class TestLn2 {
         System.out.println(message + "\t加密后的字符串为:" + messageEn);
         String messageDe = decrypt(messageEn,keyMap.get(1));
         System.out.println("还原后的字符串为:" + messageDe);
+
+        byte[] desKey = DESCoder.initkey();
+        byte[] desEncrypt = DESCoder.encrypt(message.getBytes(),desKey);
+        byte[] desDescrypt = DESCoder.decrypt(desEncrypt,desKey);
+        String messageDescrypt = new String(desDescrypt);
+        System.out.println(messageDescrypt);
     }
 
     /**

@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/wxpublic")
-public class wechatVerifyController implements Serializable{
+public class WechatVerifyController implements Serializable{
 
 	/**
 	 *
@@ -22,7 +22,7 @@ public class wechatVerifyController implements Serializable{
 
 	private static List<Map<String,SystemInfoBean>> systemInfo = new ArrayList<Map<String,SystemInfoBean>>();
 
-	public wechatVerifyController(){
+	public WechatVerifyController(){
 
 	}
 

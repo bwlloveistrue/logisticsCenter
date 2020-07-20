@@ -23,16 +23,7 @@ public class LNParse {
         byte[] publicKey = Zip.getZipSomeByte(licensefilepath, "publicKey");
         byte[] licenseEncryptKey = Zip.getZipSomeByte(licensefilepath, "licenseEncryptKey");
         byte[] licenseFile2 = Zip.getZipSomeByte(licensefilepath, "license2");
-        String realPublicKey = "";
-        if("emessage2".equals(key)) {
-            realPublicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIJWRm0eoQNEgZB9aUlM1PoT0N7cKCBCfkecycpeKeg57e73Fcj4ik9uYrGB01t38ut45iHJi8TLoeORYuUAhWUCAwEAAQ==";
-        } else if(!"ecology7".equals(key) && !"ecology8".equals(key)) {
-            if("ecology9".equals(key)) {
-                realPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyC90YpaWPbLaQwqt3TYlRqYC+gDTivXiVU2ZnL+tVop7tm1Ss8gnXnkd1I0jr2ffQK6m4HIGdz4lyxOfJVuT9hwtDpnflxK5fBIpc6N5iB3bZkes3XMJTyXY+afvh7vKf9yW0p1ZgQkMp7Ty4nRNQ1H/JV7RIUohEM24udiZNZySLpIYeAxTl8gR/EKL/YCIxBQfFEyQtijB0+X6Sfd/CWgNGVPuPr8V5nUZm8vXIszWBSPamD/yfvwNI9PAOII7OBNMXOC9BFAjTdCKkxdRS4ovu2V9STxAu0P8hhTnH0/zpxi4VOn32povh4f5J7x5eV+vSaN5G1G1zVPs5lc62QIDAQAB";
-            }
-        } else {
-            realPublicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALUgEZ7eGZmJJM/3Ajj5Zdd2MG1ZONVybJV+v+jQT+csNWBBqxosLVlWvwaod1ix8Gg9GsyRJgoTs1Mg25raZcsCAwEAAQ==";
-        }
+        String realPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyC90YpaWPbLaQwqt3TYlRqYC+gDTivXiVU2ZnL+tVop7tm1Ss8gnXnkd1I0jr2ffQK6m4HIGdz4lyxOfJVuT9hwtDpnflxK5fBIpc6N5iB3bZkes3XMJTyXY+afvh7vKf9yW0p1ZgQkMp7Ty4nRNQ1H/JV7RIUohEM24udiZNZySLpIYeAxTl8gR/EKL/YCIxBQfFEyQtijB0+X6Sfd/CWgNGVPuPr8V5nUZm8vXIszWBSPamD/yfvwNI9PAOII7OBNMXOC9BFAjTdCKkxdRS4ovu2V9STxAu0P8hhTnH0/zpxi4VOn32povh4f5J7x5eV+vSaN5G1G1zVPs5lc62QIDAQAB";
 
         String publicKeyStr = new String(Base64.encodeBase64(publicKey));
         if(!realPublicKey.equals(publicKeyStr)) {
