@@ -1,5 +1,8 @@
 server:
   port: 8080
+  address:
+  tomcat:
+    uri-encoding: UTF-8
 wx:
   appId: wxf34ef3ce0e0a9ee8
   secret: f2903896e95d40b0b2d45e3dd6eaee3a
@@ -8,8 +11,14 @@ wx:
 
 file:
   uploadDir: ./imageTemp
-
 spring:
+    jmx:
+      default-domain: logisticsCenter
+    http:
+        encoding:
+          charset: UTF-8
+          enabled: true
+          force: true
     datasource:
         name: logisticsCenter
         type: com.alibaba.druid.pool.DruidDataSource

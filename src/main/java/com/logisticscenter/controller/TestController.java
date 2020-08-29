@@ -54,4 +54,7 @@ public class TestController {
 		return apidatas;
 	}
 
+	public static void main(String[] args) {
+	}
+
 }

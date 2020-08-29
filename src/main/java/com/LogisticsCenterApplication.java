@@ -17,7 +17,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={
@@ -41,6 +41,16 @@ public class LogisticsCenterApplication implements CommandLineRunner {
 //        registration.setOrder(1);
 //        return registration;
 //    }
+//
+    @Bean
+    public FilterRegistrationBean encodeingFilterRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean(new CharacterEncodingFilter());
+        registration.addUrlPatterns("/api/*");
+        registration.addInitParameter("encoding", "UTF-8");
+        registration.setName("encodingFilter");
+        registration.setOrder(1);
+        return registration;
+    }
 //
 //    @Bean
 //    public ServletRegistrationBean authServletRegistration() {

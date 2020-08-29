@@ -24,6 +24,7 @@ public class ParamUtil {
     public static Map<String, Object> request2Map(HttpServletRequest request) {
         Map<String, Object> returnMap = new HashMap<String, Object>();
         try{
+            request.setCharacterEncoding("UTF-8");
             InputStream inputStream = request.getInputStream();
             StringBuilder stringBuilder = new StringBuilder();
             if (inputStream != null) {
@@ -49,6 +50,7 @@ public class ParamUtil {
         if(returnMap == null){
             returnMap = new HashMap<String, Object>();
         }
+        System.out.println("retMap===="+returnMap);
         //放入ip
         returnMap.put(ParamConstant.PARAM_IP, Utils.getIpAddr(request));
         returnMap.put(ParamConstant.REQUEST_HEADER_USER_AGENT,request.getHeader("user-agent"));

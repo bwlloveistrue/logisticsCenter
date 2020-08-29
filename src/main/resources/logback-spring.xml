@@ -8,7 +8,7 @@
         <!-- 日志级别过滤器 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!--&lt;!&ndash; 过滤的级别 &ndash;&gt;-->
-            <level>ERROR</level>
+            <level>INFO</level>
             <!--&lt;!&ndash; 匹配时的操作：接收（记录） &ndash;&gt;-->
             <!--<onMatch>ACCEPT</onMatch>-->
             <!--&lt;!&ndash; 不匹配时的操作：拒绝（不记录） &ndash;&gt;-->
@@ -43,7 +43,7 @@
     </appender>
 
     <!-- 基于info处理日志：具体控制台或者文件对日志级别的处理还要看所在appender配置的filter，如果没有配置filter，则使用root配置 -->
-    <root level="DEBUG">
+    <root level="ERROR">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="ERROR-OUT" />
     </root>
